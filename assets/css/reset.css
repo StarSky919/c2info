@@ -22,9 +22,9 @@
 html,
 body {
     background: #FFFFFF;
-}
-
-body {
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
     -webkit-text-size-adjust: none;
     -webkit-tap-highlight-color: transparent;
 }
@@ -70,8 +70,12 @@ a:active {
     background: initial;
 }
 
-a:hover {
+a:not([class]):hover {
     color: #9898FF;
+}
+
+a[href^="http"]:empty::before {
+    content: attr(href);
 }
 
 i,
@@ -81,7 +85,7 @@ b {
 }
 
 small {
-    font-size: 0.85em;
+    font-size: 0.85rem;
 }
 
 strong {
@@ -107,4 +111,9 @@ img {
 
 code {
     font-family: "JetBrainsMono", monospace;
+}
+
+input[type=radio],
+input[type=checkbox] {
+    display: none;
 }

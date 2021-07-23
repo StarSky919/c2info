@@ -1,60 +1,391 @@
 @import "fonts/fontface.css";
-@import "fonts/font-awesome.css";
-
 @import "reset.css";
 
-/*--------*/
+/*────────*/
+
+span.loading {
+    display: inline-block;
+    width: 25px;
+    height: 25px;
+    border: 3px solid #F0F0F0;
+    border-top: 3px solid #252525;
+    -webkit-border-radius: 50%;
+    border-radius: 50%;
+    -webkit-animation: rotate-360 1s linear infinite;
+    animation: rotate-360 1s linear infinite;
+}
+
+.loading.sm {
+    width: 25px;
+    height: 25px;
+    border-width: 3px;
+    border-top-width: 3px;
+}
+
+.loading.md {
+    width: 50px;
+    height: 50px;
+    border-width: 4px;
+    border-top-width: 4px;
+}
+
+.loading.lg {
+    width: 75px;
+    height: 75px;
+    border-width: 6px;
+    border-top-width: 6px;
+}
+
+.loading.ease {
+    -webkit-animation-timing-function: ease;
+    animation-timing-function: ease;
+}
+
+@-webkit-keyframes rotate-360 {
+    from {
+        -webkit-transform: rotate(0deg);
+        transform: rotate(0deg);
+    }
+
+    to {
+        -webkit-transform: rotate(360deg);
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes rotate-360 {
+    from {
+        -webkit-transform: rotate(0deg);
+        transform: rotate(0deg);
+    }
+
+    to {
+        -webkit-transform: rotate(360deg);
+        transform: rotate(360deg);
+    }
+}
+
+/*────────*/
+
+nav {
+    display: flex;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    height: 50px;
+    padding: 0 4%;
+    border-bottom: 1px solid #E0E0E0;
+    background: #FFFFFF;
+    z-index: 99;
+}
+
+#menu {
+    margin-right: 1rem;
+    cursor: pointer;
+}
+
+#items {
+    position: absolute;
+    overflow: scroll;
+    top: 50px;
+    left: -100%;
+    width: 65vw;
+    height: calc(100vh - 50px);
+    padding: 2.5vw 4%;
+    background: #FFFFFF;
+    border-right: 1px solid #E0E0E0;
+    -webkit-transition: left 0.35s ease;
+    transition: left 0.35s ease;
+    z-index: 99;
+}
+
+#items a {
+    display: block;
+    cursor: pointer;
+}
+
+#items .item:first-of-type {
+    margin-top: 0.65rem;
+}
+
+#items .item:last-of-type {
+    margin-bottom: 0.65rem;
+}
+
+#items .item:not(:last-of-type) {
+    margin-bottom: 1.3rem
+}
+
+#items .item label {
+    display: block;
+}
+
+#items .item label .title {
+    color: initial;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+#items .item label .title.arrow::after {
+    content: "\f104";
+    float: right;
+    -webkit-transition: transform 0.25s ease;
+    transition: transform 0.25s ease;
+    font-family: "FontAwesome";
+}
+
+#items .content {
+    display: block;
+    overflow: hidden;
+    padding-left: 1em;
+    -webkit-transition: height 0.35s ease;
+    transition: height 0.35s ease;
+}
+
+#items .content a {
+    margin-top: 0.65rem;
+}
+
+#items input:checked~label .title.arrow::after {
+    -webkit-transform: rotate(-90deg);
+    transform: rotate(-90deg);
+}
+
+#items input:checked~.content {
+    height: auto;
+}
+
+#navcb1:checked~#items {
+    left: 0;
+}
+
+#title {
+    font-weight: bold;
+}
+
+#subtitle {
+    display: none;
+}
+
+#search {
+    display: none;
+    position: absolute;
+    right: 4%;
+    cursor: pointer;
+}
+
+#search_box {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    top: 50px;
+    right: -100%;
+    width: 100%;
+    padding: 0 4%;
+    background: #FFFFFF;
+    border-bottom: 1px solid #E0E0E0;
+    -webkit-transition: right 0.35s ease;
+    transition: right 0.35s ease;
+}
+
+#input {
+    position: relative;
+    margin: 0.65rem 0;
+}
+
+#keyword {
+    width: 100%;
+    height: 32px;
+    padding: 4px 8px;
+    padding-right: 32px;
+    outline: none;
+    border: 1px solid #E0E0E0;
+    background: none;
+    font-size: 16px;
+}
+
+#keyword:not(:placeholder-shown)~#clear {
+    display: block;
+}
+
+#clear {
+    display: none;
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 32px;
+    height: 32px;
+    padding: 8px;
+}
+
+#filters {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    top: 0;
+    right: -1px;
+    width: calc(100% + 2px);
+    padding: 0 4%;
+    background: #FFFFFF;
+    border-bottom: 1px solid #E0E0E0;
+    -webkit-transition: top 0.25s ease;
+    transition: top 0.25s ease;
+    z-index: -1;
+}
+
+#filters.show {
+    top: 100%;
+}
+
+#filters .row {
+    display: flex;
+    justify-content: space-between;
+    flex: 0 0 100%;
+    margin: 0.65rem 0;
+}
+
+.checkbox,
+.radio {
+    display: -webkit-inline-flex;
+    display: inline-flex;
+    cursor: pointer;
+}
+
+.checkbox label span,
+.radio label span {
+    display: inline-block;
+    position: relative;
+    width: 1rem;
+    height: 1rem;
+    margin-left: 4px;
+    cursor: pointer;
+}
+
+.checkbox label span::before,
+.radio label span::before {
+    content: "";
+    display: inline-block;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 1rem;
+    height: 1rem;
+    border: 1px solid #E0E0E0;
+    background: #FFFFFF;
+    -webkit-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+    -webkit-transition: all 0.25s ease;
+    transition: all 0.25s ease;
+}
+
+.radio label span::before {
+    border-radius: 50%;
+}
+
+.checkbox label input:checked+span::before,
+.radio label input:checked+span::before {
+    background: #252525;
+    -webkit-box-shadow: inset 0 0 0 2px #FFFFFF;
+    box-shadow: inset 0 0 0 2px #FFFFFF;
+}
+
+#navcb2:checked~#search_box {
+    right: 0;
+}
 
 main {
     display: flex;
     flex-direction: column;
     flex-wrap: wrap;
-    overflow: hidden;
-    word-wrap: break-word;
+    position: absolute;
+    top: 50px;
     width: 100%;
-    height: 100%;
-    padding: 5vw 0;
-    margin: 0 auto;
+    padding: 2.5vw 4%;
+    word-wrap: break-word;
 }
 
-.row {
+#warning {
+    color: #F44336;
+}
+
+#divide {
+    display: none;
+}
+
+#result {
+    display: none;
+}
+
+#song_packs a {
+    display: block;
+    margin: 0.65rem 0;
+    cursor: pointer;
+}
+
+#egg_1,
+#egg_2 {
+    display: none;
+}
+
+.list {
     display: flex;
     justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.list>* {
+    width: 100%;
+}
+
+.list .song {
+    width: 100%;
     margin: 0.65rem 0;
+    padding: 16px;
+    background: #F2F4F6;
+    -webkit-transition: box-shadow 0.25s, transform 0.25s;
+    transition: box-shadow 0.25s, transform 0.25s;
 }
 
-@media screen and (max-width: 576px) {
-    main {
-        max-width: 92%;
-    }
-}
-
-@media screen and (min-width: 576px) {
-    main {
-        max-width: 540px;
-    }
+.list .song:active {
+    -webkit-box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.25);
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.25);
+    -webkit-transform: translateY(-4px);
+    transform: translateY(-4px);
 }
 
 @media screen and (min-width: 768px) {
-    main {
-        max-width: 720px;
+    #menu {
+        display: none;
     }
-}
 
-@media screen and (min-width: 992px) {
-    main {
-        max-width: 960px;
+    #title {
+        margin-right: 1rem;
     }
-}
 
-@media screen and (min-width: 1200px) {
-    main {
-        max-width: 1140px;
+    #subtitle {
+        display: inline;
     }
-}
 
-@media screen and (min-width: 1400px) {
+    #items {
+        position: absolute;
+        left: 0;
+        width: 25%;
+        -webkit-transition: none;
+        transition: none;
+    }
+
+    #search_box {
+        width: 75%;
+    }
+
     main {
-        max-width: 1320px;
+        right: 0;
+        width: 75%;
+    }
+
+    #url {
+        display: none;
     }
 }
