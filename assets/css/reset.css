@@ -1,7 +1,7 @@
 * {
     margin: 0;
     padding: 0;
-    font-family: "ProductSans", "MiLanPro", sans-serif;
+    font-family: "HarmonyOS_Sans", "HarmonyOS_Sans_SC", sans-serif;
     -webkit-appearance: none;
     appearance: none;
 }
@@ -45,7 +45,7 @@ h4.ul,
 h5.ul,
 h6.ul {
     padding-bottom: 8px;
-    border-bottom: 2px solid #E0E0E0;
+    border-bottom: 1px solid #E0E0E0;
 }
 
 p {
@@ -70,7 +70,7 @@ a:active {
     background: initial;
 }
 
-a:not([class]):hover {
+a:hover {
     color: #9898FF;
 }
 

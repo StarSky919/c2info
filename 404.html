@@ -17,34 +17,34 @@
             display: none;
         }
     </style>
-    <title>C2info - 页面不存在</title>
+    <title>页面不存在 | C2info</title>
 </head>
 
 <body>
     <nav>
         <label id="title">C2info</label>
-        <label id="subtitle">https://c2info.starsky919.xyz</label>
+        <label id="subtitle">https://c2info.starsky919.xyz/</label>
     </nav>
     <main>
-        <p id="url">https://c2info.starsky919.xyz</p>
+        <p id="url">https://c2info.starsky919.xyz/</p>
         <p>您所访问的页面不存在！</p>
         <p><a href="/">返回首页</a></p>
         <p class="hitokoto"><strong>每日一言</strong></p>
         <p class="hitokoto" id="hitokoto"><span class="loading sm"></span></p>
     </main>
     <script src="assets/js/index.js" type="text/javascript"></script>
+    <script src="assets/js/nav.js" type="text/javascript"></script>
     <script>
         $('.hitokoto').exec(function(i) {
-            this.style.display = 'block'
+            this.style.display = 'block';
         });
 
-        function hitokoto() {
+        const hitokoto = async function() {
             $('#hitokoto').innerHTML = '<span class="loading sm"></span>';
-            ajax('https://v1.hitokoto.cn/?c=a&c=d&c=h&c=i&c=k',
-                function(response) {
-                    response = JSON.parse(response);
-                    $('#hitokoto').innerHTML = `${response.hitokoto}<br />──${response.from_who || ''} 《${response.from}》` || '获取失败';
-                });
+
+            let response = await ajax.get('https://v1.hitokoto.cn/?c=a&c=d&c=h&c=i&c=k');
+
+            $('#hitokoto').innerHTML = `${response.hitokoto}<br />──${response.from_who || ''} 《${response.from}》` || '获取失败';
         }
 
         //$('#hitokoto').bindEvent('click', hitokoto);

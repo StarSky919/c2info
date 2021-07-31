@@ -10,11 +10,6 @@ Element.prototype.$ = function(selector) {
     return nodes.length > 1 ? nodes : nodes[0];
 };
 
-DocumentFragment.prototype.$ = function(selector) {
-    let nodes = this.querySelectorAll(selector);
-    return nodes.length > 1 ? nodes : nodes[0];
-};
-
 Element.prototype.hasClass = function(cls) {
     let classList = this.classList;
     for (let i in classList) {
@@ -83,7 +78,7 @@ NodeList.prototype.bindEvent = function(type, callback) {
 }
 
 Element.prototype.exec = function(callback) {
-        callback.call(this);
+    callback.call(this);
 }
 
 NodeList.prototype.exec = function(callback) {
@@ -101,6 +96,10 @@ const scrollTo = function(top) {
         top: top,
         behavior: 'smooth'
     });
+}
+
+const timeOut = function(delay = 1000) {
+    return new Promise(function(resolve) { setTimeout(resolve, delay) });
 }
 
 const cookie = {
@@ -141,13 +140,60 @@ const random = function(min, max) {
     return Math.round(Math.random() * (max - min + 1) + min);
 }
 
-const ajax = function(url, callback) {
-    let xhr = new XMLHttpRequest();
-    xhr.open('get', url);
-    xhr.onreadystatechange = function() {
-        if (xhr.readyState == 4 && xhr.status == 200) {
-            callback(xhr.responseText);
-        }
+class Ajax {
+    constructor() {}
+
+    request(config) {
+        return new Promise(function(resolve) {
+            let { method = 'get', url = '', data = {} } = config;
+            let xhr = new XMLHttpRequest();
+            xhr.open(method, url, true);
+            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState == 4 && xhr.status == 200) {
+                    resolve(JSON.parse(xhr.responseText));
+                }
+            }
+            xhr.send(JSON.stringify(data));
+        });
     }
-    xhr.send();
+
+    get(url) {
+        return this.request({
+            method: 'get',
+            url: url,
+        });
+    }
+
+    post(url, data) {
+        return this.request({
+            method: 'post',
+            url: url,
+            data: data
+        });
+    }
 }
+
+/*────────*/
+
+const ajax = new Ajax();
+
+try {
+    $('a:not(.title):not([href])').exec(function(i) {
+        this.href = 'javascript: void(0)';
+    });
+} catch (e) {}
+
+try {
+    $('a[data-scroll]').exec(function(i) {
+        this.href = 'javascript: void(0)';
+    });
+
+    $('a[data-scroll]').bindEvent('click', function(e) {
+        if ($('#keyword') && !$('#keyword').value) {
+            scrollTo($(`#${this.dataset.scroll}`).offsetTop);
+            return;
+        }
+        scrollTo($(`#${this.dataset.scroll}`).offsetTop);
+    });
+} catch (e) {}

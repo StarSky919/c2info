@@ -1,12 +1,12 @@
 @import "font-awesome.css";
-@import "productsans.css";
+@import "HarmonyOS_Sans.css";
 
 @font-face {
-    font-family: "MiLanPro";
+    font-family: "HarmonyOS_Sans_SC";
     font-style: normal;
     font-weight: 400;
     font-display: swap;
-    src: url(../../fonts/MiLanProRegular.ttf) format("truetype");
+    src: url(../../fonts/HarmonyOS_Sans_SC-Regular.ttf) format("truetype");
 }
 
 @font-face {

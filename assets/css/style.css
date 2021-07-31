@@ -301,6 +301,7 @@ main {
     position: absolute;
     top: 50px;
     width: 100%;
+    min-height: calc(100vh - 50px);
     padding: 2.5vw 4%;
     word-wrap: break-word;
 }

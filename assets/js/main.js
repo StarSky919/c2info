@@ -11,51 +11,7 @@ $('#navstyle').remove();
         scrollTo($('#keyword').value == '' && scrollTop() > $('#graffj').offsetTop + 1 && scrollTop() < $('#alice').offsetTop ? $('#graffj').offsetTop : 0);
     });
     $('main').appendChild(bt);
-}(document.createElement('i')));
-
-$('main, #search, #search_box').bindEvent('click', function(e) {
-    $('#navcb1').checked = false;
-});
-
-$('#menu').bindEvent('click', function(e) {
-    if (!$('#keyword').value) {
-        $('#navcb2').checked = false;
-    }
-});
-
-$('#items .content a').bindEvent('click', function(e) {
-    $('#navcb1').checked = false;
-    if (!$('#keyword').value) {
-        $('#navcb2').checked = false;
-    }
-});
-
-$('a[data-name]').bindEvent('click', function(e) {
-    if (!$('#keyword').value) {
-        scrollTo($(`#${this.dataset.name}`).offsetTop);
-    }
-});
-
-$('a[data-name], a:not(.title):not([href])').exec(function(i) {
-    this.href = 'javascript: void(0)';
-});
-
-let contentHeight = new Map();
-
-function navInitialize() {
-    if (this.checked) {
-        $(`.content[data-id=${this.id}]`).style.height = contentHeight.get(this.id) + 'px';
-    } else {
-        $(`.content[data-id=${this.id}]`).style.height = 0 + 'px';
-    }
-}
-
-$('#items .content').exec(function(i) {
-    contentHeight.set(this.dataset.id, this.offsetHeight);
-    navInitialize.call($(`#${this.dataset.id}`));
-});
-
-$('.titlecb').bindEvent('click', navInitialize);
+})(document.createElement('i'));
 
 $('#search_box').bindEvent('mouseover', function(e) {
     $('#filters').addClass('show');
@@ -113,7 +69,7 @@ const search = function() {
             }
         });
 
-        result.innerHTML = counter == 0 ? '搜索无结果' : `搜索到${counter}个结果：`;
+        result.innerHTML = counter == 0 ? '搜索无结果' : `搜索到 ${counter} 个结果：`;
     } else {
         $('.song').exec(function(i) {
             this.style.display = 'block';
