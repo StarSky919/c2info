@@ -114,7 +114,7 @@ const cookie = {
         let decodedCookie = decodeURIComponent(document.cookie);
         let ca = decodedCookie.split(';');
         for (let i = 0; i < ca.length; i++) {
-            var c = ca[i];
+            let c = ca[i];
             while (c.charAt(0) == ' ') {
                 c = c.substring(1);
             }
@@ -137,7 +137,24 @@ const copy = function(obj) {
 }
 
 const random = function(min, max) {
-    return Math.round(Math.random() * (max - min + 1) + min);
+    return Math.round(Math.random() * (max - min) + min);
+}
+
+const isJSON = function(str) {
+    if (typeof str != 'string') {
+        return false;
+    }
+
+    try {
+        let json = JSON.parse(str);
+        if (json && typeof json == 'object') {
+            return true;
+        } else {
+            return false;
+        }
+    } catch (e) {
+        return false;
+    }
 }
 
 class Ajax {
@@ -151,7 +168,8 @@ class Ajax {
             xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
             xhr.onreadystatechange = function() {
                 if (xhr.readyState == 4 && xhr.status == 200) {
-                    resolve(JSON.parse(xhr.responseText));
+                    const response = xhr.responseText;
+                    resolve(isJSON(response) ? JSON.parse(response) : response);
                 }
             }
             xhr.send(JSON.stringify(data));

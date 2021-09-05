@@ -28,7 +28,7 @@ const search = function() {
     let input = case_sensitive ? $('#keyword').value : $('#keyword').value.toLowerCase();
 
     let result = $('#result');
-    var counter = 0;
+    let counter = 0;
 
     result.style.display = input ? 'block' : 'none';
     $('#divide').style.display = input ? 'block' : 'none';
@@ -83,6 +83,12 @@ $('#clear').bindEvent('click', function(e) {
     $('#keyword').value = '';
     $('#keyword').focus();
     search();
+});
+
+$('#filters input').bindEvent('click', function(e) {
+    if (!$('#keyword').value) {
+        $('#keyword').focus();
+    }
 });
 
 $('#filters input[type=radio]').bindEvent('click', function(e) {
