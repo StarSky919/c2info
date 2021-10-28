@@ -1280,7 +1280,7 @@
             {
                 "title": "LIFE is GAME",
                 "artist": "Kay",
-                "bpm": "N/A",
+                "bpm": "110",
                 "chaos": {
                     "level": 12,
                     "notes": 841,
@@ -2540,7 +2540,7 @@
             {
                 "title": "ACID BASILISK",
                 "artist": "SYSTEM VALKYRIE type-overdrive",
-                "bpm": "N/A",
+                "bpm": "240",
                 "chaos": {
                     "level": 14,
                     "notes": 1011,
@@ -2550,7 +2550,7 @@
             {
                 "title": "TIGER LILY",
                 "artist": "RABIES 999+",
-                "bpm": "N/A",
+                "bpm": "230",
                 "chaos": {
                     "level": 15,
                     "notes": 1133,
