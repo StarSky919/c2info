@@ -23,6 +23,7 @@ Element.prototype.hasClass = function(cls) {
 Element.prototype.addClass = function(cls) {
     if (Array.isArray(cls)) {
         for (let i in cls) {
+            if (this.hasClass(cls[i])) { return; }
             this.classList.add(cls[i]);
         }
         return;
@@ -33,6 +34,7 @@ Element.prototype.addClass = function(cls) {
 Element.prototype.removeClass = function(cls) {
     if (Array.isArray(cls)) {
         for (let i in cls) {
+            if (!this.hasClass(cls[i])) { return; }
             this.classList.remove(cls[i]);
         }
         return;
@@ -77,6 +79,13 @@ NodeList.prototype.bindEvent = function(type, callback) {
     }
 }
 
+window.bindEvent = function(type, callback) {
+    this.addEventListener(type, function(event) {
+        let target = event.target;
+        callback.call(target, event);
+    });
+};
+
 Element.prototype.exec = function(callback) {
     callback.call(this);
 }
@@ -98,8 +107,8 @@ const scrollTo = function(top) {
     });
 }
 
-const timeOut = function(delay = 1000) {
-    return new Promise(function(resolve) { setTimeout(resolve, delay) });
+const getHeight = function() {
+    return Math.max(document.body.scrollHeight, document.documentElement.scrollHeight);
 }
 
 const cookie = {
@@ -123,6 +132,9 @@ const cookie = {
             }
         }
         return '';
+    },
+    del: function(name) {
+        this.set(name, null, -1);
     }
 }
 
@@ -168,7 +180,7 @@ class Ajax {
             xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
             xhr.onreadystatechange = function() {
                 if (xhr.readyState == 4 && xhr.status == 200) {
-                    const response = xhr.responseText;
+                    let response = xhr.responseText;
                     resolve(isJSON(response) ? JSON.parse(response) : response);
                 }
             }
@@ -192,26 +204,75 @@ class Ajax {
     }
 }
 
+const debounce = function(callback, delay) {
+    let timeout;
+    return function() {
+        clearTimeout(timeout);
+        let that = this,
+            args = arguments;
+        timeout = setTimeout(function() {
+            callback.apply(that, args);
+            clearTimeout(timeout);
+            timeout = null;
+        }, delay);
+    }
+}
+
+const throttle = function(callback, delay) {
+    let timer;
+    return function() {
+        if (timer) { return; }
+        let that = this,
+            args = arguments;
+        timer = setTimeout(function() {
+            clearTimeout(timer);
+            timer = null;
+            callback.apply(that, args);
+        }, delay);
+    }
+}
+
 /*────────*/
 
 const ajax = new Ajax();
 
-try {
-    $('a:not(.title):not([href])').exec(function(i) {
-        this.href = 'javascript: void(0)';
-    });
-} catch (e) {}
+let bt = document.createElement('i');
+bt.id = 'bt';
+bt.addClass(['fa', 'fa-arrow-up']);
+bt.bindEvent('click', function(e) {
+    scrollTo(0);
+});
+$('body').appendChild(bt);
 
-try {
-    $('a[data-scroll]').exec(function(i) {
-        this.href = 'javascript: void(0)';
-    });
+window.btOption = {
+    //CC: 0.75,
+    minHeight: 0
+}
 
-    $('a[data-scroll]').bindEvent('click', function(e) {
-        if ($('#keyword') && !$('#keyword').value) {
-            scrollTo($(`#${this.dataset.scroll}`).offsetTop);
-            return;
-        }
-        scrollTo($(`#${this.dataset.scroll}`).offsetTop);
-    });
-} catch (e) {}
+const refreshBT = function() {
+    if (getHeight() > window.screen.height) {
+        bt.dataset.enable = true;
+    } else {
+        bt.dataset.enable = false;
+    }
+}
+
+window.bindEvent('load', refreshBT);
+
+let observer = new MutationObserver(refreshBT);
+observer.observe($('main'), {
+    attributes: true,
+    childList: true,
+    subtree: true
+});
+
+window.bindEvent('scroll', function(e) {
+    if (!bt.dataset.enable) { return; }
+    /*let btRight = (scrollTop() - btOption.minHeight) * btOption.CC >= 75 ? 25 : (scrollTop() - btOption.minHeight) * btOption.CC - 50;
+    bt.style.right = `${btRight}px`;*/
+    scrollTop() > window.btOption.minHeight ? bt.addClass('display') : bt.removeClass('display');
+});
+
+$('main').bindEvent('click', function(e) {
+    $('#navcb1').checked = false;
+});

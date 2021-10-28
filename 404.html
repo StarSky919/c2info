@@ -33,8 +33,7 @@
         <p class="hitokoto" id="hitokoto"><span class="loading sm"></span></p>
     </main>
     <script src="assets/js/index.js" type="text/javascript"></script>
-    <script src="assets/js/nav.js" type="text/javascript"></script>
-    <script>
+    <script async>
         $('.hitokoto').exec(function(i) {
             this.style.display = 'block';
         });
@@ -46,8 +45,6 @@
 
             $('#hitokoto').innerHTML = `${response.hitokoto}<br />──${response.from_who || ''} 《${response.from}》` || '获取失败';
         }
-
-        //$('#hitokoto').bindEvent('click', hitokoto);
 
         hitokoto();
     </script>

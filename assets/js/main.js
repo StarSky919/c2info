@@ -1,17 +1,35 @@
 'use strict';
 
 $('#search').style.display = 'block';
-$('#navstyle').remove();
+$('#loading').style.display = 'block';
+$('#divide_1, #divide_2').exec(function(i) {
+    this.style.display = 'block';
+});
+$('#noscript').remove();
 
-(function(bt) {
-    bt.id = 'bt';
-    bt.addClass(['fa', 'fa-arrow-up']);
-    bt.css('display: block; position: fixed; width: 50px; height: 50px; line-height: 50px; right: 25px; bottom: 50px; color: #000000; background: #FFFFFF; -webkit-border-radius: 50%; border-radius: 50%; -webkit-box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.25); box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.25); text-align: center; font-size: 1.125em;');
-    bt.bindEvent('click', function(e) {
-        scrollTo($('#keyword').value == '' && scrollTop() > $('#graffj').offsetTop + 1 && scrollTop() < $('#alice').offsetTop ? $('#graffj').offsetTop : 0);
-    });
-    $('main').appendChild(bt);
-})(document.createElement('i'));
+cookie.del('song_name');
+cookie.del('artist');
+cookie.del('levels');
+
+switch (cookie.get('filter')) {
+    case 'song_name':
+        cookie.set('filter', 'name', 365);
+        break;
+    case 'level':
+        cookie.set('filter', 'constant', 365);
+        break;
+}
+
+if (cookie.get('filter')) {
+    $(`#${cookie.get('filter')}`).checked = true;
+} else {
+    cookie.set('filter', 'name', 365);
+    $('#name').checked = true;
+}
+
+$('#search, #search_box').bindEvent('click', function(e) {
+    $('#navcb1').checked = false;
+});
 
 $('#search_box').bindEvent('mouseover', function(e) {
     $('#filters').addClass('show');
@@ -23,17 +41,25 @@ $('#search_box').bindEvent('mouseout', function(e) {
     }
 });
 
+const getSpecialChart = function(data) {
+    if (this.$('.constant_g')) {
+        data += this.$('.constant_g').innerHTML;
+    }
+    return data;
+}
+
 const search = function() {
     let case_sensitive = $('#case_sensitive').checked;
     let input = case_sensitive ? $('#keyword').value : $('#keyword').value.toLowerCase();
-
-    let result = $('#result');
     let counter = 0;
 
-    result.style.display = input ? 'block' : 'none';
-    $('#divide').style.display = input ? 'block' : 'none';
-    $('#song_packs').style.display = input ? 'none' : 'block';
-    $('.list .ul').exec(function(i) {
+    $('#result, #divide_1').exec(function(e) {
+        this.style.display = input ? 'block' : 'none';
+    });
+
+    input ? $('#songs').addClass('searching') : $('#songs').removeClass('searching');
+
+    $('.list h2').exec(function(i) {
         this.style.display = input ? 'none' : 'block';
     });
 
@@ -42,47 +68,41 @@ const search = function() {
 
     if (input) {
         let data = '';
-        let song_names = $('.song .song_name');
+        let names = $('.song .name');
         let artists = $('.song .artist');
-        let levels = $('.song .level');
-
-        function getSpecialChart(data) {
-            if (this.$('.level_g')) {
-                data += this.$('.level_g').innerHTML;
-            }
-            if (this.$('.level_c')) {
-                data += this.$('.level_c').innerHTML;
-            }
-            return data;
-        }
+        let constants = $('.song .constant');
 
         $('.song').exec(function(i) {
-            data = $('#song_name').checked ? song_names[i].innerHTML : $('#artist').checked ? artists[i].innerHTML : $('#level').checked ? levels[i].innerHTML : '';
-            data += $('#level').checked ? getSpecialChart.call(this, data) : '';
+            data = $('#name').checked ? names[i].innerHTML : $('#artist').checked ? artists[i].innerHTML : $('#constant').checked ? constants[i].innerHTML : '';
+            data += $('#constant').checked ? getSpecialChart.call(this, data) : '';
             data = case_sensitive ? data : data.toLowerCase();
 
             if (data.indexOf(input) > -1) {
-                this.style.display = 'block';
+                this.removeClass('hidden');
                 counter += 1;
             } else {
-                this.style.display = 'none';
+                this.addClass('hidden');
             }
         });
 
-        result.innerHTML = counter == 0 ? '搜索无结果' : `搜索到 ${counter} 个结果：`;
+        $('#result').innerHTML = counter == 0 ? '搜索无结果' : `搜索到 ${counter} 个结果：`;
     } else {
-        $('.song').exec(function(i) {
-            this.style.display = 'block';
-        });
+        if ($('.song.hidden')) {
+            $('.song.hidden').exec(function(i) {
+                this.removeClass('hidden');
+            });
+        }
     }
 }
 
-$('#keyword').bindEvent('keyup', search);
+const throttleSearch = throttle(search, 250);
+
+$('#keyword').bindEvent('input', throttleSearch);
 
 $('#clear').bindEvent('click', function(e) {
     $('#keyword').value = '';
     $('#keyword').focus();
-    search();
+    throttleSearch();
 });
 
 $('#filters input').bindEvent('click', function(e) {
@@ -93,23 +113,150 @@ $('#filters input').bindEvent('click', function(e) {
 
 $('#filters input[type=radio]').bindEvent('click', function(e) {
     cookie.set('filter', this.id, 365);
-    search();
+    throttleSearch();
 });
-
-if (cookie.get('filter')) {
-    $(`#${cookie.get('filter')}`).checked = true;
-} else {
-    cookie.set('filter', 'song_name', 365);
-    $('#song_name').checked = true;
-}
 
 $('#case_sensitive').checked = cookie.get('case_sensitive') == 'on' ? true : false;
 
 $('#case_sensitive').bindEvent('click', function() {
     cookie.set('case_sensitive', $('#case_sensitive').checked ? 'on' : 'off', 365);
-    search();
+    throttleSearch();
 });
 
-cookie.set('song_name', null, -1);
-cookie.set('artist', null, -1);
-cookie.set('levels', null, -1);
+(function(characters) {
+    characters.id = 'characters';
+    characters.addClass('item');
+    characters.innerHTML = '<input type="checkbox" id="t1" class="titlecb" checked /><label for="t1"><a class="title arrow">角色列表</a></label><div class="content" data-id="t1">';
+    $('#items').insertBefore(characters, $('#items').children[0]);
+})(document.createElement('div'));
+
+(async function() {
+    window.songData = await ajax.get('songs.json');
+    let data = window.songData;
+    Object.keys(data).forEach(function(key) {
+        let a = document.createElement('a');
+        a.href = 'javascript: void(0)';
+        a.dataset.scroll = `${key}`;
+        a.innerHTML = data[key].name;
+        a.bindEvent('click', function(e) {
+            if (!$('#keyword').value) {
+                scrollTo($(`#${this.dataset.scroll}`).offsetTop);
+            }
+        });
+        $('.content[data-id=t1]').appendChild(a);
+    });
+
+    let contentHeight = new Map();
+
+    const navInitialize = function() {
+        if (this.checked) {
+            $(`.content[data-id=${this.id}]`).style.height = contentHeight.get(this.id) + 'px';
+        } else {
+            $(`.content[data-id=${this.id}]`).style.height = 0 + 'px';
+        }
+    }
+    $('#items .content').exec(function(i) {
+        contentHeight.set(this.dataset.id, this.offsetHeight);
+        navInitialize.call($(`#${this.dataset.id}`));
+    });
+    $('.titlecb').bindEvent('click', navInitialize);
+
+    $('main, #menu, #items').bindEvent('click', function(e) {
+        if ($('#keyword') && !$('#keyword').value) {
+            $('#navcb2').checked = false;
+        }
+    });
+
+    $('#items .content a').bindEvent('click', function(e) {
+        $('#navcb1').checked = false;
+    });
+
+    const songsInitialize = async function() {
+        let data = window.songData;
+        let listsFrag = document.createDocumentFragment();
+
+        Object.keys(data).forEach(function(key) {
+            let list = document.createElement('div');
+            list.id = key;
+            list.addClass('list');
+
+            let title = document.createElement('h2');
+            title.addClass('ul');
+            title.innerHTML = data[key].name;
+            list.appendChild(title);
+
+            let songs = document.createElement('div');
+            songs.addClass('songs');
+
+            Object.values(data[key].songs).forEach(function(data) {
+                let song = document.createElement('div');
+                song.addClass('song');
+                let songFrag = document.createDocumentFragment();
+
+                let name = document.createElement('h3');
+                name.addClass('name');
+                name.innerHTML = data.title;
+                songFrag.appendChild(name);
+
+                let artist = document.createElement('p');
+                artist.addClass('artist');
+                artist.innerHTML = `曲师：${data.artist}`;
+                songFrag.appendChild(artist);
+
+                let bpm = document.createElement('p');
+                bpm.innerHTML = `BPM：${data.bpm}`;
+                songFrag.appendChild(bpm);
+
+                if (data.chaos) {
+                    let level_chaos = document.createElement('p');
+                    level_chaos.innerHTML = `<strong>CHAOS ${data.chaos.level}</strong>`;
+                    songFrag.appendChild(level_chaos);
+
+                    let notes_chaos = document.createElement('p');
+                    notes_chaos.innerHTML = `物量：${data.chaos.notes}`;
+                    songFrag.appendChild(notes_chaos);
+
+                    let constant_chaos = document.createElement('p');
+                    constant_chaos.addClass('constant');
+                    let constant = data.chaos.constant;
+                    constant_chaos.innerHTML = `定数：${constant == 0 ? 'N/A' : constant.toFixed(1)}`;
+                    songFrag.appendChild(constant_chaos);
+                }
+
+                if (data.glitch) {
+                    let level_glitch = document.createElement('p');
+                    level_glitch.innerHTML = `<strong>GLITCH ${data.glitch.level}</strong>`;
+                    songFrag.appendChild(level_glitch);
+
+                    let notes_glitch = document.createElement('p');
+                    notes_glitch.innerHTML = `物量：${data.glitch.notes}`;
+                    songFrag.appendChild(notes_glitch);
+
+                    let constant_glitch = document.createElement('p');
+                    constant_glitch.addClass('constant_g');
+                    let constant = data.glitch.constant;
+                    constant_glitch.innerHTML = `定数：${constant == 0 ? 'N/A' : constant.toFixed(1)}`;
+                    songFrag.appendChild(constant_glitch);
+                }
+
+                song.appendChild(songFrag);
+
+                songs.appendChild(song);
+            });
+
+            list.appendChild(songs);
+
+            listsFrag.append(list);
+        });
+
+        $('#songs').appendChild(listsFrag);
+
+        $('#loading, #divide_1').exec(function(e) {
+            this.style.display = 'none';
+        });
+
+        window.btOption.minHeight = $('.list:first-of-type').offsetTop;
+    }
+
+    window.bindEvent('load', songsInitialize);
+})();
