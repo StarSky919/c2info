@@ -131,8 +131,13 @@ $('#case_sensitive').bindEvent('click', function() {
 })(document.createElement('div'));
 
 (async function() {
-    window.songData = await ajax.get('songs.json');
-    let data = window.songData;
+    let songData = localStorage.getItem('songData') ? JSON.parse(localStorage.getItem('songData')) : await ajax.get('songs.json');
+    if (!localStorage.getItem('songData')) {
+        localStorage.setItem('songData', JSON.stringify(songData));
+        window.location.reload();
+    }
+    let data = songData;
+
     Object.keys(data).forEach(function(key) {
         let a = document.createElement('a');
         a.href = 'javascript: void(0)';
@@ -171,8 +176,8 @@ $('#case_sensitive').bindEvent('click', function() {
         $('#navcb1').checked = false;
     });
 
-    const songsInitialize = async function() {
-        let data = window.songData;
+    const songsInitialize = function() {
+        let data = songData;
         let listsFrag = document.createDocumentFragment();
 
         Object.keys(data).forEach(function(key) {
