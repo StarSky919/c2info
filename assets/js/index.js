@@ -204,6 +204,12 @@ class Ajax {
     }
 }
 
+const timeout = function(delay) {
+    return new Promise(function(resolve) {
+        setTimeout(resolve, delay);
+    });
+}
+
 const debounce = function(callback, delay) {
     let timeout;
     return function() {

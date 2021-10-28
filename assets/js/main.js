@@ -131,11 +131,16 @@ $('#case_sensitive').bindEvent('click', function() {
 })(document.createElement('div'));
 
 (async function() {
-    let songData = localStorage.getItem('songData') ? JSON.parse(localStorage.getItem('songData')) : await ajax.get('songs.json');
     if (!localStorage.getItem('songData')) {
-        localStorage.setItem('songData', JSON.stringify(songData));
-        window.location.reload();
+        $('#initializing').style.display = 'flex';
+        localStorage.setItem('songData', JSON.stringify(await ajax.get('songs.json')));
+        timeout(100).then(function() {
+            window.location.reload()
+        });
+        return;
     }
+
+    let songData = JSON.parse(localStorage.getItem('songData'));
     let data = songData;
 
     Object.keys(data).forEach(function(key) {
@@ -254,13 +259,15 @@ $('#case_sensitive').bindEvent('click', function() {
             listsFrag.append(list);
         });
 
-        $('#songs').appendChild(listsFrag);
+        timeout(100).then(function() {
+            $('#songs').appendChild(listsFrag);
 
-        $('#loading, #divide_1').exec(function(e) {
-            this.style.display = 'none';
+            $('#loading, #divide_1').exec(function(e) {
+                this.style.display = 'none';
+            });
+
+            window.btOption.minHeight = $('.list:first-of-type').offsetTop;
         });
-
-        window.btOption.minHeight = $('.list:first-of-type').offsetTop;
     }
 
     window.bindEvent('load', songsInitialize);
