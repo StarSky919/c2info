@@ -131,11 +131,19 @@ $('#case_sensitive').bindEvent('click', function() {
 })(document.createElement('div'));
 
 (async function() {
+    if (localStorage.getItem('songData')) {
+        try {
+            JSON.parse(localStorage.getItem('songData'));
+        } catch (e) {
+            localStorage.removeItem('songData');
+        }
+    }
+
     if (!localStorage.getItem('songData')) {
         $('#initializing').style.display = 'flex';
         localStorage.setItem('songData', JSON.stringify(await ajax.get('songs.json')));
         timeout(100).then(function() {
-            window.location.reload()
+            window.location.reload();
         });
         return;
     }

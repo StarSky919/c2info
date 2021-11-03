@@ -280,5 +280,7 @@ window.bindEvent('scroll', function(e) {
 });
 
 $('main').bindEvent('click', function(e) {
-    $('#navcb1').checked = false;
+    if ($('#navcb1')) {
+        $('#navcb1').checked = false;
+    }
 });
