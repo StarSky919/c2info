@@ -139,9 +139,11 @@ $('#case_sensitive').bindEvent('click', function() {
         }
     }
 
-    if (!localStorage.getItem('songData')) {
+    let dataResponse = JSON.stringify(await ajax.get('https://cdn.jsdelivr.net/gh/StarSky919/c2info/songs.json'));
+
+    if (!localStorage.getItem('songData') || localStorage.getItem('songData') != dataResponse) {
         $('#initializing').style.display = 'flex';
-        localStorage.setItem('songData', JSON.stringify(await ajax.get('songs.json')));
+        localStorage.setItem('songData', dataResponse);
         timeout(100).then(function() {
             window.location.reload();
         });
@@ -151,46 +153,47 @@ $('#case_sensitive').bindEvent('click', function() {
     let songData = JSON.parse(localStorage.getItem('songData'));
     let data = songData;
 
-    Object.keys(data).forEach(function(key) {
-        let a = document.createElement('a');
-        a.href = 'javascript: void(0)';
-        a.dataset.scroll = `${key}`;
-        a.innerHTML = data[key].name;
-        a.bindEvent('click', function(e) {
-            if (!$('#keyword').value) {
-                scrollTo($(`#${this.dataset.scroll}`).offsetTop);
+    (function renderNav() {
+        Object.keys(data).forEach(function(key) {
+            let a = document.createElement('a');
+            a.href = 'javascript: void(0)';
+            a.dataset.scroll = `${key}`;
+            a.innerHTML = data[key].name;
+            a.bindEvent('click', function(e) {
+                if (!$('#keyword').value) {
+                    scrollTo($(`#${this.dataset.scroll}`).offsetTop);
+                }
+            });
+            $('.content[data-id=t1]').appendChild(a);
+        });
+
+        let contentHeight = new Map();
+
+        const navInitialize = function() {
+            if (this.checked) {
+                $(`.content[data-id=${this.id}]`).style.height = contentHeight.get(this.id) + 'px';
+            } else {
+                $(`.content[data-id=${this.id}]`).style.height = 0 + 'px';
+            }
+        }
+        $('#items .content').exec(function(i) {
+            contentHeight.set(this.dataset.id, this.offsetHeight);
+            navInitialize.call($(`#${this.dataset.id}`));
+        });
+        $('.titlecb').bindEvent('click', navInitialize);
+
+        $('main, #menu, #items').bindEvent('click', function(e) {
+            if ($('#keyword') && !$('#keyword').value) {
+                $('#navcb2').checked = false;
             }
         });
-        $('.content[data-id=t1]').appendChild(a);
-    });
 
-    let contentHeight = new Map();
+        $('#items .content a').bindEvent('click', function(e) {
+            $('#navcb1').checked = false;
+        });
+    })();
 
-    const navInitialize = function() {
-        if (this.checked) {
-            $(`.content[data-id=${this.id}]`).style.height = contentHeight.get(this.id) + 'px';
-        } else {
-            $(`.content[data-id=${this.id}]`).style.height = 0 + 'px';
-        }
-    }
-    $('#items .content').exec(function(i) {
-        contentHeight.set(this.dataset.id, this.offsetHeight);
-        navInitialize.call($(`#${this.dataset.id}`));
-    });
-    $('.titlecb').bindEvent('click', navInitialize);
-
-    $('main, #menu, #items').bindEvent('click', function(e) {
-        if ($('#keyword') && !$('#keyword').value) {
-            $('#navcb2').checked = false;
-        }
-    });
-
-    $('#items .content a').bindEvent('click', function(e) {
-        $('#navcb1').checked = false;
-    });
-
-    const songsInitialize = function() {
-        let data = songData;
+    (function renderSongs() {
         let listsFrag = document.createDocumentFragment();
 
         Object.keys(data).forEach(function(key) {
@@ -276,7 +279,5 @@ $('#case_sensitive').bindEvent('click', function() {
 
             window.btOption.minHeight = $('.list:first-of-type').offsetTop;
         });
-    }
-
-    window.bindEvent('load', songsInitialize);
+    })();
 })();
