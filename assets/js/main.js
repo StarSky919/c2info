@@ -54,7 +54,7 @@ const search = function(e) {
         });
     });
 
-    $('#result').innerHTML = counter == 0 ? '搜索无结果' : `搜索到 ${counter} 首曲目：`;
+    $('#result').innerHTML = counter == 0 ? '搜索无结果。' : `搜索到 ${counter} 首曲目：`;
 }
 
 const throttleSearch = throttle(search, 200);
@@ -278,7 +278,7 @@ $('main, #menu, #items').bindEvent('click', function(e) {
     window.data.btMinHeight = $('.list:first-of-type').offsetTop;
 
     $('#info').exec(function(i) {
-        this.innerHTML = `截至${version}版本，共有${counter}首曲目`;
+        this.innerHTML = `截至${version}版本，共有${counter}首曲目。`;
         this.style.display = 'block';
     });
     $('#loading, #divide_1').exec(function(i) {
