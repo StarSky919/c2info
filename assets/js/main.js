@@ -128,7 +128,7 @@ $('main, #menu, #items').bindEvent('click', function(e) {
         }
     }
 
-    const dataResponse = JSON.stringify(await ajax.get('https://cdn.jsdelivr.net/gh/StarSky919/c2info/songs.json'));
+    const dataResponse = JSON.stringify(await ajax.get('https://cdn.jsdelivr.net/gh/StarSky919/c2info@latest/songs.json'));
     //const dataResponse = JSON.stringify(await ajax.get('songs.json'));
 
     if (!localStorage.getItem('songData') || localStorage.getItem('songData') != dataResponse) {
