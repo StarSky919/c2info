@@ -1,15 +1,14 @@
 @import "fonts/fontface.css";
 @import "reset.css";
 
-/*────────*/
+/*----------------*/
 
 span.loading {
     display: inline-block;
     width: 25px;
     height: 25px;
-    border: 3px solid #F0F0F0;
-    border-top: 3px solid #252525;
-    -webkit-border-radius: 50%;
+    border: 3px solid var(--border-color);
+    border-top: 3px solid var(--text-color);
     border-radius: 50%;
     -webkit-animation: rotate-360 1s linear infinite;
     animation: rotate-360 1s linear infinite;
@@ -65,7 +64,7 @@ span.loading {
     }
 }
 
-/*────────*/
+/*----------------*/
 
 #initializing {
     display: none;
@@ -77,7 +76,7 @@ span.loading {
     left: 0;
     width: 100%;
     height: 100%;
-    background: #FFFFFF;
+    background: var(--background-color);
     z-index: 999;
 }
 
@@ -89,10 +88,9 @@ span.loading {
     line-height: 50px;
     right: -50px;
     bottom: 50px;
-    color: #000000;
-    background: #FFFFFF;
-    -webkit-border-radius: 50%;
-    border: 1px solid #E0E0E0;
+    color: var(--text-color);
+    background: var(--background-color);
+    border: 1px solid var(--border-color);
     border-radius: 50%;
     -webkit-transition: right 0.25s ease;
     transition: right 0.25s ease;
@@ -112,18 +110,11 @@ nav {
     width: 100%;
     height: 50px;
     padding: 0 4%;
-    border-bottom: 1px solid #E0E0E0;
-    background: #FFFFFF;
+    border-bottom: 1px solid var(--border-color);
+    background: var(--background-color);
     z-index: 99;
+    user-select: none;
 }
-
-/*@supports (-webkit-backdrop-filter: blur(10px)) or (backdrop-filter: blur(10px)) {
-    nav {
-        background: rgba(255, 255, 255, 0.75);
-        -webkit-backdrop-filter: blur(5px);
-        backdrop-filter: blur(5px);
-    }
-}*/
 
 #menu {
     margin-right: 1rem;
@@ -138,8 +129,8 @@ nav {
     width: 65vw;
     height: calc(100vh - 50px);
     padding: 2.5vw 4%;
-    background: #FFFFFF;
-    border-right: 1px solid #E0E0E0;
+    background: var(--background-color);
+    border-right: 1px solid var(--border-color);
     -webkit-transition: left 0.35s ease;
     transition: left 0.35s ease;
     z-index: 99;
@@ -147,7 +138,6 @@ nav {
 
 #items a {
     display: block;
-    cursor: pointer;
 }
 
 #items .item:first-of-type {
@@ -167,9 +157,10 @@ nav {
 }
 
 #items .item label .title {
-    color: initial;
+    color: var(--text-color);
     font-weight: bold;
     text-decoration: none;
+    cursor: pointer;
 }
 
 #items .item label .title.arrow::after {
@@ -190,6 +181,7 @@ nav {
 
 #items .content a {
     margin-top: 0.65rem;
+    cursor: pointer;
 }
 
 #items input:checked~label .title.arrow::after {
@@ -197,15 +189,12 @@ nav {
     transform: rotate(-90deg);
 }
 
-#items input:checked~.content {
-    height: auto;
-}
-
 #navcb1:checked~#items {
     left: 0;
 }
 
 #title {
+    margin-right: 1rem;
     font-weight: bold;
 }
 
@@ -227,12 +216,15 @@ nav {
     top: 50px;
     right: -100%;
     width: 100%;
-    padding: 0 4%;
-    background: #FFFFFF;
-    border: 1px solid #E0E0E0;
+    background: var(--background-color);
+    border: 1px solid var(--border-color);
     border-top: none;
     -webkit-transition: right 0.35s ease;
     transition: right 0.35s ease;
+}
+
+#search_box>* {
+    padding: 0 4%;
 }
 
 #input {
@@ -246,7 +238,8 @@ nav {
     padding: 4px 8px;
     padding-right: 32px;
     outline: none;
-    border: 1px solid #E0E0E0;
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
     background: none;
     font-size: 16px;
 }
@@ -259,82 +252,83 @@ nav {
     display: none;
     position: absolute;
     top: 0;
-    right: 0;
+    right: 4%;
     width: 32px;
     height: 32px;
     padding: 8px;
+    cursor: pointer;
 }
 
 #filters {
     display: flex;
     flex-direction: column;
     position: absolute;
-    top: 0;
+    overflow: hidden;
+    top: 100%;
     right: -1px;
     width: calc(100% + 2px);
-    padding: 0 4%;
-    background: #FFFFFF;
-    border: 1px solid #E0E0E0;
+    background: var(--background-color);
+    border: 1px solid var(--border-color);
     border-top: none;
-    -webkit-transition: top 0.25s ease;
-    transition: top 0.25s ease;
+    transform: scaleY(0.5) translateY(-100%);
+    transform-origin: 50% 0 0;
+    -webkit-transition: all 0.25s ease;
+    transition: all 0.25s ease;
     z-index: -1;
 }
 
 #filters.show {
-    top: 100%;
+    transform: scaleY(1) translateY(0);
 }
 
 #filters .row {
     display: flex;
     justify-content: space-between;
-    flex: 0 0 100%;
     margin: 0.65rem 0;
 }
 
-.checkbox,
-.radio {
-    display: -webkit-inline-flex;
-    display: inline-flex;
+#filters .row>label:not(:last-of-type) {
+    flex-basis: 4.5em;
+}
+
+#filters .row>label:last-of-type {
+    flex-basis: 6.5em;
+}
+
+.checkbox label,
+.radio label {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
     cursor: pointer;
 }
 
-.checkbox label span,
-.radio label span {
+.checkbox .pattern,
+.radio .pattern {
     display: inline-block;
-    position: relative;
     width: 1rem;
     height: 1rem;
-    margin-left: 4px;
-    cursor: pointer;
-}
-
-.checkbox label span::before,
-.radio label span::before {
-    content: "";
-    display: inline-block;
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    width: 1rem;
-    height: 1rem;
-    border: 1px solid #E0E0E0;
-    background: #FFFFFF;
-    -webkit-transform: translate(-50%, -50%);
-    transform: translate(-50%, -50%);
+    border: 1px solid var(--border-color);
+    background: var(--background-color);
     -webkit-transition: all 0.25s ease;
     transition: all 0.25s ease;
 }
 
-.radio label span::before {
+.radio .pattern {
     border-radius: 50%;
 }
 
-.checkbox label input:checked+span::before,
-.radio label input:checked+span::before {
-    background: #252525;
-    -webkit-box-shadow: inset 0 0 0 2px #FFFFFF;
-    box-shadow: inset 0 0 0 2px #FFFFFF;
+.checkbox input:checked+label .pattern,
+.radio input:checked+label .pattern {
+    background: var(--text-color);
+    -webkit-box-shadow: inset 0 0 0 2px var(--background-color);
+    box-shadow: inset 0 0 0 2px var(--background-color);
+}
+
+.checkbox input:disabled+label,
+.radio input:disabled+label {
+    opacity: 0.5;
+    cursor: default;
 }
 
 #navcb2:checked~#search_box {
@@ -353,8 +347,21 @@ main {
     word-wrap: break-word;
 }
 
+content {
+    display: flex;
+    flex-direction: column;
+}
+
+content>p {
+    line-height: 1.33em;
+}
+
+#info,
 #divide_1,
-#divide_2 {
+#divide_2,
+#result,
+#egg_1,
+#egg_2 {
     display: none;
 }
 
@@ -371,55 +378,82 @@ main {
     margin-top: 0.65rem;
 }
 
-#result {
-    display: none;
-}
-
 #songs {
     overflow: hidden;
 }
 
-#egg_1,
-#egg_2 {
-    display: none;
-}
-
-.list {
+#songs .list {
     display: flex;
     align-items: center;
     flex-wrap: wrap;
 }
 
-.list>* {
+#songs .list>* {
     width: 100%;
 }
 
-.list .song {
+#songs .list .song {
     overflow: hidden;
     width: 100%;
     margin: 0.65rem 0;
     padding: 8px 16px;
     background: #F2F4F6;
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
 }
 
-#songs.searching .song.hidden {
-    height: 0 !important;
-    margin: 0 !important;
-    padding: 0 !important;
-    border: none !important;
+#songs .list .song.hidden {
+    display: none;
+}
+
+#songs .level {
+    display: flex;
+    justify-content: space-between;
+}
+
+#songs .level .difficulty {
+    display: inline-block;
+    text-align: left;
+}
+
+#songs .level .version {
+    display: inline-block;
+    text-align: right;
+}
+
+.difficulty {
+    padding: 0 0.25rem;
+    font-family: "Electrolize";
+}
+
+.difficulty.easy {
+    color: #2D96C3;
+    background: #05284B;
+}
+
+.difficulty.hard {
+    color: #BE2D2D;
+    background: #320F0F;
+}
+
+.difficulty.chaos {
+    color: #BE28BE;
+    background: #320F32;
+}
+
+.difficulty.glitch {
+    color: #05AA4B;
+    background: #0F2D23;
+}
+
+.difficulty.crash {
+    color: #CC9900;
+    background: #372814;
 }
 
 @media screen and (min-width: 768px) {
     #menu {
         display: none;
-    }
-
-    #title {
-        margin-right: 1rem;
-    }
-
-    #subtitle {
-        display: inline;
     }
 
     #items {
@@ -437,19 +471,5 @@ main {
     main {
         right: 0;
         width: 75%;
-    }
-
-    #url {
-        display: none;
-    }
-
-    .list .songs {
-        display: flex;
-        justify-content: space-between;
-        flex-wrap: wrap;
-    }
-
-    .list .songs .song {
-        width: 47.5%;
     }
 }

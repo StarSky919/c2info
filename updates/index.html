@@ -6,14 +6,15 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
     <meta name="renderer" content="webkit" />
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=0" />
+    <link rel="icon" href="../assets/images/logo.ico" type="image/x-icon" />
+    <link rel="shortcut icon" href="../assets/images/logo.ico" type="image/x-icon" />
     <link rel="stylesheet" href="../assets/css/style.css" type="text/css" />
     <style type="text/css">
-        #updates p {
-            line-height: 1.33em;
+        content>p {
             padding-left: 1em;
         }
 
-        #updates .details {
+        .details {
             display: block;
             padding-left: 1em;
         }
@@ -22,6 +23,15 @@
 </head>
 
 <body>
+    <style type="text/css" id="noscript">
+        #items .content {
+            display: none;
+        }
+
+        #items input:checked~.content {
+            display: block;
+        }
+    </style>
     <nav>
         <input type="checkbox" id="navcb1">
         <label for="navcb1" id="menu">
@@ -30,6 +40,9 @@
         <div id="items">
             <div class="item">
                 <label><a href="../" class="title">网站首页</a></label>
+            </div>
+            <div class="item">
+                <label><a href="../overview" class="title">定数总览</a></label>
             </div>
             <div class="item">
                 <label><a class="title">更新日志</a></label>
@@ -41,116 +54,170 @@
         <label id="title">C2info</label>
         <label id="subtitle">https://c2info.starsky919.xyz/</label>
     </nav>
-    <main id="updates">
+    <main>
         <h2>更新日志</h2>
+        <p>这里会记录本站所有较为重要的更新和修改内容。</p>
         <h3 class="ul">2021年</h3>
-        <h4>11月3日</h4>
+        <content>
+            <h4>11月16日</h4>
+            <p>
+                1.更新了4.4.0版本的新曲信息及谱面定数；
+                <br />
+                2.调整了以下谱面的定数：
+                <span class="details">
+                    Blow My Mind (tpz Overheat Remix) (CHAOS): 14.8→15.0
+                    <br />
+                    XODUS (CHAOS): 15.4→15.6
+                </span>
+                3.更新了搜索功能，添加了新的搜索选项；
+                <br />
+                4.新增“<a href="../overview">定数总览</a>”页面；
+                <br />
+                5.优化了部分UI细节，优化了数据读取和页面渲染的代码。
+            </p>
+            <p>
+                备注：因为新功能开发需要的时间超出了预期，所以新版本一直推迟到现在才上线，十分抱歉！
+            </p>
+        </content>
+        <content>
+            <h4>11月3日</h4>
+            <p>
+                1.修正Symbol (PTB10 Remix)的曲师名为Silaver（原Silave）。
+            </p>
+        </content>
+        <content>
+            <h4>10月28日</h4>
+            <p>
+                1.更新了4.3.0版本的新曲信息及谱面定数；
+                <br />
+                2.更新了4.2.5和4.2版本新曲的谱面定数；
+                <br />
+                3.调整了以下谱面的定数：
+                <span class="details">
+                    Like Asian Spirit (CHAOS)：14.2→14.4
+                    <br />
+                    Phantom Razor (GLITCH)：14.0→14.2
+                    <br />
+                    tondari-hanetari (CHAOS)：13.2→12.8
+                    <br />
+                    Log In (CHAOS)：12.6→12.4
+                </span>
+                4.优化了部分UI细节和交互体验；
+                <br />
+                5.重写了部分代码，优化了数据结构和页面渲染方式，优化了加载和搜索的性能；
+                <br />
+                6.因技术限制，移除了Graff.J角色的按曲包跳转的功能。
+            </p>
+        </content>
+        <content>
+            <h4>9月20日</h4>
+            <p>
+                1.更新了4.2.5版本的新曲BPM信息。
+            </p>
+        </content>
+        <content>
+            <h4>9月12日</h4>
+            <p>
+                1.更新了4.2.5版本的新曲信息。
+            </p>
+        </content>
+        <content>
+            <h4>9月5日</h4>
+            <p>
+                1.更新了4.2版本的新曲信息；
+                <br />
+                2.优化了部分交互体验。
+            </p>
+        </content>
+        <content>
+            <h4>8月3日</h4>
+            <p>
+                1.调整了以下谱面的定数：
+                <span class="details">
+                    Snow Blossom (CHAOS)：12.2→12.4
+                    <br />
+                    CREDENCE (GLITCH)：12.8→13.0
+                </span>
+            </p>
+        </content>
+        <content>
+            <h4>8月1日</h4>
+            <p>
+                1.更新了4.1版本新曲的谱面定数；
+                <br />
+                2.取消了使用"+"和"-"的定数表示法；
+                <br />
+                3.修正La Prière的BPM为165（原175）。
+            </p>
+        </content>
+        <content>
+            <h4>7月31日</h4>
+            <p>
+                1.更新了4.1版本的新曲信息；
+                <br />
+                2.新增“更新日志”与“<a href="../about">关于本站</a>”页面；
+                <br />
+                3.更换字体为<a href="https://developer.harmonyos.com/cn/docs/design/des-guides/font-0000001157868583" target="_blank">HarmonyOS Sans</a>。
+            </p>
+        </content>
+        <content>
+            <h4>7月23日</h4>
+            <p>
+                1.更新了4.0版本的新曲信息及谱面定数；
+                <br />
+                2.调整了以下谱面的定数：
+                <span class="details">
+                    Rebirth (CHAOS)：12.0→11.6
+                    <br />
+                    Reset (CHAOS)：12.2→12.0
+                    <br />
+                    99 Glooms (CHAOS)：13.8→13.6
+                    <br />
+                    tRinity Saga (CHAOS)：14.6→14.8
+                    <br />
+                    Fading Star (CHAOS)：11.4→11.6
+                    <br />
+                    Beautiful lie (CHAOS)：11.0→11.2
+                    <br />
+                    Jakarta PROGRESSION (CHAOS)：14.6→14.4
+                </span>
+                3.重新设计和制作了网站界面。
+            </p>
+        </content>
+        <content>
+            <h4>5月30日</h4>
+            <p>
+                1.更新了3.8.5和3.9版本新曲的谱面定数；
+                <br />
+                2.调整了以下谱面的定数：
+                <span class="details">
+                    Lights of Muse (CHAOS)：14.0→14.2
+                    <br />
+                    A Portent of the Silver Wheel (CHAOS)：13.4→13.6
+                    <br />
+                    Chocolate Missile (GLITCH)：14.6→14.8
+                </span>
+            </p>
+        </content>
+        <content>
+            <h4>5月13日</h4>
+            <p>
+                1.更新了3.9版本的新曲信息。
+            </p>
+        </content>
+        <content>
+            <h4>5月3日</h4>
+            <p>
+                1.网站上线。
+            </p>
+        </content>
+        <hr />
         <p>
-            1.修正Symbol (PTB10 Remix)的曲师名为Silaver（原Silave）。
-        </p>
-        <h4>10月28日</h4>
-        <p>
-            1.更新了4.3.0版本的新曲信息及谱面定数；
+            Cytus II © 2018 Rayark Inc.
             <br />
-            2.更新了4.2.5和4.2版本新曲的谱面定数；
+            Difficulty Chart © 2021 Team CN:DC
             <br />
-            3.调整了以下谱面的定数：
-            <span class="details">
-                Like Asian Spirit (CHAOS)：14.2→14.4
-                <br />
-                Phantom Razor (GLITCH)：14.0→14.2
-                <br />
-                tondari-hanetari (CHAOS)：13.2→12.8
-                <br />
-                Log In (CHAOS)：12.6→12.4
-            </span>
-            4.优化了部分UI细节和交互体验；
-            <br />
-            5.重写了部分代码，优化了数据结构和页面渲染方式，优化了加载和搜索的性能；
-            <br />
-            6.因技术限制，移除了Graff.J角色的按曲包跳转的功能。
-        </p>
-        <h4>9月20日</h4>
-        <p>
-            1.更新了4.2.5版本的新曲BPM信息。
-        </p>
-        <h4>9月12日</h4>
-        <p>
-            1.更新了4.2.5版本的新曲信息。
-        </p>
-        <h4>9月5日</h4>
-        <p>
-            1.更新了4.2版本的新曲信息；
-            <br />
-            2.优化了部分交互体验。
-        </p>
-        <h4>8月3日</h4>
-        <p>
-            1.调整了以下谱面的定数：
-            <span class="details">
-                Snow Blossom (CHAOS)：12.2→12.4
-                <br />
-                CREDENCE (GLITCH)：12.8→13.0
-            </span>
-        </p>
-        <h4>8月1日</h4>
-        <p>
-            1.更新了4.1版本新曲的谱面定数；
-            <br />
-            2.取消了使用"+"和"-"的定数表示法；
-            <br />
-            3.修正La Prière的BPM为165（原175）。
-        </p>
-        <h4>7月31日</h4>
-        <p>
-            1.更新了4.1版本的新曲信息；
-            <br />
-            2.新增“更新日志”与“<a href="../about">关于本站</a>”页面；
-            <br />
-            3.更换字体为<a href="https://developer.harmonyos.com/cn/docs/design/des-guides/font-0000001157868583" target="_blank">HarmonyOS Sans</a>。
-        </p>
-        <h4>7月23日</h4>
-        <p>
-            1.更新了4.0版本的新曲信息及谱面定数；
-            <br />
-            2.调整了以下谱面的定数：
-            <span class="details">
-                Rebirth (CHAOS)：12.0→11.6
-                <br />
-                Reset (CHAOS)：12.2→12.0
-                <br />
-                99 Glooms (CHAOS)：13.8→13.6
-                <br />
-                tRinity Saga (CHAOS)：14.6→14.8
-                <br />
-                Fading Star (CHAOS)：11.4→11.6
-                <br />
-                Beautiful lie (CHAOS)：11.0→11.2
-                <br />
-                Jakarta PROGRESSION (CHAOS)：14.6→14.4
-            </span>
-            3.重新设计和制作了网站界面。
-        </p>
-        <h4>5月30日</h4>
-        <p>
-            1.更新了3.8.5和3.9版本新曲的谱面定数；
-            <br />
-            2.调整了以下谱面的定数：
-            <span class="details">
-                Lights of Muse (CHAOS)：14.0→14.2
-                <br />
-                A Portent of the Silver Wheel (CHAOS)：13.4→13.6
-                <br />
-                Chocolate Missile (GLITCH)：14.6→14.8
-            </span>
-        </p>
-        <h4>5月13日</h4>
-        <p>
-            1.更新了3.9版本的新曲信息。
-        </p>
-        <h4>5月3日</h4>
-        <p>
-            1.网站上线。
+            C2info © 2021 StarSky919
         </p>
     </main>
     <script src="../assets/js/index.js" type="text/javascript"></script>

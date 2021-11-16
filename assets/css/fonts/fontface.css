@@ -1,4 +1,4 @@
-@import "font-awesome.css";
+@import "https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css";
 @import "HarmonyOS_Sans.css";
 
 @font-face {
@@ -15,4 +15,12 @@
     font-weight: 400;
     font-display: swap;
     src: url(../../fonts/JetBrainsMono-Regular.ttf) format("truetype");
+}
+
+@font-face {
+    font-family: "Electrolize";
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+    src: url(../../fonts/Electrolize.ttf) format("truetype");
 }

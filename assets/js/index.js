@@ -1,17 +1,25 @@
 'use strict'
 
 const $ = function(selector) {
-    let nodes = document.querySelectorAll(selector);
-    return nodes.length > 1 ? nodes : nodes[0];
+    try {
+        const nodes = document.querySelectorAll(selector);
+        return nodes.length > 1 ? nodes : nodes[0];
+    } catch (e) {
+        return null;
+    }
 };
 
 Element.prototype.$ = function(selector) {
-    let nodes = this.querySelectorAll(selector);
-    return nodes.length > 1 ? nodes : nodes[0];
+    try {
+        const nodes = this.querySelectorAll(selector);
+        return nodes.length > 1 ? nodes : nodes[0];
+    } catch (e) {
+        return null;
+    }
 };
 
 Element.prototype.hasClass = function(cls) {
-    let classList = this.classList;
+    const classList = this.classList;
     for (let i in classList) {
         if (classList[i] == cls) {
             return true;
@@ -56,38 +64,46 @@ Element.prototype.css = function(css) {
     this.style.cssText = css;
 }
 
-Element.prototype.bindEvent = function(type, selector, callback) {
-    if (callback == null) {
-        callback = selector;
-        selector = null;
-    }
+Element.prototype.addCSS = function(css) {
+    this.style.cssText += css;
+}
 
+Element.prototype.bindEvent = function(type, callback, option) {
     this.addEventListener(type, function(event) {
-        let target = event.target;
-
-        if (selector && target.matches(selector)) {
-            callback.call(target, event);
-        } else {
-            callback.call(target, event);
-        }
-    });
+        const target = event.target;
+        callback.call(target, event);
+    }, option);
 };
 
-NodeList.prototype.bindEvent = function(type, callback) {
+Element.prototype.removeEvent = function(type, func) {
+    this.removeEventListener(type, func);
+}
+
+NodeList.prototype.bindEvent = function(type, callback, option) {
     for (let [index, elem] of this.entries()) {
-        elem.bindEvent(type, callback);
+        elem.bindEvent(type, callback, option);
     }
 }
 
-window.bindEvent = function(type, callback) {
+NodeList.prototype.removeEvent = function(type, func) {
+    for (let [index, elem] of this.entries()) {
+        elem.removeEventListener(type, func);
+    }
+}
+
+window.bindEvent = function(type, callback, option) {
     this.addEventListener(type, function(event) {
-        let target = event.target;
+        const target = event.target;
         callback.call(target, event);
-    });
+    }, option);
 };
 
+window.removeEvent = function(type, func) {
+    this.removeEventListener(type, func);
+}
+
 Element.prototype.exec = function(callback) {
-    callback.call(this);
+    callback.call(this, 0);
 }
 
 NodeList.prototype.exec = function(callback) {
@@ -96,8 +112,17 @@ NodeList.prototype.exec = function(callback) {
     }
 }
 
-const scrollTop = function() {
-    return self.pageYOffset || (document.documentElement && document.documentElement.scrollTop) || document.body.scrollTop;
+const createElement = function({ tag, id, classList, innerHTML }) {
+    if (!tag) { return; }
+    const element = document.createElement(tag);
+    id ? element.id = id : false;
+    classList ? element.addClass(classList) : false;
+    innerHTML ? element.innerHTML = innerHTML : false;
+    return element;
+}
+
+const createFrag = function() {
+    return document.createDocumentFragment();
 }
 
 const scrollTo = function(top) {
@@ -107,21 +132,29 @@ const scrollTo = function(top) {
     });
 }
 
-const getHeight = function() {
+const getWidth = function() {
+    return document.body.offsetWidth || document.body.scrollWidth;
+}
+
+const getScrollTop = function() {
+    return self.pageYOffset || (document.documentElement && document.documentElement.scrollTop) || document.body.scrollTop;
+}
+
+const getScrollHeight = function() {
     return Math.max(document.body.scrollHeight, document.documentElement.scrollHeight);
 }
 
 const cookie = {
     set: function(name, value, days) {
-        let date = new Date();
+        const date = new Date();
         date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
-        let expires = 'expires=' + date.toGMTString();
+        const expires = 'expires=' + date.toGMTString();
         document.cookie = `${name}=${value};${expires};path=/`;
     },
     get: function(cname) {
-        let name = cname + '=';
-        let decodedCookie = decodeURIComponent(document.cookie);
-        let ca = decodedCookie.split(';');
+        const name = cname + '=';
+        const decodedCookie = decodeURIComponent(document.cookie);
+        const ca = decodedCookie.split(';');
         for (let i = 0; i < ca.length; i++) {
             let c = ca[i];
             while (c.charAt(0) == ' ') {
@@ -139,8 +172,8 @@ const cookie = {
 }
 
 const copy = function(obj) {
-    let selection = window.getSelection();
-    let range = document.createRange();
+    const selection = window.getSelection();
+    const range = document.createRange();
     range.selectNodeContents(obj);
     selection.removeAllRanges();
     selection.addRange(range);
@@ -158,7 +191,7 @@ const isJSON = function(str) {
     }
 
     try {
-        let json = JSON.parse(str);
+        const json = JSON.parse(str);
         if (json && typeof json == 'object') {
             return true;
         } else {
@@ -166,41 +199,6 @@ const isJSON = function(str) {
         }
     } catch (e) {
         return false;
-    }
-}
-
-class Ajax {
-    constructor() {}
-
-    request(config) {
-        return new Promise(function(resolve) {
-            let { method = 'get', url = '', data = {} } = config;
-            let xhr = new XMLHttpRequest();
-            xhr.open(method, url, true);
-            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-            xhr.onreadystatechange = function() {
-                if (xhr.readyState == 4 && xhr.status == 200) {
-                    let response = xhr.responseText;
-                    resolve(isJSON(response) ? JSON.parse(response) : response);
-                }
-            }
-            xhr.send(JSON.stringify(data));
-        });
-    }
-
-    get(url) {
-        return this.request({
-            method: 'get',
-            url: url,
-        });
-    }
-
-    post(url, data) {
-        return this.request({
-            method: 'post',
-            url: url,
-            data: data
-        });
     }
 }
 
@@ -214,8 +212,7 @@ const debounce = function(callback, delay) {
     let timeout;
     return function() {
         clearTimeout(timeout);
-        let that = this,
-            args = arguments;
+        const [that, args] = [this, arguments];
         timeout = setTimeout(function() {
             callback.apply(that, args);
             clearTimeout(timeout);
@@ -228,8 +225,7 @@ const throttle = function(callback, delay) {
     let timer;
     return function() {
         if (timer) { return; }
-        let that = this,
-            args = arguments;
+        const [that, args] = [this, arguments];
         timer = setTimeout(function() {
             clearTimeout(timer);
             timer = null;
@@ -238,35 +234,87 @@ const throttle = function(callback, delay) {
     }
 }
 
-/*────────*/
+class Ajax {
+    constructor() {}
+
+    request({ method = 'get', url = '', data = {}, responseType = 'Text' }) {
+        return new Promise(function(resolve) {
+            const xhr = new XMLHttpRequest();
+            xhr.open(method, url, true);
+            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+            xhr.responseType = responseType;
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState == 4) {
+                    switch (xhr.status) {
+                        case 200:
+                            resolve({ status: xhr.status, response: isJSON(xhr.response) ? JSON.parse(xhr.response) : xhr.response });
+                            break;
+                        default:
+                            resolve({ status: xhr.status, response: null });
+                            break;
+                    }
+                }
+            }
+            xhr.send(JSON.stringify(data));
+        });
+    }
+
+    get(url) {
+        return this.request({
+            method: 'get',
+            url: url
+        }).then(function({ status, response }) {
+            if (status == 200) {
+                return response;
+            }
+        });
+    }
+
+    post(url, data) {
+        return this.request({
+            method: 'post',
+            url: url,
+            data: data
+        }).then(function({ status, response }) {
+            if (status == 200) {
+                return response;
+            }
+        });
+    }
+}
+
+/*----------------*/
+
+$('#noscript') ? $('#noscript').remove() : false;
 
 const ajax = new Ajax();
+window.data = {
+    btMinHeight: 0
+};
 
-let bt = document.createElement('i');
-bt.id = 'bt';
-bt.addClass(['fa', 'fa-arrow-up']);
+//Back-to-Top Button ↓↓↓
+
+const bt = createElement({
+    tag: 'i',
+    id: 'bt',
+    classList: ['fa', 'fa-arrow-up']
+});
 bt.bindEvent('click', function(e) {
     scrollTo(0);
 });
 $('body').appendChild(bt);
 
-window.btOption = {
-    //CC: 0.75,
-    minHeight: 0
-}
-
 const refreshBT = function() {
-    if (getHeight() > window.screen.height) {
+    if (getScrollHeight() > window.screen.height) {
         bt.dataset.enable = true;
     } else {
         bt.dataset.enable = false;
     }
 }
+refreshBT();
 
-window.bindEvent('load', refreshBT);
-
-let observer = new MutationObserver(refreshBT);
-observer.observe($('main'), {
+const btObserver = new MutationObserver(refreshBT);
+btObserver.observe($('main'), {
     attributes: true,
     childList: true,
     subtree: true
@@ -274,13 +322,42 @@ observer.observe($('main'), {
 
 window.bindEvent('scroll', function(e) {
     if (!bt.dataset.enable) { return; }
-    /*let btRight = (scrollTop() - btOption.minHeight) * btOption.CC >= 75 ? 25 : (scrollTop() - btOption.minHeight) * btOption.CC - 50;
-    bt.style.right = `${btRight}px`;*/
-    scrollTop() > window.btOption.minHeight ? bt.addClass('display') : bt.removeClass('display');
+    getScrollTop() > window.data.btMinHeight ? bt.addClass('display') : bt.removeClass('display');
 });
 
+//Back-to-Top Button ↑↑↑
+
+//Navigation Bar ↓↓↓
+
+const contentHeights = new Map();
+const toggleNav = function() {
+    this.checked ? $(`.content[data-id=${this.id}]`).style.height = contentHeights.get(this.id) + 'px' : $(`.content[data-id=${this.id}]`).style.height = 0 + 'px';
+}
+const closeMenu = function() {
+    $('#navcb1').checked = false;
+}
+const refreshNav = function() {
+    $('#items .content').exec(function(i) {
+        contentHeights.set(this.dataset.id, this.offsetHeight);
+        toggleNav.call($(`#${this.dataset.id}`));
+    });
+    $('.titlecb').removeEvent('click', toggleNav);
+    $('.titlecb').bindEvent('click', toggleNav);
+    $('#items .content a').removeEvent('click', closeMenu);
+    $('#items .content a[data-scroll]') ? $('#items .content a[data-scroll]').bindEvent('click', closeMenu) : false;
+    $('#items .content a:not([href])') ? $('#items .content a:not([href])').exec(function(i) {
+        this.href = 'javascript: void(0)';
+    }) : false;
+}
+
+if ($('.titlecb') && $('.content')) {
+    timeout(250).then(function() {
+        refreshNav();
+    });
+}
+
+//Navigation Bar ↑↑↑
+
 $('main').bindEvent('click', function(e) {
-    if ($('#navcb1')) {
-        $('#navcb1').checked = false;
-    }
+    $('#navcb1') ? $('#navcb1').checked = false : false;
 });
