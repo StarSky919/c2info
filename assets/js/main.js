@@ -163,7 +163,7 @@ window.bindEvent('DOMContentLoaded', async function() {
         }
     }
 
-    ajax.get('https://cdn.jsdelivr.net/gh/StarSky919/c2info@latest/songs.json').then(function(response) {
+    ajax.get('/songs.json').then(function(response) {
         if (typeof response != 'object') { return; }
         response = JSON.stringify(response);
         if (!localStorage.getItem('songData') || localStorage.getItem('songData') != response) {
