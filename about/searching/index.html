@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+    <meta name="renderer" content="webkit" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=0" />
+    <link rel="icon" href="/assets/images/logo.ico" type="image/x-icon" />
+    <link rel="shortcut icon" href="/assets/images/logo.ico" type="image/x-icon" />
+    <link rel="stylesheet" href="/assets/css/style.css" type="text/css" />
+    <title>关于搜索功能 | C2info</title>
+</head>
+
+<body>
+    <noscript>
+        <p id="warning">您的浏览器未启用或不支持JavaScript，无法使用本网站。</p>
+    </noscript>
+    <nav>
+        <input type="checkbox" id="navcb1">
+        <label for="navcb1" id="menu">
+            <i class="fa fa-navicon"></i>
+        </label>
+        <div id="items">
+            <div class="item">
+                <label><a href="/" class="title">网站首页</a></label>
+            </div>
+            <div class="item">
+                <label><a href="/overview" class="title">定数总览</a></label>
+            </div>
+            <div class="item">
+                <label><a href="/calculator" class="title">计算器</a></label>
+            </div>
+            <div class="item">
+                <label><a href="/updates" class="title">更新日志</a></label>
+            </div>
+            <div class="item">
+                <label><a href="/about" class="title">关于本站</a></label>
+            </div>
+        </div>
+        <label id="title">C2info</label>
+        <label>
+            <a href="../"><i class="fa fa-reply"></i></a>
+        </label>
+    </nav>
+    <main>
+        <h2>关于搜索功能</h2>
+        <article>
+            <h3 class="ul">选项说明</h3>
+            <p><strong>1.搜曲名/搜曲师/搜……</strong></p>
+            <p>选中这些选项的时候，会以输入框的内容为关键字在对应的项目中搜索并实时展示结果。</p>
+            <p><strong>2.区分大小写</strong></p>
+            <p>开启此选项后会对大小写进行严格区分。例如，搜索曲名“body talk”时将不再会出现歌曲“Body Talk”。</p>
+            <p><strong>3.精确搜索</strong></p>
+            <p>开启此选项后会对输入的内容进行严格匹配，只会展示与其完全相同的结果，同时会禁用范围搜索与通配符。例如，搜索物量“508”时将不再会出现歌曲“Incyde”。</p>
+        </article>
+        <article>
+            <h3 class="ul">范围搜索与通配符</h3>
+            <p><strong>1.范围搜索</strong></p>
+            <p>
+                在选中“搜难度”、“搜物量”和“搜定数”时，可以使用符号“+”、“-”和“~”来进行范围搜索。“+”和“-”只能在输入内容的最末尾使用，而“~”只能用于两个数字之间（不区分大小顺序）。例如，搜索物量“1000+”时会展示所有谱面物量大于1000的歌曲，搜索定数“14.8~15.2”时会展示所有谱面定数在14.8到15.2之间的歌曲（包括头尾）。
+                <br />
+                同时只能使用“+”、“-”和“~”的其中一个。
+            </p>
+            <p><strong>2.通配符</strong></p>
+            <p>
+                在搜索时使用符号“?”或“*”可以进行模糊搜索。“?”表示匹配单个任意字符，“*”表示匹配多个任意字符。例如，搜索曲名“A?b”时会展示歌曲“Alb”，搜索“A*r”会展示歌曲“Accelerator”和“Anchor”。
+                <br />
+                二者可以同时使用。例如，搜索曲名“R?m*”会展示歌曲“REmorse”和“Ramen is God”。
+            </p>
+            <p>范围搜索与通配符不能同时使用。</p>
+        </article>
+    </main>
+    <footer>
+        <p>
+            Cytus II © 2018 Rayark Inc.
+            <br />
+            Difficulty Chart © 2021 Team CN:DC
+            <br />
+            C2info © 2021 StarSky919
+        </p>
+    </footer>
+    <script src="/assets/js/index.js" type="text/javascript"></script>
+</body>
+
+</html>

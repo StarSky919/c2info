@@ -6,22 +6,16 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
     <meta name="renderer" content="webkit" />
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=0" />
-    <link rel="icon" href="../assets/images/logo.ico" type="image/x-icon" />
-    <link rel="shortcut icon" href="../assets/images/logo.ico" type="image/x-icon" />
-    <link rel="stylesheet" href="../assets/css/style.css" type="text/css" />
+    <link rel="icon" href="/assets/images/logo.ico" type="image/x-icon" />
+    <link rel="shortcut icon" href="/assets/images/logo.ico" type="image/x-icon" />
+    <link rel="stylesheet" href="/assets/css/style.css" type="text/css" />
     <title>定数总览 | C2info</title>
 </head>
 
 <body>
-    <style type="text/css" id="noscript">
-        #items .content {
-            display: none;
-        }
-
-        #items input:checked~.content {
-            display: block;
-        }
-    </style>
+    <noscript>
+        <p id="warning">您的浏览器未启用或不支持JavaScript，无法使用本网站。</p>
+    </noscript>
     <nav>
         <input type="checkbox" id="navcb1">
         <label for="navcb1" id="menu">
@@ -29,20 +23,25 @@
         </label>
         <div id="items">
             <div class="item">
-                <label><a href="../" class="title">网站首页</a></label>
+                <label><a href="/" class="title">网站首页</a></label>
             </div>
             <div class="item">
                 <label><a class="title">定数总览</a></label>
             </div>
             <div class="item">
-                <label><a href="../updates" class="title">更新日志</a></label>
+                <label><a href="/calculator" class="title">计算器</a></label>
             </div>
             <div class="item">
-                <label><a href="../about" class="title">关于本站</a></label>
+                <label><a href="/updates" class="title">更新日志</a></label>
+            </div>
+            <div class="item">
+                <label><a href="/about" class="title">关于本站</a></label>
             </div>
         </div>
         <label id="title">C2info</label>
-        <label id="subtitle">https://c2info.starsky919.xyz/</label>
+        <label>
+            <a href="../"><i class="fa fa-reply"></i></a>
+        </label>
     </nav>
     <main>
         <h2>定数总览</h2>
@@ -50,16 +49,14 @@
         <p>图片来自Team CN:DC。</p>
         <hr id="divide" />
         <div id="overview">
-            <noscript>
-                <p id="warning">您的浏览器未启用或不支持JavaScript，无法正常使用本网站。</p>
-            </noscript>
             <div id="loading">
                 <span class="loading md"></span>
                 <p>加载中……</p>
             </div>
             <div id="images"></div>
         </div>
-        <hr />
+    </main>
+    <footer>
         <p>
             Cytus II © 2018 Rayark Inc.
             <br />
@@ -67,9 +64,9 @@
             <br />
             C2info © 2021 StarSky919
         </p>
-    </main>
-    <script src="../assets/js/index.js" type="text/javascript"></script>
-    <script src="../assets/js/overview.js" type="text/javascript"></script>
+    </footer>
+    <script src="/assets/js/index.js" type="text/javascript"></script>
+    <script src="/assets/js/overview.js" type="text/javascript"></script>
 </body>
 
 </html>

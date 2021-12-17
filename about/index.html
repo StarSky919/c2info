@@ -6,22 +6,16 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
     <meta name="renderer" content="webkit" />
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=0" />
-    <link rel="icon" href="../assets/images/logo.ico" type="image/x-icon" />
-    <link rel="shortcut icon" href="../assets/images/logo.ico" type="image/x-icon" />
-    <link rel="stylesheet" href="../assets/css/style.css" type="text/css" />
+    <link rel="icon" href="/assets/images/logo.ico" type="image/x-icon" />
+    <link rel="shortcut icon" href="/assets/images/logo.ico" type="image/x-icon" />
+    <link rel="stylesheet" href="/assets/css/style.css" type="text/css" />
     <title>关于本站 | C2info</title>
 </head>
 
 <body>
-    <style type="text/css" id="noscript">
-        #items .content {
-            display: none;
-        }
-
-        #items input:checked~.content {
-            display: block;
-        }
-    </style>
+    <noscript>
+        <p id="warning">您的浏览器未启用或不支持JavaScript，无法使用本网站。</p>
+    </noscript>
     <nav>
         <input type="checkbox" id="navcb1">
         <label for="navcb1" id="menu">
@@ -29,49 +23,69 @@
         </label>
         <div id="items">
             <div class="item">
-                <label><a href="../" class="title">网站首页</a></label>
+                <label><a href="/" class="title">网站首页</a></label>
             </div>
             <div class="item">
-                <label><a href="../overview" class="title">定数总览</a></label>
+                <label><a href="/overview" class="title">定数总览</a></label>
             </div>
             <div class="item">
-                <label><a href="../updates" class="title">更新日志</a></label>
+                <label><a href="/calculator" class="title">计算器</a></label>
             </div>
             <div class="item">
+                <label><a href="/updates" class="title">更新日志</a></label>
+            </div>
+            <div class="item" id="about">
                 <label><a class="title">关于本站</a></label>
             </div>
         </div>
         <label id="title">C2info</label>
-        <label id="subtitle">https://c2info.starsky919.xyz/</label>
+        <label>
+            <a href="../"><i class="fa fa-reply"></i></a>
+        </label>
     </nav>
     <main>
         <h2>关于本站</h2>
-        <h3 class="ul">开发者的话</h3>
-        <content>
-            <p>　　你好，我是StarSky919，C2info的开发者。</p>
-            <p>　　做这个网站的初心其实很简单，就是为了能让所有Cytus II玩家能够简单快速地查找游戏的歌曲和谱面信息。</p>
-            <p>　　今年5月初的时候有的想法，当天立即就开始做了，从界面设计，代码编写到更新维护都是由我一人完成。而歌曲数据因为实在太多，除了纯手写以外也没有好的办法，就找了朋友帮忙（在此特别感谢<a href="https://ohayo.cyoragex.top/" target="_blank">Cyorage</a>），分工合作完成了数据整理。</p>
-            <p>　　从5月3日正式上线到现在也有半年多了。虽然不知道用这个网站的人多不多，但是至少能帮助到一点有需要的人。未来我也会持续更新，直到Cytus II真正结束的那一天。在这半年里我也从开发过程中学到了不少东西，技术也一直在进步，网站也会越来越好用，比如这次搜索系统的更新。</p>
-            <p>　　总之，还是要感谢一直在使用本站的大家，也包括屏幕前的你。希望各位音游人都能够快速飞升，早日制霸（</p>
-            <p>　　StarSky919</p>
-            <p>　　2021年11月16日</p>
-        </content>
-        <h3 class="ul">网站信息</h3>
-        <content>
-            <p>本站托管于Github Pages，使用了自定义域名（原网址：<a href="https://starsky919.github.io/c2info/" target="_blank"></a>）。</p>
+        <article id="developer-message" class="indent">
+            <h3 class="ul">开发者的话</h3>
+            <p>你好，我是StarSky919，C2info的开发者。</p>
+            <p>做这个网站的初心其实很简单，就是为了能让所有Cytus II玩家能够简单快速地查找游戏的歌曲和谱面信息。</p>
+            <p>今年5月初的时候有的想法，当天立即就开始做了，从界面设计，代码编写到更新维护都是由我一人完成。而歌曲数据因为实在太多，除了纯手写以外也没有好的办法，就找了朋友帮忙（在此特别感谢<a href="https://ohayo.cyoragex.top/" target="_blank">Cyorage</a>），分工合作完成了数据整理。</p>
+            <p>从5月3日正式上线到现在也有半年多了。虽然不知道用这个网站的人多不多，但是至少能帮助到一点有需要的人。未来我也会持续更新，直到Cytus II真正结束的那一天。在这半年里我也从开发过程中学到了不少东西，技术也一直在进步，网站也会越来越好用，比如这次搜索系统的更新。</p>
+            <p>总之，还是要感谢一直在使用本站的大家，也包括屏幕前的你。希望各位音游人都能够快速飞升，早日制霸（</p>
+            <p>StarSky919</p>
+            <p>2021年11月16日</p>
+        </article>
+        <article id="manual">
+            <h3 class="ul">使用说明</h3>
+            <p>1.点击左上角的按钮“<i class="fa fa-navicon"></i>”可以打开侧边栏，在侧边栏中可以跳转到其他页面或是当前页面中的其他内容；</p>
+            <p>2.在首页的侧边栏中，可以点击角色列表下的角色来快速跳转到相应位置；</p>
+            <p>3.在首页点击右上角的图标“<i class="fa fa-search"></i>”可以打开搜索栏，点击输入框会显示各种选项（详见“<a href="searching/">关于搜索功能</a>”）；</p>
+            <p>4.谱面难度右侧的“vx.x.x”为该谱面加入游戏时的版本。</p>
+        </article>
+        <article id="faq">
+            <h3 class="ul">常见问题</h3>
+            <p><strong>Q：为什么有时候网站进不去/加载速度慢？</strong></p>
+            <p>A：C2info的所有资源都托管在Github Pages，Github在中国大陆没有服务器，因此国内的访问速度有可能会慢一些。不同地区的不同运营商也可能会对Github进行一定程度的屏蔽。如果你使用移动数据访问不了本站，有可能就是当地运营商屏蔽了Github Pages，俗称“被墙了”。</p>
+            <p><strong>Q：为什么有时候新版本的歌曲更新不及时？</strong></p>
+            <p>A：因为新版本更新后，歌曲数据的收集都是手动进行，等待难度表制作组发布新谱面的定数也需要时间，所以有两三天到一周的延迟都很正常。</p>
+        </article>
+        <article id="information">
+            <h3 class="ul">网站信息</h3>
+            <p>本站托管于Github Pages，使用了自定义域名。<br />项目地址：<a href="https://github.com/StarSky919/c2info" target="_blank">StarSky919/c2info</a>。</p>
             <p>使用的字体：<a href="https://developer.harmonyos.com/cn/docs/design/des-guides/font-0000001157868583" target="_blank">HarmonyOS Sans</a>，<a href="http://www.fontawesome.com.cn/" target="_blank">Font Awesome v4.7</a>。</p>
             <p>谱面定数来自Team CN:DC（CODE NAME: DIFFICULTY CHART）。</p>
             <p>本站使用Local Storage和Cookies来存储一些非必要的数据（用于改善用户体验）。</p>
-        </content>
-        <h3 class="ul">联系方式</h3>
-        <content>
+        </article>
+        <article id="contacts">
+            <h3 class="ul">联系方式</h3>
             <p>QQ：<a href="http://wpa.qq.com/msgrd?v=3&uin=2197972830&site=qq&menu=yes" target="_blank">starsky919✩</a>（2197972830）</p>
             <p>QQ群：<a href="https://jq.qq.com/?_wv=1027&k=3MbyZNe7" target="_blank">StarSky919の小黑屋</a>（788298333）</p>
             <p>B站：<a href="https://space.bilibili.com/303191468" target="_blank">StarSky919</a>（303191468）</p>
             <p>邮箱：<a href="mailto:ss919p@gmail.com" target="_blank">ss919p@gmail.com</a></p>
             <p>若发现任何错误或想要提出建议都可以进行反馈，联系请注明来意～</p>
-        </content>
-        <hr />
+        </article>
+    </main>
+    <footer>
         <p>
             Cytus II © 2018 Rayark Inc.
             <br />
@@ -79,8 +93,9 @@
             <br />
             C2info © 2021 StarSky919
         </p>
-    </main>
-    <script src="../assets/js/index.js" type="text/javascript"></script>
+    </footer>
+    <script src="/assets/js/index.js" type="text/javascript"></script>
+    <script src="/assets/js/about.js" type="text/javascript"></script>
 </body>
 
 </html>

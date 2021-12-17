@@ -9,19 +9,160 @@
     <link rel="icon" href="assets/images/logo.ico" type="image/x-icon" />
     <link rel="shortcut icon" href="assets/images/logo.ico" type="image/x-icon" />
     <link rel="stylesheet" href="assets/css/style.css" type="text/css" />
+    <style type="text/css">
+        #initializing {
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--background-color);
+            z-index: 999;
+        }
+
+        #search {
+            cursor: pointer;
+        }
+
+        #search_box {
+            display: flex;
+            flex-direction: column;
+            position: absolute;
+            top: 50px;
+            right: -100%;
+            width: 100%;
+            height: 50px;
+            margin: auto;
+            background: var(--background-color);
+            border: 1px solid var(--border-color);
+            border-top: none;
+            transition: right 0.35s ease;
+        }
+
+        #navcb2:checked~#search_box {
+            right: 0;
+        }
+
+        #search_box>* {
+            padding: 0 var(--horizontal-padding);
+        }
+
+        #input {
+            position: relative;
+            margin: auto 0;
+        }
+
+        #keyword {
+            margin: 0;
+            padding-right: 32px;
+        }
+
+        #clear {
+            display: none;
+            position: absolute;
+            top: 0;
+            right: var(--horizontal-padding);
+            width: 32px;
+            height: 32px;
+            padding: 8px;
+            cursor: pointer;
+        }
+
+        #keyword:not(:placeholder-shown)~#clear {
+            display: block;
+        }
+
+        #filters {
+            display: flex;
+            flex-direction: column;
+            position: absolute;
+            top: 100%;
+            right: -1px;
+            width: calc(100% + 2px);
+            background: var(--background-color);
+            border: 1px solid var(--border-color);
+            transform: scaleY(0);
+            transform-origin: 50% 0 0;
+            transition: transform 0.25s ease;
+        }
+
+        #filters.show {
+            transform: scaleY(1);
+        }
+
+        #filters .row {
+            display: flex;
+            justify-content: space-between;
+            margin: 0.65rem 0;
+        }
+
+        #filters .row>label:not(:last-of-type) {
+            flex-basis: 4.5em;
+        }
+
+        #filters .row>label:last-of-type {
+            flex-basis: 6.5em;
+        }
+
+        #info,
+        #divide_1,
+        #divide_2,
+        #result,
+        #egg_1,
+        #egg_2 {
+            display: none;
+        }
+
+        #songs {
+            overflow: hidden;
+        }
+
+        #songs .list {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        #songs .list>* {
+            width: 100%;
+        }
+
+        #songs .list .song {
+            overflow: hidden;
+            width: 100%;
+            margin: 0.65rem 0;
+            padding: 8px 16px;
+            background: #F8F8F8;
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius);
+        }
+
+        #songs .level {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        #songs .level .difficulty {
+            display: inline-block;
+            text-align: left;
+        }
+
+        #songs .level .version {
+            display: inline-block;
+            text-align: right;
+        }
+    </style>
     <title>Cytus II谱面定数表 | C2info</title>
 </head>
 
 <body>
-    <style type="text/css" id="noscript">
-        #items .content {
-            display: none;
-        }
-    
-        #items input:checked~.content {
-            display: block;
-        }
-    </style>
+    <noscript>
+        <p id="warning">您的浏览器未启用或不支持JavaScript，无法使用本网站。</p>
+    </noscript>
     <div id="initializing">
         <span class="loading md"></span>
         <p>正在加载数据，请等待页面自动刷新</p>
@@ -36,6 +177,9 @@
                 <label><a href="/overview" class="title">定数总览</a></label>
             </div>
             <div class="item">
+                <label><a href="/calculator" class="title">计算器</a></label>
+            </div>
+            <div class="item">
                 <label><a href="/updates" class="title">更新日志</a></label>
             </div>
             <div class="item">
@@ -43,12 +187,11 @@
             </div>
         </div>
         <label id="title">C2info</label>
-        <label id="subtitle">https://c2info.starsky919.xyz/</label>
         <input type="checkbox" id="navcb2">
         <label for="navcb2" id="search"><i class="fa fa-search"></i></label>
         <div id="search_box">
             <div id="input">
-                <input type="text" id="keyword" placeholder="搜索" />
+                <input type="text" class="input" id="keyword" placeholder="搜索" />
                 <div id="clear" class="fa fa-close"></div>
             </div>
             <div id="filters">
@@ -119,19 +262,11 @@
         <h2>Cytus II谱面定数表</h2>
         <p id="url">https://c2info.starsky919.xyz/</p>
         <p>备用网址：https://starsky919.github.io/c2info（若无法访问请使用此网址）。</p>
-        <p>
-            4.4.0版本所有曲目信息与谱面定数已更新，
-            <br />
-            详情请查看<a href="/updates">更新日志</a>。
-        </p>
-        <p><a href="/overview">定数总览</a>页面已上线！</p>
-        <p>欢迎填写<a href="https://wj.qq.com/s2/9320606/7354/" target="_blank">调查问卷</a>来帮助我们改进网站。</p>
+        <p>4.4.5版本的新曲信息已更新（谱面定数暂未确定）。详见<a href="/updates">更新日志</a>。</p>
+        <p>点击左上角的按钮“<i class="fa fa-navicon"></i>”可以打开侧边栏，点击右上角的按钮“<i class="fa fa-search"></i>”可以使用搜索功能。</p>
         <p id="info"></p>
         <hr id="divide_1" />
         <div id="container">
-            <noscript>
-                <p id="warning">您的浏览器未启用或不支持JavaScript，无法正常使用本网站。</p>
-            </noscript>
             <div id="loading">
                 <span class="loading md"></span>
                 <p>加载中……</p>
@@ -150,6 +285,8 @@
             </div>
         </div>
         <hr id="divide_2" />
+    </main>
+    <footer>
         <p>
             Cytus II © 2018 Rayark Inc.
             <br />
@@ -157,7 +294,19 @@
             <br />
             C2info © 2021 StarSky919
         </p>
-    </main>
+    </footer>
+    <template id="song_template">
+        <div class="song">
+            <h3 class="name"><span></span></h3>
+            <p class="artist">曲师：<span></span></p>
+            <p class="bpm">BPM：<span></span></p>
+        </div>
+    </template>
+    <template id="level_template">
+        <p class="level"><span class="difficulty"></span><span class="version"><small></small></span></p>
+        <p class="note_count">物量：<span></span></p>
+        <p class="constant">定数：<span></span></p>
+    </template>
     <script src="assets/js/index.js" type="text/javascript"></script>
     <script src="assets/js/main.js" type="text/javascript"></script>
 </body>

@@ -1,5 +1,5 @@
 {
-    "version": "4.4.0",
+    "version": "4.4.5",
     "characters": {
         "paff_1": {
             "name": "PAFF",
@@ -3459,6 +3459,121 @@
                         "difficulty": 13,
                         "note_count": 1069,
                         "constant": 12.4
+                    }
+                }
+            ]
+        },
+        "amiya": {
+            "name": "Amiya",
+            "songs": [
+                {
+                    "title": "Boiling Blood",
+                    "artist": "Jason Walsh",
+                    "bpm": "163",
+                    "chaos": {
+                        "version": "4.4.5",
+                        "difficulty": 14,
+                        "note_count": 1029,
+                        "constant": 0
+                    }
+                },
+                {
+                    "title": "Operation Pyrite",
+                    "artist": "Jason Walsh",
+                    "bpm": "132",
+                    "chaos": {
+                        "version": "4.4.5",
+                        "difficulty": 13,
+                        "note_count": 1000,
+                        "constant": 0
+                    }
+                },
+                {
+                    "title": "Keep the torch",
+                    "artist": "Obadiah Brown-Beach",
+                    "bpm": "125",
+                    "chaos": {
+                        "version": "4.4.5",
+                        "difficulty": 12,
+                        "note_count": 662,
+                        "constant": 0
+                    }
+                },
+                {
+                    "title": "ALIVE",
+                    "artist": "Obadiah Brown-Beach",
+                    "bpm": "125",
+                    "chaos": {
+                        "version": "4.4.5",
+                        "difficulty": 14,
+                        "note_count": 938,
+                        "constant": 0
+                    }
+                },
+                {
+                    "title": "Operation Blade",
+                    "artist": "Obadiah Brown-Beach",
+                    "bpm": "125",
+                    "chaos": {
+                        "version": "4.4.5",
+                        "difficulty": 12,
+                        "note_count": 977,
+                        "constant": 0
+                    }
+                },
+                {
+                    "title": "Evolutionary Mechanization",
+                    "artist": "Obadiah Brown-Beach",
+                    "bpm": "120",
+                    "chaos": {
+                        "version": "4.4.5",
+                        "difficulty": 13,
+                        "note_count": 828,
+                        "constant": 0
+                    }
+                },
+                {
+                    "title": "El Brillo Solatario",
+                    "artist": "Steven Grove",
+                    "bpm": "200",
+                    "chaos": {
+                        "version": "4.4.5",
+                        "difficulty": 13,
+                        "note_count": 1114,
+                        "constant": 0
+                    }
+                },
+                {
+                    "title": "ManiFesto",
+                    "artist": "David Wesbom",
+                    "bpm": "155",
+                    "chaos": {
+                        "version": "4.4.5",
+                        "difficulty": 12,
+                        "note_count": 851,
+                        "constant": 0
+                    }
+                },
+                {
+                    "title": "Speed of Light",
+                    "artist": "DJ Okawari",
+                    "bpm": "112",
+                    "chaos": {
+                        "version": "4.4.5",
+                        "difficulty": 11,
+                        "note_count": 701,
+                        "constant": 0
+                    }
+                },
+                {
+                    "title": "Renegade",
+                    "artist": "Jason Walsh",
+                    "bpm": "154",
+                    "chaos": {
+                        "version": "4.4.5",
+                        "difficulty": 12,
+                        "note_count": 1036,
+                        "constant": 0
                     }
                 }
             ]

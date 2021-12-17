@@ -1,5 +1,3 @@
-'use strict'
-
 const $ = function(selector) {
     try {
         const nodes = document.querySelectorAll(selector);
@@ -9,7 +7,7 @@ const $ = function(selector) {
     }
 };
 
-Element.prototype.$ = function(selector) {
+Node.prototype.$ = function(selector) {
     try {
         const nodes = this.querySelectorAll(selector);
         return nodes.length > 1 ? nodes : nodes[0];
@@ -18,7 +16,7 @@ Element.prototype.$ = function(selector) {
     }
 };
 
-Element.prototype.hasClass = function(cls) {
+Node.prototype.hasClass = function(cls) {
     const classList = this.classList;
     for (let i in classList) {
         if (classList[i] == cls) {
@@ -28,67 +26,109 @@ Element.prototype.hasClass = function(cls) {
     return false;
 }
 
-Element.prototype.addClass = function(cls) {
+Node.prototype.addClass = function(cls) {
     if (Array.isArray(cls)) {
         for (let i in cls) {
-            if (this.hasClass(cls[i])) { return; }
+            if (this.hasClass(cls[i])) { return this; }
             this.classList.add(cls[i]);
         }
-        return;
+        return this;
     }
     this.classList.add(cls);
+    return this;
 }
 
-Element.prototype.removeClass = function(cls) {
+Node.prototype.removeClass = function(cls) {
     if (Array.isArray(cls)) {
         for (let i in cls) {
-            if (!this.hasClass(cls[i])) { return; }
+            if (!this.hasClass(cls[i])) { return this; }
             this.classList.remove(cls[i]);
         }
-        return;
+        return this;
     }
     this.classList.remove(cls);
+    return this;
 }
 
-Element.prototype.toggleClass = function(cls) {
+Node.prototype.toggleClass = function(cls) {
     if (Array.isArray(cls)) {
         for (let i in cls) {
             this.classList.toggle(cls[i]);
         }
-        return;
+        return this;
     }
     this.classList.toggle(cls);
+    return this;
 }
 
-Element.prototype.css = function(css) {
+Node.prototype.css = function(css) {
     this.style.cssText = css;
+    return this;
 }
 
-Element.prototype.addCSS = function(css) {
+Node.prototype.addCSS = function(css) {
     this.style.cssText += css;
+    return this;
 }
 
-Element.prototype.bindEvent = function(type, callback, option) {
+Node.prototype.getAttr = function(name) {
+    this.getAttribute(name);
+    return this;
+}
+
+Node.prototype.setAttr = function(name, value) {
+    this.setAttribute(name, value);
+    return this;
+}
+
+Node.prototype.removeAttr = function(name, value) {
+    this.removeAttribute(name);
+    return this;
+}
+
+Node.prototype.setHtml = function(html) {
+    this.innerHTML = html;
+    return this;
+}
+
+Node.prototype.getHtml = function() {
+    return this.innerHTML;
+}
+
+Node.prototype.setText = function(text) {
+    this.innerText = text;
+    return this;
+}
+
+Node.prototype.getText = function() {
+    return this.innerText;
+}
+
+Node.prototype.bindEvent = function(type, callback, option) {
     this.addEventListener(type, function(event) {
         const target = event.target;
         callback.call(target, event);
     }, option);
+    return this;
 };
 
-Element.prototype.removeEvent = function(type, func) {
+Node.prototype.removeEvent = function(type, func) {
     this.removeEventListener(type, func);
+    return this;
 }
 
 NodeList.prototype.bindEvent = function(type, callback, option) {
     for (let [index, elem] of this.entries()) {
         elem.bindEvent(type, callback, option);
     }
+    return this;
 }
 
 NodeList.prototype.removeEvent = function(type, func) {
     for (let [index, elem] of this.entries()) {
         elem.removeEventListener(type, func);
     }
+    return this;
 }
 
 window.bindEvent = function(type, callback, option) {
@@ -96,33 +136,45 @@ window.bindEvent = function(type, callback, option) {
         const target = event.target;
         callback.call(target, event);
     }, option);
+    return this;
 };
 
 window.removeEvent = function(type, func) {
     this.removeEventListener(type, func);
+    return this;
 }
 
-Element.prototype.exec = function(callback) {
+Node.prototype.exec = function(callback) {
     callback.call(this, 0);
+    return this;
 }
 
 NodeList.prototype.exec = function(callback) {
     for (let [index, elem] of this.entries()) {
         callback.call(elem, index);
     }
+    return this;
 }
 
-const createElement = function({ tag, id, classList, innerHTML }) {
+const createElement = function({ tag, id, classList, css, innerHTML, innerText }) {
     if (!tag) { return; }
     const element = document.createElement(tag);
     id ? element.id = id : false;
     classList ? element.addClass(classList) : false;
-    innerHTML ? element.innerHTML = innerHTML : false;
+    css ? element.css(css) : false;
+    innerHTML ? element.setHtml(innerHTML) : false;
+    innerText ? element.setText(innerText) : false;
     return element;
 }
 
 const createFrag = function() {
     return document.createDocumentFragment();
+}
+
+const domToString = function(obj) {
+    const element = createElement({ tag: 'div' });
+    element.appendChild(obj);
+    return element.innerHTML;
 }
 
 const scrollTo = function(top) {
@@ -137,7 +189,7 @@ const getWidth = function() {
 }
 
 const getScrollTop = function() {
-    return self.pageYOffset || (document.documentElement && document.documentElement.scrollTop) || document.body.scrollTop;
+    return document.body.scrollTop || document.documentElement.scrollTop || window.pageYOffset;
 }
 
 const getScrollHeight = function() {
@@ -234,6 +286,20 @@ const throttle = function(callback, delay) {
     }
 }
 
+const toast = function(msg, sec = 2.5, callback) {
+    const toast = createElement({
+        tag: 'div',
+        classList: 'toast',
+        css: `animation: fade-in 0.25s, fade-out 0.25s ${sec - 0.25}s;`,
+        innerText: msg
+    });
+    $('body').appendChild(toast);
+    timeout(sec * 1000).then(function() {
+        $('body').removeChild(toast);
+        callback.call(null);
+    });
+}
+
 class Ajax {
     constructor() {}
 
@@ -285,10 +351,8 @@ class Ajax {
 
 /*----------------*/
 
-$('#noscript') ? $('#noscript').remove() : false;
-
-const ajax = new Ajax();
-window.data = {
+window.ajax = new Ajax();
+let globalData = {
     btMinHeight: 0
 };
 
@@ -298,31 +362,13 @@ const bt = createElement({
     tag: 'i',
     id: 'bt',
     classList: ['fa', 'fa-arrow-up']
-});
-bt.bindEvent('click', function(e) {
+}).bindEvent('click', function(e) {
     scrollTo(0);
 });
 $('body').appendChild(bt);
 
-const refreshBT = function() {
-    if (getScrollHeight() > window.screen.height) {
-        bt.dataset.enable = true;
-    } else {
-        bt.dataset.enable = false;
-    }
-}
-refreshBT();
-
-const btObserver = new MutationObserver(refreshBT);
-btObserver.observe($('main'), {
-    attributes: true,
-    childList: true,
-    subtree: true
-});
-
 window.bindEvent('scroll', function(e) {
-    if (!bt.dataset.enable) { return; }
-    getScrollTop() > window.data.btMinHeight ? bt.addClass('display') : bt.removeClass('display');
+    getScrollTop() > globalData.btMinHeight ? bt.addClass('display') : bt.removeClass('display');
 });
 
 //Back-to-Top Button ↑↑↑
@@ -341,10 +387,12 @@ const refreshNav = function() {
         contentHeights.set(this.dataset.id, this.offsetHeight);
         toggleNav.call($(`#${this.dataset.id}`));
     });
-    $('.titlecb').removeEvent('click', toggleNav);
-    $('.titlecb').bindEvent('click', toggleNav);
+    $('.titlecb').removeEvent('click', toggleNav).bindEvent('click', toggleNav);
     $('#items .content a').removeEvent('click', closeMenu);
-    $('#items .content a[data-scroll]') ? $('#items .content a[data-scroll]').bindEvent('click', closeMenu) : false;
+    $('#items .content a[data-scroll]') ? $('#items .content a[data-scroll]').bindEvent('click', function(e) {
+        closeMenu();
+        scrollTo($(`#${this.dataset.scroll}`).offsetTop - 50);
+    }) : false;
     $('#items .content a:not([href])') ? $('#items .content a:not([href])').exec(function(i) {
         this.href = 'javascript: void(0)';
     }) : false;
@@ -360,4 +408,14 @@ if ($('.titlecb') && $('.content')) {
 
 $('main').bindEvent('click', function(e) {
     $('#navcb1') ? $('#navcb1').checked = false : false;
+});
+
+$('main a[href],#items a[href]').exec(function(e) {
+    if (!this.href.includes(document.domain)) {
+        this.innerHTML += domToString(createElement({
+            tag: 'i',
+            classList: ['fa', 'fa-external-link'],
+            css: 'font-size: 0.85em; margin-left: 0.1rem; vertical-align: -5%;'
+        }));
+    }
 });

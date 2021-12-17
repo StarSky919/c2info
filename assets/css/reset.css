@@ -1,19 +1,24 @@
 * {
     margin: 0;
     padding: 0;
-    -webkit-appearance: none;
-    appearance: none;
+    border: none;
+    outline: none;
 }
 
 *,
 *::before,
 *::after {
     -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
     box-sizing: border-box;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    text-indent: 0;
 }
 
 :root {
-    --main-color: #9898FF;
+    --theme-color: #9898FF;
     --text-color: #252525;
     --placeholder-color: #A0A0A0;
     --border-color: #E0E0E0;
@@ -78,38 +83,43 @@ p {
     margin: 0.65rem 0;
 }
 
-article p {
+article {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.33em;
+}
+
+article.indent p {
     text-indent: 2em;
 }
 
 a {
     display: inline;
     color: inherit;
-    -webkit-transition: color 0.2s;
     transition: color 0.2s;
 }
 
 a:link,
 a:visited,
 a:hover {
-    color: initial;
+    color: var(--text-color);
 }
 
 a:active {
-    color: var(--main-color);
+    color: var(--theme-color);
 }
 
 a[href^="http"]:empty::before {
-    content: attr(href);
+    content: "查看链接";
 }
 
 @media screen and (min-width: 768px) {
     a:active {
-        color: initial;
+        color: var(--text-color);
     }
 
     a:hover {
-        color: var(--main-color);
+        color: var(--theme-color);
     }
 }
 
@@ -131,6 +141,10 @@ strong {
     color: var(--placeholder-color);
 }
 
+::-moz-placeholder {
+    color: var(--placeholder-color);
+}
+
 hr {
     height: 2px;
     margin: 0.65rem 0;
@@ -149,7 +163,16 @@ code {
     font-family: "JetBrainsMono", monospace;
 }
 
-input[type=radio],
-input[type=checkbox] {
+input[type="radio"],
+input[type="checkbox"] {
     display: none;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    margin: 0;
+}
+
+input {
+    -moz-appearance: textfield;
 }

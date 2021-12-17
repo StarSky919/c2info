@@ -1,20 +1,54 @@
-'use strict';
-
-$('#search').style.display = 'block';
 $('#loading').style.display = 'block';
 $('#divide_1, #divide_2').exec(function(i) {
     this.style.display = 'block';
 });
 
-cookie.del('song_name');
-cookie.del('artist');
-cookie.del('levels');
-
 /*----------------*/
 
-let songsInfo;
+const isMatch = function(s, p) {
+    let m = p.length,
+        n = s.length;
+    let dp = Array.from(new Array(m + 1), () => new Array(n + 1).fill(false));
+    dp[0][0] = true;
+    for (let i = 1; i <= m; i++) {
+        if (p[i - 1] == '*') {
+            dp[i][0] = dp[i - 1][0];
+        }
+        for (let j = 1; j <= n; j++) {
+            if (s[j - 1] == p[i - 1] || p[i - 1] == '?') {
+                dp[i][j] = dp[i - 1][j - 1];
+            } else if (p[i - 1] == '*') {
+                dp[i][j] = dp[i][j - 1] || dp[i - 1][j];
+            }
+        }
+    }
+    return dp[m][n];
+};
 
-const search = function(e) {
+const fuzzyExp = function(filter, input, e) {
+    const exp1 = input.includes('?') || input.includes('*');
+    const exp2 = input.endsWith('+');
+    const exp3 = input.endsWith('-');
+    const exp4 = input.includes('~');
+    if (exp1) {
+        return isMatch(e, input);
+    } else if ((exp2 || exp3) && ['difficulty', 'note_count', 'constant'].includes(filter)) {
+        if (exp2) {
+            return e >= Number(input.substring(0, input.length - 1));
+        } else if (exp3) {
+            return e <= Number(input.substring(0, input.length - 1));
+        }
+    } else if (exp4) {
+        const [e1, e2] = input.split('~');
+        return e >= Math.min(e1, e2) && e <= Math.max(e1, e2);
+    } else {
+        return e.indexOf(input) > -1;
+    }
+}
+
+let songsInfo = {};
+
+const search = throttle(function(e) {
     const case_sensitive = $('#case_sensitive').checked;
     const input = case_sensitive ? $('#keyword').value : $('#keyword').value.toLowerCase();
 
@@ -22,49 +56,50 @@ const search = function(e) {
         this.style.display = input ? 'block' : 'none';
     });
     $('.list h2').exec(function(i) {
-        this.style.display = input ? 'none' : 'block';
+        input ? this.addClass('hidden') : this.removeClass('hidden');
     });
     $('#egg_1').style.display = input == '114514' ? 'block' : 'none';
     $('#egg_2').style.display = input == (case_sensitive ? 'Graff.J' : 'graff.j') ? 'block' : 'none';
 
-    if (!input && $('.song.hidden')) {
-        $('.song.hidden').exec(function(i) {
-            this.removeClass('hidden');
-        });
+    if (!input) {
+        if ($('.song.hidden')) {
+            $('.song.hidden').exec(function(i) {
+                this.removeClass('hidden');
+            });
+        }
         return;
     }
 
-    let data = [];
     const filter = $('#filters input[type=radio]:checked').id;
-    const searchItems = songsInfo.get(filter);
-    let counter = 0;
+    const searchItems = songsInfo[filter];
+    let sCounter = 0;
+    let cCounter = 0;
 
     $('.song').exec(function(i) {
-        const that = this;
-        data = searchItems[i];
-        data.forEach(function(e) {
+        let isMatch = false;
+        searchItems[i].forEach(function(e) {
             !case_sensitive ? e = e.toLowerCase() : false;
-            const [exact, fuzzy] = [input == e, e.indexOf(input) > -1];
-            if ($('#exact_match').checked ? exact : fuzzy) {
-                that.removeClass('hidden');
-                counter++;
-            } else {
-                that.addClass('hidden');
+            if ($('#exact_match').checked ? input === e : fuzzyExp(filter, input, e)) {
+                isMatch = true;
+                cCounter++;
             }
         });
+        if (isMatch) {
+            this.removeClass('hidden');
+            sCounter++;
+        } else {
+            this.addClass('hidden');
+        }
     });
+    $('#result').setText(sCounter + cCounter == 0 ? '搜索无结果，请检查关键词是否正确。' : `搜索到${sCounter}首曲目${['difficulty', 'note_count', 'constant'].includes(filter) ? `，${cCounter}个谱面：` : `：`}`);
+}, 200);
 
-    $('#result').innerHTML = counter == 0 ? '搜索无结果。' : `搜索到 ${counter} 首曲目：`;
-}
-
-const throttleSearch = throttle(search, 200);
-
-$('#keyword').bindEvent('input', throttleSearch);
+$('#keyword').bindEvent('input', search);
 
 $('#clear').bindEvent('click', function(e) {
     $('#keyword').value = '';
     $('#keyword').focus();
-    throttleSearch();
+    search();
 });
 
 $('#search, #search_box').bindEvent('click', function(e) {
@@ -73,17 +108,13 @@ $('#search, #search_box').bindEvent('click', function(e) {
 
 $('#search_box').bindEvent('mouseover', function(e) {
     $('#filters').addClass('show');
-});
-
-$('#search_box').bindEvent('mouseout', function(e) {
+}).bindEvent('mouseout', function(e) {
     $('#filters').removeClass('show');
-});
-
-$('#search_box').bindEvent('click', function(e) {
+}).bindEvent('click', function(e) {
     !$('#keyword').value ? $('#keyword').focus() : false;
 });
 
-if (cookie.get('filter')) {
+if (['name', 'artist', 'bpm', 'difficulty', 'note_count', 'constant'].includes(cookie.get('filter'))) {
     $(`#${cookie.get('filter')}`).click();
 } else {
     cookie.set('filter', 'name', 365);
@@ -92,7 +123,7 @@ if (cookie.get('filter')) {
 
 $('#filters input[type=radio]').bindEvent('click', function(e) {
     cookie.set('filter', this.id, 365);
-    throttleSearch();
+    search();
 });
 
 $('#exact_match').bindEvent('click', function(e) {
@@ -106,20 +137,24 @@ $('#filters input[type=checkbox]').exec(function(i) {
     if (cookie.get(this.id) == 'on' && this.checked == false) {
         this.click();
     }
-});
-
-$('#filters input[type=checkbox]').bindEvent('click', function() {
+}).bindEvent('click', function() {
     cookie.set(this.id, this.checked ? 'on' : 'off', 365);
-    throttleSearch();
+    search();
 });
 
 $('main, #menu, #items').bindEvent('click', function(e) {
     !$('#keyword').value ? $('#navcb2').checked = false : false;
 });
 
+$('#search').bindEvent('click', function(e) {
+    $('#navcb2').checked ? $('#search_box').addClass('show') : $('#search_box').removeClass('show');
+});
+
 /*----------------*/
 
-(async function() {
+window.bindEvent('DOMContentLoaded', async function() {
+    await timeout(0);
+
     if (localStorage.getItem('songData')) {
         try {
             JSON.parse(localStorage.getItem('songData'));
@@ -128,17 +163,16 @@ $('main, #menu, #items').bindEvent('click', function(e) {
         }
     }
 
-    const dataResponse = JSON.stringify(await ajax.get('https://cdn.jsdelivr.net/gh/StarSky919/c2info@latest/songs.json'));
-    //const dataResponse = JSON.stringify(await ajax.get('songs.json'));
-
-    if (!localStorage.getItem('songData') || localStorage.getItem('songData') != dataResponse) {
-        $('#initializing').style.display = 'flex';
-        localStorage.setItem('songData', dataResponse);
-        timeout(100).then(function() {
-            window.location.reload();
-        });
-        return;
-    }
+    ajax.get('https://cdn.jsdelivr.net/gh/StarSky919/c2info@latest/songs.json').then(function(response) {
+        if (typeof response != 'object') { return; }
+        response = JSON.stringify(response);
+        if (!localStorage.getItem('songData') || localStorage.getItem('songData') != response) {
+            toast('正在更新数据，请等待页面刷新', 2, function() {
+                localStorage.setItem('songData', response);
+                window.location.reload();
+            });
+        }
+    });
 
     const { version, characters } = JSON.parse(localStorage.getItem('songData'));
 
@@ -146,69 +180,38 @@ $('main, #menu, #items').bindEvent('click', function(e) {
         tag: 'div',
         id: 'characters',
         classList: 'item',
-        innerHTML: '<input type="checkbox" id="t1" class="titlecb" /><label for="t1"><a class="title arrow">角色列表</a></label><div class="content" data-id="t1">'
+        innerHTML: '<input type="checkbox" id="t1" class="titlecb" checked /><label for="t1"><a class="title arrow">角色列表</a></label><div class="content" data-id="t1">'
     }), $('#items').children[0]);
+
+    const aFrag = createFrag();
 
     Object.entries(characters).forEach(function([key, data]) {
         const a = createElement({
             tag: 'a',
-            innerHTML: data.name
+            innerText: data.name
         });
         a.dataset.scroll = `${key}`;
-        a.bindEvent('click', function(e) {
-            !$('#keyword').value ? scrollTo($(`#${this.dataset.scroll}`).offsetTop) : false;
-        });
-        $('.content[data-id=t1]').appendChild(a);
+        aFrag.appendChild(a);
     });
+
+    $('.content[data-id=t1]').appendChild(aFrag);
 
     refreshNav();
 
-    const difficulties = new Map([[-1, 'α'], [-2, 'β'], [-3, 'γ']]);
     const getDifficulty = function(difficulty) {
-        return difficulties.get(difficulty) || difficulty;
+        return (new Map([[-1, 'α'], [-2, ' β'], [-3, 'γ']])).get(difficulty) || difficulty;
     }
-
-    const constants = new Map([[0, 'N/A'], [-1, '？？？']]);
     const getConstant = function(constant) {
-        return constants.get(constant) || constant.toFixed(1);
+        return (new Map([[0, 'N/A'], [-1, '？？？']])).get(constant) || constant.toFixed(1);
     }
-
     const createLevel = function(type, data) {
         const { difficulty, version, note_count, constant } = data;
-        const levelFrag = createFrag();
-
-        const level = createElement({
-            tag: 'p',
-            classList: 'level'
-        });
-
-        level.appendChild(createElement({
-            tag: 'span',
-            classList: ['difficulty', type],
-            innerHTML: `${type.toUpperCase()} <span>${getDifficulty(difficulty)}</span>`
-        }));
-
-        level.appendChild(createElement({
-            tag: 'span',
-            classList: ['version', type],
-            innerHTML: `<small>v${version}</small>`
-        }));
-
-        levelFrag.appendChild(level);
-
-        levelFrag.appendChild(createElement({
-            tag: 'p',
-            classList: ['note_count', type],
-            innerHTML: `物量：<span>${note_count}</span>`
-        }));
-
-        levelFrag.appendChild(createElement({
-            tag: 'p',
-            classList: ['constant', type],
-            innerHTML: `定数：<span>${getConstant(constant)}</span>`
-        }));
-
-        return levelFrag;
+        const level = $('#level_template').content.cloneNode(true);
+        level.$('.difficulty').addClass(type).setHtml(`${type.toUpperCase()} <span>${getDifficulty(difficulty)}</span>`);
+        level.$('.version').addClass(type).$('small').setText(`v${version}`);
+        level.$('.note_count').addClass(type).$('span').setText(note_count);
+        level.$('.constant').addClass(type).$('span').setText(getConstant(constant));
+        return level;
     }
 
     let counter = 0;
@@ -220,11 +223,10 @@ $('main, #menu, #items').bindEvent('click', function(e) {
             id: key,
             classList: 'list'
         });
-
         list.appendChild(createElement({
             tag: 'h2',
             classList: 'ul',
-            innerHTML: data.name
+            innerText: data.name
         }));
 
         const songs = createElement({
@@ -234,28 +236,10 @@ $('main, #menu, #items').bindEvent('click', function(e) {
 
         Object.entries(data.songs).forEach(function([key, data]) {
             const { title, artist, bpm, hard, chaos, glitch, crash } = data;
-            const song = createElement({
-                tag: 'div',
-                classList: 'song'
-            });
-
-            song.appendChild(createElement({
-                tag: 'h3',
-                classList: 'name',
-                innerHTML: `<span>${title}</span>`
-            }));
-
-            song.appendChild(createElement({
-                tag: 'p',
-                classList: 'artist',
-                innerHTML: `曲师：<span>${artist}</span>`
-            }));
-
-            song.appendChild(createElement({
-                tag: 'p',
-                classList: 'bpm',
-                innerHTML: `BPM：<span>${bpm}</span>`
-            }));
+            const song = $('#song_template').content.cloneNode(true).$('.song');
+            song.$('.name span').setText(title);
+            song.$('.artist span').setText(artist);
+            song.$('.bpm span').setText(bpm);
 
             hard ? song.appendChild(createLevel('hard', hard)) : false;
             chaos ? song.appendChild(createLevel('chaos', chaos)) : false;
@@ -263,7 +247,6 @@ $('main, #menu, #items').bindEvent('click', function(e) {
             crash ? song.appendChild(createLevel('crash', crash)) : false;
 
             songs.appendChild(song);
-
             counter += 1;
         });
 
@@ -273,22 +256,21 @@ $('main, #menu, #items').bindEvent('click', function(e) {
 
     await timeout(100);
 
-    $('#songs').appendChild(lists);
-
-    window.data.btMinHeight = $('.list:first-of-type').offsetTop;
-
-    $('#info').exec(function(i) {
-        this.innerHTML = `截至${version}版本，共有${counter}首曲目。`;
-        this.style.display = 'block';
-    });
-    $('#loading, #divide_1').exec(function(i) {
+    $('#loading, #divide_1, #divide_2').exec(function(i) {
         this.style.display = 'none';
     });
+    $('#songs').appendChild(lists);
+    $('#info').exec(function(i) {
+        this.setText(`截至${version}版本，共有${counter}首曲目。`);
+        this.style.display = 'block';
+    });
+
+    globalData.btMinHeight = $('.list:first-of-type').offsetTop - 50;
 
     const getBaseInformation = function(type) {
         const temps = [];
         $(`.song .${type} span`).forEach(function(e) {
-            temps.push([e.innerHTML]);
+            temps.push([e.getText()]);
         });
         return temps;
     }
@@ -296,20 +278,20 @@ $('main, #menu, #items').bindEvent('click', function(e) {
         const temps = [];
         $('.song').exec(function(i) {
             const temp = [];
-            this.$('.hard') ? temp.push(this.$(`.${type}.hard span`).innerHTML) : false;
-            this.$('.chaos') ? temp.push(this.$(`.${type}.chaos span`).innerHTML) : false;
-            this.$('.glitch') ? temp.push(this.$(`.${type}.glitch span`).innerHTML) : false;
-            this.$('.crash') ? temp.push(this.$(`.${type}.crash span`).innerHTML) : false;
+            this.$('.hard') ? temp.push(this.$(`.${type}.hard span`).getText()) : false;
+            this.$('.chaos') ? temp.push(this.$(`.${type}.chaos span`).getText()) : false;
+            this.$('.glitch') ? temp.push(this.$(`.${type}.glitch span`).getText()) : false;
+            this.$('.crash') ? temp.push(this.$(`.${type}.crash span`).getText()) : false;
             temps.push(temp);
         });
         return temps;
     }
-    songsInfo = new Map(Object.entries({
-        'name': getBaseInformation('name'),
-        'artist': getBaseInformation('artist'),
-        'bpm': getBaseInformation('bpm'),
-        'difficulty': getMultiDifficulty('difficulty'),
-        'note_count': getMultiDifficulty('note_count'),
-        'constant': getMultiDifficulty('constant')
-    }));
-})();
+    songsInfo = {
+        name: getBaseInformation('name'),
+        artist: getBaseInformation('artist'),
+        bpm: getBaseInformation('bpm'),
+        difficulty: getMultiDifficulty('difficulty'),
+        note_count: getMultiDifficulty('note_count'),
+        constant: getMultiDifficulty('constant')
+    };
+});
