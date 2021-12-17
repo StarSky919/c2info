@@ -169,7 +169,7 @@ window.bindEvent('DOMContentLoaded', async function() {
         if (!localStorage.getItem('songData') || localStorage.getItem('songData') != response) {
             toast('正在更新数据，请等待页面刷新', 2, function() {
                 localStorage.setItem('songData', response);
-                window.location.reload();
+                window.location.reload(true);
             });
         }
     });
