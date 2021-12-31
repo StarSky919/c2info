@@ -276,7 +276,7 @@ nav {
     content: "\f104";
     float: right;
     transition: transform 0.25s ease;
-    font-family: "FontAwesome";
+    font-family: "Font Awesome 5 Free";
 }
 
 #items input:checked~label .title.arrow::after {

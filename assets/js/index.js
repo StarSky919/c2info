@@ -172,9 +172,11 @@ const createFrag = function() {
 }
 
 const domToString = function(obj) {
-    const element = createElement({ tag: 'div' });
-    element.appendChild(obj);
-    return element.innerHTML;
+    return createElement({ tag: 'div' }).appendChild(obj).parentNode.innerHTML;
+}
+
+const stringToDOM = function(str) {
+    return (new DOMParser()).parseFromString(str, 'text/html').body.$('*');
 }
 
 const scrollTo = function(top) {
@@ -303,7 +305,7 @@ const toast = function(msg, sec = 2.5, callback) {
 class Ajax {
     constructor() {}
 
-    request({ method = 'get', url = '', data = {}, responseType = 'Text' }) {
+    static request({ method = 'get', url = '', data = {}, responseType = 'Text' }) {
         return new Promise(function(resolve) {
             const xhr = new XMLHttpRequest();
             xhr.open(method, url, true);
@@ -325,8 +327,8 @@ class Ajax {
         });
     }
 
-    get(url) {
-        return this.request({
+    static get(url) {
+        return Ajax.request({
             method: 'get',
             url: url
         }).then(function({ status, response }) {
@@ -336,8 +338,8 @@ class Ajax {
         });
     }
 
-    post(url, data) {
-        return this.request({
+    static post(url, data) {
+        return Ajax.request({
             method: 'post',
             url: url,
             data: data
@@ -351,7 +353,6 @@ class Ajax {
 
 /*----------------*/
 
-window.ajax = new Ajax();
 let globalData = {
     btMinHeight: 0
 };
@@ -414,7 +415,7 @@ $('main a[href],#items a[href]').exec(function(e) {
     if (!this.href.includes(document.domain)) {
         this.innerHTML += domToString(createElement({
             tag: 'i',
-            classList: ['fa', 'fa-external-link'],
+            classList: ['fa', 'fa-external-link-alt'],
             css: 'font-size: 0.85em; margin-left: 0.1rem; vertical-align: -5%;'
         }));
     }

@@ -1,12 +1,12 @@
-@import "https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css";
-@import "HarmonyOS_Sans.css";
+@import "fontawesome.css";
+@import "CeraPro.css";
 
 @font-face {
-    font-family: "HarmonyOS_Sans_SC";
+    font-family: "HarmonyOS Sans SC";
     font-style: normal;
     font-weight: 400;
     font-display: swap;
-    src: url(../../fonts/HarmonyOS_Sans_SC-Regular.ttf) format("truetype");
+    src: url(/assets/fonts/HarmonyOS_Sans_SC-Regular.ttf) format("truetype");
 }
 
 @font-face {
@@ -14,7 +14,7 @@
     font-style: normal;
     font-weight: 400;
     font-display: swap;
-    src: url(../../fonts/JetBrainsMono-Regular.ttf) format("truetype");
+    src: url(/assets/fonts/JetBrainsMono-Regular.ttf) format("truetype");
 }
 
 @font-face {
@@ -22,5 +22,5 @@
     font-style: normal;
     font-weight: 400;
     font-display: swap;
-    src: url(../../fonts/Electrolize.ttf) format("truetype");
+    src: url(/assets/fonts/Electrolize.ttf) format("truetype");
 }
