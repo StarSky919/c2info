@@ -6,7 +6,7 @@
     font-style: normal;
     font-weight: 400;
     font-display: swap;
-    src: url(/assets/fonts/HarmonyOS_Sans_SC-Regular.ttf) format("truetype");
+    src: url(../../fonts/HarmonyOS_Sans_SC-Regular.ttf) format("truetype");
 }
 
 @font-face {
@@ -14,7 +14,7 @@
     font-style: normal;
     font-weight: 400;
     font-display: swap;
-    src: url(/assets/fonts/JetBrainsMono-Regular.ttf) format("truetype");
+    src: url(../../fonts/JetBrainsMono-Regular.ttf) format("truetype");
 }
 
 @font-face {
@@ -22,5 +22,5 @@
     font-style: normal;
     font-weight: 400;
     font-display: swap;
-    src: url(/assets/fonts/Electrolize.ttf) format("truetype");
+    src: url(../../fonts/Electrolize.ttf) format("truetype");
 }
