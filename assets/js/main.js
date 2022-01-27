@@ -163,7 +163,7 @@ window.bindEvent('DOMContentLoaded', async function() {
         }
     }
 
-    Ajax.get('/songs.json').then(function(response) {
+    Ajax.get('/cy2data.json').then(function(response) {
         if (typeof response != 'object') { return; }
         response = JSON.stringify(response);
         if (!localStorage.getItem('songData') || localStorage.getItem('songData') != response) {
@@ -174,7 +174,7 @@ window.bindEvent('DOMContentLoaded', async function() {
         }
     });
 
-    const { version, characters } = JSON.parse(localStorage.getItem('songData'));
+    const { version, characters, songs } = JSON.parse(localStorage.getItem('songData'));
 
     $('#items').insertBefore(createElement({
         tag: 'div',
@@ -188,7 +188,7 @@ window.bindEvent('DOMContentLoaded', async function() {
     Object.entries(characters).forEach(function([key, data]) {
         const a = createElement({
             tag: 'a',
-            innerText: data.name
+            innerText: data.display_name
         });
         a.dataset.scroll = `${key}`;
         aFrag.appendChild(a);
@@ -204,8 +204,7 @@ window.bindEvent('DOMContentLoaded', async function() {
     const getConstant = function(constant) {
         return (new Map([[0, 'N/A'], [-1, '？？？']])).get(constant) || constant.toFixed(1);
     }
-    const createLevel = function(type, data) {
-        const { difficulty, version, note_count, constant } = data;
+    const createLevel = function({ type, difficulty, version, note_count, constant }) {
         const level = $('#level_template').content.cloneNode(true);
         level.$('.difficulty').addClass(type).setHtml(`${type.toUpperCase()} <span>${getDifficulty(difficulty)}</span>`);
         level.$('.version').addClass(type).$('small').setText(`v${version}`);
@@ -216,6 +215,14 @@ window.bindEvent('DOMContentLoaded', async function() {
 
     let counter = 0;
     const lists = createFrag();
+    const cList = {};
+
+    songs.forEach(function(song) {
+        if (!cList[song.character.id]) {
+            cList[song.character.id] = [];
+        }
+        cList[song.character.id].push(song);
+    });
 
     Object.entries(characters).forEach(function([key, data]) {
         const list = createElement({
@@ -226,7 +233,7 @@ window.bindEvent('DOMContentLoaded', async function() {
         list.appendChild(createElement({
             tag: 'h2',
             classList: 'ul',
-            innerText: data.name
+            innerText: data.display_name
         }));
 
         const songs = createElement({
@@ -234,18 +241,16 @@ window.bindEvent('DOMContentLoaded', async function() {
             classList: 'songs'
         });
 
-        Object.entries(data.songs).forEach(function([key, data]) {
-            const { title, artist, bpm, hard, chaos, glitch, crash } = data;
+        cList[key].forEach(function(data) {
+            const { title, artist, bpm, charts } = data;
             const song = $('#song_template').content.cloneNode(true).$('.song');
             song.$('.name span').setText(title);
             song.$('.artist span').setText(artist);
             song.$('.bpm span').setText(bpm);
-
-            hard ? song.appendChild(createLevel('hard', hard)) : false;
-            chaos ? song.appendChild(createLevel('chaos', chaos)) : false;
-            glitch ? song.appendChild(createLevel('glitch', glitch)) : false;
-            crash ? song.appendChild(createLevel('crash', crash)) : false;
-
+            charts.forEach(function(chart) {
+                if (!chart) { return; }
+                song.appendChild(createLevel(chart));
+            });
             songs.appendChild(song);
             counter += 1;
         });
