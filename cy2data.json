@@ -3938,7 +3938,7 @@
                     "isFree": false,
                     "difficulty": 12,
                     "note_count": 863,
-                    "constant": 11.8
+                    "constant": 11.4
                 },
                 null,
                 null,
@@ -4346,7 +4346,7 @@
                     "isFree": false,
                     "difficulty": 15,
                     "note_count": 1174,
-                    "constant": 15.4
+                    "constant": 15.2
                 },
                 null,
                 null,
@@ -5094,7 +5094,7 @@
                     "isFree": false,
                     "difficulty": 12,
                     "note_count": 872,
-                    "constant": 12.6
+                    "constant": 12.8
                 },
                 null,
                 null,
@@ -8654,7 +8654,7 @@
                     "isFree": true,
                     "difficulty": 10,
                     "note_count": 596,
-                    "constant": 10.8
+                    "constant": 11
                 },
                 null,
                 null,
@@ -9266,7 +9266,7 @@
                     "isFree": true,
                     "difficulty": 11,
                     "note_count": 817,
-                    "constant": 0
+                    "constant": 11
                 },
                 null,
                 null,
@@ -13386,7 +13386,7 @@
                     "isFree": false,
                     "difficulty": 13,
                     "note_count": 940,
-                    "constant": 12.8
+                    "constant": 13
                 },
                 null,
                 null,
@@ -14770,7 +14770,7 @@
                     "isFree": false,
                     "difficulty": 13,
                     "note_count": 912,
-                    "constant": 13.2
+                    "constant": 12.6
                 },
                 null,
                 null,
