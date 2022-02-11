@@ -6370,7 +6370,7 @@
         {
             "title": "Crimson Fate",
             "artist": "tetsuyanao feat. ROXI CHEN(渣泥ZANI)",
-            "bpm": "18",
+            "bpm": "180",
             "alias": [],
             "character": {
                 "id": "cherry_1",
@@ -16204,7 +16204,7 @@
                     "version": "1.7.0",
                     "pack": "DLC",
                     "isFree": false,
-                    "difficulty": 9,
+                    "difficulty": 10,
                     "note_count": 799,
                     "constant": 10.4
                 },
