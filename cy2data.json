@@ -495,7 +495,7 @@
                     "isFree": true,
                     "difficulty": 5,
                     "note_count": 369,
-                    "constant": 5
+                    "constant": 5.7
                 },
                 {
                     "type": "chaos",
@@ -2979,7 +2979,7 @@
                     "isFree": true,
                     "difficulty": 6,
                     "note_count": 522,
-                    "constant": 6.3
+                    "constant": 7
                 },
                 {
                     "type": "chaos",
@@ -4269,7 +4269,7 @@
                     "isFree": false,
                     "difficulty": 9,
                     "note_count": 900,
-                    "constant": 9
+                    "constant": 9.4
                 },
                 {
                     "type": "chaos",
@@ -9223,7 +9223,7 @@
                     "isFree": true,
                     "difficulty": 9,
                     "note_count": 881,
-                    "constant": 0
+                    "constant": 9.2
                 },
                 {
                     "type": "chaos",
@@ -9257,7 +9257,7 @@
                     "isFree": true,
                     "difficulty": 5,
                     "note_count": 450,
-                    "constant": 0
+                    "constant": 5.0
                 },
                 {
                     "type": "chaos",
@@ -10311,7 +10311,7 @@
                     "isFree": true,
                     "difficulty": 9,
                     "note_count": 770,
-                    "constant": 9.2
+                    "constant": 9.4
                 },
                 {
                     "type": "chaos",
@@ -10354,7 +10354,7 @@
                     "isFree": true,
                     "difficulty": 14,
                     "note_count": 889,
-                    "constant": 14.2
+                    "constant": 14.4
                 },
                 null,
                 null,
