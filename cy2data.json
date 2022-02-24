@@ -5669,9 +5669,9 @@
                     "version": "2.1.0",
                     "pack": "Emotion Samples 02",
                     "isFree": false,
-                    "difficulty": 9,
-                    "note_count": 900,
-                    "constant": 11.6
+                    "difficulty": 7,
+                    "note_count": 526,
+                    "constant": 7.7
                 },
                 {
                     "type": "chaos",
@@ -5703,9 +5703,9 @@
                     "version": "2.1.0",
                     "pack": "Emotion Samples 02",
                     "isFree": false,
-                    "difficulty": 7,
-                    "note_count": 526,
-                    "constant": 7.7
+                    "difficulty": 9,
+                    "note_count": 900,
+                    "constant": 11.6
                 },
                 {
                     "type": "chaos",
