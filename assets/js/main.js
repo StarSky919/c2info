@@ -202,7 +202,7 @@ window.bindEvent('DOMContentLoaded', async function() {
         return (new Map([[-1, 'α'], [-2, ' β'], [-3, 'γ']])).get(difficulty) || difficulty;
     }
     const getConstant = function(constant) {
-        return (new Map([[0, 'N/A'], [-1, '？？？']])).get(constant) || constant.toFixed(1);
+        return (new Map([[0, '暂无'], [-1, '？？？']])).get(constant) || constant.toFixed(1);
     }
     const createLevel = function({ type, difficulty, version, note_count, constant }) {
         const level = $('#level_template').content.cloneNode(true);

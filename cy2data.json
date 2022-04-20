@@ -1,5 +1,5 @@
 {
-    "version": "4.5.0",
+    "version": "4.6.0",
     "characters": {
         "paff_1": {
             "display_name": "PAFF",
@@ -892,7 +892,7 @@
                     "version": "3.0.0",
                     "pack": "免费",
                     "isFree": true,
-                    "difficulty": 11,
+                    "difficulty": 10,
                     "note_count": 1000,
                     "constant": 9.4
                 },
@@ -926,7 +926,7 @@
                     "version": "3.8.0",
                     "pack": "免费",
                     "isFree": true,
-                    "difficulty": 13,
+                    "difficulty": 12,
                     "note_count": 751,
                     "constant": 12.2
                 },
@@ -1130,7 +1130,7 @@
                     "version": "2.3.0",
                     "pack": "Featured Article vol.1",
                     "isFree": false,
-                    "difficulty": 11,
+                    "difficulty": 10,
                     "note_count": 757,
                     "constant": 9.6
                 },
@@ -1368,7 +1368,7 @@
                     "version": "3.8.0",
                     "pack": "Marvelous Mix vol.5",
                     "isFree": false,
-                    "difficulty": 12,
+                    "difficulty": 13,
                     "note_count": 940,
                     "constant": 13.4
                 },
@@ -1800,7 +1800,7 @@
                     "version": "1.0.0",
                     "pack": "免费",
                     "isFree": true,
-                    "difficulty": 15,
+                    "difficulty": 14,
                     "note_count": 1024,
                     "constant": 14.6
                 },
@@ -1842,7 +1842,7 @@
                     "version": "1.0.0",
                     "pack": "免费",
                     "isFree": true,
-                    "difficulty": 10,
+                    "difficulty": 11,
                     "note_count": 664,
                     "constant": 10.8
                 },
@@ -2020,7 +2020,7 @@
                     "version": "3.0.0",
                     "pack": "免费",
                     "isFree": true,
-                    "difficulty": 14,
+                    "difficulty": 13,
                     "note_count": 841,
                     "constant": 13
                 },
@@ -2122,7 +2122,7 @@
                     "version": "3.7.0",
                     "pack": "免费",
                     "isFree": true,
-                    "difficulty": 14,
+                    "difficulty": 13,
                     "note_count": 1310,
                     "constant": 13.2
                 },
@@ -2800,7 +2800,7 @@
                     "version": "2.7.0",
                     "pack": "Battle CHAOS 2019",
                     "isFree": false,
-                    "difficulty": 13,
+                    "difficulty": 12,
                     "note_count": 592,
                     "constant": 11.6
                 },
@@ -2944,7 +2944,7 @@
                     "version": "1.0.0",
                     "pack": "免费",
                     "isFree": true,
-                    "difficulty": 12,
+                    "difficulty": 13,
                     "note_count": 1088,
                     "constant": 13.4
                 },
@@ -2953,7 +2953,7 @@
                     "version": "2.9.0",
                     "pack": "CAPSO",
                     "isFree": false,
-                    "difficulty": 13,
+                    "difficulty": 14,
                     "note_count": 1134,
                     "constant": 14.4
                 },
@@ -2986,7 +2986,7 @@
                     "version": "1.0.0",
                     "pack": "免费",
                     "isFree": true,
-                    "difficulty": 12,
+                    "difficulty": 13,
                     "note_count": 1058,
                     "constant": 13.2
                 },
@@ -3282,7 +3282,7 @@
                     "version": "1.0.0",
                     "pack": "免费",
                     "isFree": true,
-                    "difficulty": 12,
+                    "difficulty": 13,
                     "note_count": 893,
                     "constant": 13.2
                 },
@@ -3562,7 +3562,7 @@
                     "version": "1.3.0",
                     "pack": "Memory Unit [A1]",
                     "isFree": false,
-                    "difficulty": 14,
+                    "difficulty": 15,
                     "note_count": 1478,
                     "constant": 15.2
                 },
@@ -3732,7 +3732,7 @@
                     "version": "1.5.0",
                     "pack": "Marvelous Mix vol.1",
                     "isFree": false,
-                    "difficulty": 14,
+                    "difficulty": 13,
                     "note_count": 1210,
                     "constant": 13.6
                 },
@@ -3936,7 +3936,7 @@
                     "version": "2.4.0",
                     "pack": "Memory Unit [A2]",
                     "isFree": false,
-                    "difficulty": 12,
+                    "difficulty": 11,
                     "note_count": 863,
                     "constant": 11.4
                 },
@@ -4174,7 +4174,7 @@
                     "version": "3.8.0",
                     "pack": "Marvelous Mix vol.5",
                     "isFree": false,
-                    "difficulty": 11,
+                    "difficulty": 12,
                     "note_count": 842,
                     "constant": 12
                 },
@@ -4582,7 +4582,7 @@
                     "version": "2.0.0",
                     "pack": "免费",
                     "isFree": true,
-                    "difficulty": 13,
+                    "difficulty": 14,
                     "note_count": 679,
                     "constant": 14
                 },
@@ -4824,7 +4824,15 @@
                     "note_count": 1290,
                     "constant": 13.6
                 },
-                null,
+                {
+                    "type": "glitch",
+                    "version": "4.6.0",
+                    "pack": "CAPSO",
+                    "isFree": false,
+                    "difficulty": 15,
+                    "note_count": 1299,
+                    "constant": 0
+                },
                 null,
                 null
             ]
@@ -5024,7 +5032,7 @@
                     "version": "2.8.5",
                     "pack": "CAPSO",
                     "isFree": false,
-                    "difficulty": 11,
+                    "difficulty": 12,
                     "note_count": 846,
                     "constant": 12
                 },
@@ -5151,7 +5159,7 @@
                     "version": "2.9.0",
                     "pack": "CAPSO",
                     "isFree": false,
-                    "difficulty": 9,
+                    "difficulty": 10,
                     "note_count": 662,
                     "constant": 12
                 },
@@ -5678,7 +5686,7 @@
                     "version": "2.1.0",
                     "pack": "Emotion Samples 02",
                     "isFree": false,
-                    "difficulty": 13,
+                    "difficulty": 12,
                     "note_count": 881,
                     "constant": 12.4
                 },
@@ -5712,7 +5720,7 @@
                     "version": "2.1.0",
                     "pack": "Emotion Samples 02",
                     "isFree": false,
-                    "difficulty": 14,
+                    "difficulty": 15,
                     "note_count": 1560,
                     "constant": 15.8
                 },
@@ -6528,7 +6536,7 @@
                     "version": "2.6.0",
                     "pack": "PuNK EP",
                     "isFree": false,
-                    "difficulty": 11,
+                    "difficulty": 12,
                     "note_count": 928,
                     "constant": 12.2
                 },
@@ -6800,7 +6808,7 @@
                     "version": "3.0.0",
                     "pack": "免费",
                     "isFree": true,
-                    "difficulty": 12,
+                    "difficulty": 11,
                     "note_count": 665,
                     "constant": 11.4
                 },
@@ -7190,7 +7198,7 @@
                     "version": "4.0.0",
                     "pack": "免费",
                     "isFree": true,
-                    "difficulty": 13,
+                    "difficulty": 12,
                     "note_count": 981,
                     "constant": 13
                 },
@@ -7394,7 +7402,7 @@
                     "version": "3.4.0",
                     "pack": "免费",
                     "isFree": true,
-                    "difficulty": 13,
+                    "difficulty": 12,
                     "note_count": 940,
                     "constant": 12.6
                 },
@@ -7870,7 +7878,7 @@
                     "version": "3.8.0",
                     "pack": "免费",
                     "isFree": true,
-                    "difficulty": 13,
+                    "difficulty": 12,
                     "note_count": 923,
                     "constant": 12.2
                 },
@@ -7972,7 +7980,7 @@
                     "version": "3.6.0",
                     "pack": "免费",
                     "isFree": true,
-                    "difficulty": 12,
+                    "difficulty": 13,
                     "note_count": 964,
                     "constant": 12.8
                 },
@@ -8798,6 +8806,720 @@
             ]
         },
         {
+            "title": "Hop Step Adventure☆",
+            "artist": "ああああ茶漬け",
+            "bpm": "180",
+            "alias": [],
+            "character": {
+                "id": "graffj",
+                "display_name": "Graff.J"
+            },
+            "charts": [
+                null,
+                {
+                    "type": "hard",
+                    "version": "3.5.0",
+                    "pack": "VOEZ Collection I",
+                    "isFree": true,
+                    "difficulty": 7,
+                    "note_count": 584,
+                    "constant": 7.3
+                },
+                {
+                    "type": "chaos",
+                    "version": "3.5.0",
+                    "pack": "VOEZ Collection I",
+                    "isFree": true,
+                    "difficulty": 14,
+                    "note_count": 1197,
+                    "constant": 13.4
+                },
+                null,
+                null,
+                null
+            ]
+        },
+        {
+            "title": "Silent Voice",
+            "artist": "Nardis",
+            "bpm": "125",
+            "alias": [],
+            "character": {
+                "id": "graffj",
+                "display_name": "Graff.J"
+            },
+            "charts": [
+                null,
+                {
+                    "type": "hard",
+                    "version": "3.5.0",
+                    "pack": "VOEZ Collection I",
+                    "isFree": true,
+                    "difficulty": 6,
+                    "note_count": 452,
+                    "constant": 6.3
+                },
+                {
+                    "type": "chaos",
+                    "version": "3.5.0",
+                    "pack": "VOEZ Collection I",
+                    "isFree": true,
+                    "difficulty": 13,
+                    "note_count": 860,
+                    "constant": 12.6
+                },
+                null,
+                null,
+                null
+            ]
+        },
+        {
+            "title": "Spring",
+            "artist": "Rave Cyanide, RiraN",
+            "bpm": "132",
+            "alias": [],
+            "character": {
+                "id": "graffj",
+                "display_name": "Graff.J"
+            },
+            "charts": [
+                null,
+                {
+                    "type": "hard",
+                    "version": "3.5.0",
+                    "pack": "VOEZ Collection I",
+                    "isFree": true,
+                    "difficulty": 8,
+                    "note_count": 757,
+                    "constant": 9
+                },
+                {
+                    "type": "chaos",
+                    "version": "3.5.0",
+                    "pack": "VOEZ Collection I",
+                    "isFree": true,
+                    "difficulty": 13,
+                    "note_count": 944,
+                    "constant": 13.4
+                },
+                null,
+                null,
+                null
+            ]
+        },
+        {
+            "title": "dynamo",
+            "artist": "Hidra-Xjeil",
+            "bpm": "160",
+            "alias": [],
+            "character": {
+                "id": "graffj",
+                "display_name": "Graff.J"
+            },
+            "charts": [
+                null,
+                {
+                    "type": "hard",
+                    "version": "3.5.0",
+                    "pack": "VOEZ Collection II",
+                    "isFree": true,
+                    "difficulty": 8,
+                    "note_count": 666,
+                    "constant": 8
+                },
+                {
+                    "type": "chaos",
+                    "version": "3.5.0",
+                    "pack": "VOEZ Collection II",
+                    "isFree": true,
+                    "difficulty": 14,
+                    "note_count": 1111,
+                    "constant": 15
+                },
+                null,
+                null,
+                null
+            ]
+        },
+        {
+            "title": "Hello Days",
+            "artist": "tomo & ino(cronoize)",
+            "bpm": "138",
+            "alias": [],
+            "character": {
+                "id": "graffj",
+                "display_name": "Graff.J"
+            },
+            "charts": [
+                null,
+                {
+                    "type": "hard",
+                    "version": "3.5.0",
+                    "pack": "VOEZ Collection II",
+                    "isFree": true,
+                    "difficulty": 7,
+                    "note_count": 376,
+                    "constant": 7
+                },
+                {
+                    "type": "chaos",
+                    "version": "3.5.0",
+                    "pack": "VOEZ Collection II",
+                    "isFree": true,
+                    "difficulty": 12,
+                    "note_count": 665,
+                    "constant": 12
+                },
+                null,
+                null,
+                null
+            ]
+        },
+        {
+            "title": "Interstellar Experience",
+            "artist": "polysha + daph",
+            "bpm": "180",
+            "alias": [],
+            "character": {
+                "id": "graffj",
+                "display_name": "Graff.J"
+            },
+            "charts": [
+                null,
+                {
+                    "type": "hard",
+                    "version": "3.5.0",
+                    "pack": "VOEZ Collection II",
+                    "isFree": true,
+                    "difficulty": 8,
+                    "note_count": 722,
+                    "constant": 8.2
+                },
+                {
+                    "type": "chaos",
+                    "version": "3.5.0",
+                    "pack": "VOEZ Collection II",
+                    "isFree": true,
+                    "difficulty": 14,
+                    "note_count": 998,
+                    "constant": 14.4
+                },
+                null,
+                null,
+                null
+            ]
+        },
+        {
+            "title": "FUSE",
+            "artist": "Titancube",
+            "bpm": "190",
+            "alias": [],
+            "character": {
+                "id": "graffj",
+                "display_name": "Graff.J"
+            },
+            "charts": [
+                null,
+                {
+                    "type": "hard",
+                    "version": "3.5.0",
+                    "pack": "VOEZ Collection III",
+                    "isFree": true,
+                    "difficulty": 8,
+                    "note_count": 516,
+                    "constant": 8.2
+                },
+                {
+                    "type": "chaos",
+                    "version": "3.5.0",
+                    "pack": "VOEZ Collection III",
+                    "isFree": true,
+                    "difficulty": 14,
+                    "note_count": 944,
+                    "constant": 13.8
+                },
+                null,
+                null,
+                null
+            ]
+        },
+        {
+            "title": "Gigantic Saga",
+            "artist": "Paul Bazooka",
+            "bpm": "128",
+            "alias": [],
+            "character": {
+                "id": "graffj",
+                "display_name": "Graff.J"
+            },
+            "charts": [
+                null,
+                {
+                    "type": "hard",
+                    "version": "3.5.0",
+                    "pack": "VOEZ Collection III",
+                    "isFree": true,
+                    "difficulty": 6,
+                    "note_count": 414,
+                    "constant": 6.7
+                },
+                {
+                    "type": "chaos",
+                    "version": "3.5.0",
+                    "pack": "VOEZ Collection III",
+                    "isFree": true,
+                    "difficulty": 12,
+                    "note_count": 632,
+                    "constant": 12.2
+                },
+                null,
+                null,
+                null
+            ]
+        },
+        {
+            "title": "popotnik ~ The Traveller of Ljubljana",
+            "artist": "Lhou",
+            "bpm": "130",
+            "alias": [],
+            "character": {
+                "id": "graffj",
+                "display_name": "Graff.J"
+            },
+            "charts": [
+                null,
+                {
+                    "type": "hard",
+                    "version": "3.5.0",
+                    "pack": "VOEZ Collection III",
+                    "isFree": true,
+                    "difficulty": 7,
+                    "note_count": 680,
+                    "constant": 7.7
+                },
+                {
+                    "type": "chaos",
+                    "version": "3.5.0",
+                    "pack": "VOEZ Collection III",
+                    "isFree": true,
+                    "difficulty": 12,
+                    "note_count": 858,
+                    "constant": 12
+                },
+                null,
+                null,
+                null
+            ]
+        },
+        {
+            "title": "Ascension to Heaven",
+            "artist": "xi",
+            "bpm": "190~200",
+            "alias": [],
+            "character": {
+                "id": "graffj",
+                "display_name": "Graff.J"
+            },
+            "charts": [
+                null,
+                {
+                    "type": "hard",
+                    "version": "3.5.0",
+                    "pack": "VOEZ Collection IV",
+                    "isFree": true,
+                    "difficulty": 8,
+                    "note_count": 595,
+                    "constant": 8.4
+                },
+                {
+                    "type": "chaos",
+                    "version": "3.5.0",
+                    "pack": "VOEZ Collection IV",
+                    "isFree": true,
+                    "difficulty": 14,
+                    "note_count": 1078,
+                    "constant": 14.2
+                },
+                null,
+                null,
+                null
+            ]
+        },
+        {
+            "title": "Lifill",
+            "artist": "Feryquitous Feat Sennzai",
+            "bpm": "185",
+            "alias": [],
+            "character": {
+                "id": "graffj",
+                "display_name": "Graff.J"
+            },
+            "charts": [
+                null,
+                {
+                    "type": "hard",
+                    "version": "3.5.0",
+                    "pack": "VOEZ Collection IV",
+                    "isFree": true,
+                    "difficulty": 7,
+                    "note_count": 369,
+                    "constant": 8
+                },
+                {
+                    "type": "chaos",
+                    "version": "3.5.0",
+                    "pack": "VOEZ Collection IV",
+                    "isFree": true,
+                    "difficulty": 12,
+                    "note_count": 600,
+                    "constant": 12.2
+                },
+                null,
+                null,
+                null
+            ]
+        },
+        {
+            "title": "そんなに私を期待きせないで",
+            "artist": "上村叶恵",
+            "bpm": "160",
+            "alias": [],
+            "character": {
+                "id": "graffj",
+                "display_name": "Graff.J"
+            },
+            "charts": [
+                null,
+                {
+                    "type": "hard",
+                    "version": "3.5.0",
+                    "pack": "VOEZ Collection IV",
+                    "isFree": true,
+                    "difficulty": 7,
+                    "note_count": 500,
+                    "constant": 7
+                },
+                {
+                    "type": "chaos",
+                    "version": "3.5.0",
+                    "pack": "VOEZ Collection IV",
+                    "isFree": true,
+                    "difficulty": 11,
+                    "note_count": 750,
+                    "constant": 10.4
+                },
+                null,
+                null,
+                null
+            ]
+        },
+        {
+            "title": "Fading Star",
+            "artist": "ginkiha",
+            "bpm": "140",
+            "alias": [],
+            "character": {
+                "id": "graffj",
+                "display_name": "Graff.J"
+            },
+            "charts": [
+                null,
+                {
+                    "type": "hard",
+                    "version": "3.5.0",
+                    "pack": "VOEZ Collection V",
+                    "isFree": true,
+                    "difficulty": 7,
+                    "note_count": 397,
+                    "constant": 7
+                },
+                {
+                    "type": "chaos",
+                    "version": "3.5.0",
+                    "pack": "VOEZ Collection V",
+                    "isFree": true,
+                    "difficulty": 11,
+                    "note_count": 597,
+                    "constant": 11.6
+                },
+                null,
+                null,
+                null
+            ]
+        },
+        {
+            "title": "Magical Toy Box",
+            "artist": "Shiron + xi",
+            "bpm": "184",
+            "alias": [],
+            "character": {
+                "id": "graffj",
+                "display_name": "Graff.J"
+            },
+            "charts": [
+                null,
+                {
+                    "type": "hard",
+                    "version": "3.5.0",
+                    "pack": "VOEZ Collection V",
+                    "isFree": true,
+                    "difficulty": 9,
+                    "note_count": 809,
+                    "constant": 9.4
+                },
+                {
+                    "type": "chaos",
+                    "version": "3.5.0",
+                    "pack": "VOEZ Collection V",
+                    "isFree": true,
+                    "difficulty": 15,
+                    "note_count": 1234,
+                    "constant": 15.4
+                },
+                null,
+                null,
+                null
+            ]
+        },
+        {
+            "title": "Until the Blue Moon Rises",
+            "artist": "Plutian",
+            "bpm": "138",
+            "alias": [],
+            "character": {
+                "id": "graffj",
+                "display_name": "Graff.J"
+            },
+            "charts": [
+                null,
+                {
+                    "type": "hard",
+                    "version": "3.5.0",
+                    "pack": "VOEZ Collection V",
+                    "isFree": true,
+                    "difficulty": 6,
+                    "note_count": 462,
+                    "constant": 6.3
+                },
+                {
+                    "type": "chaos",
+                    "version": "3.5.0",
+                    "pack": "VOEZ Collection V",
+                    "isFree": true,
+                    "difficulty": 12,
+                    "note_count": 777,
+                    "constant": 12.4
+                },
+                null,
+                null,
+                null
+            ]
+        },
+        {
+            "title": "双龍飛閃-Dual Dragoon-",
+            "artist": "Daisuke Ohnuma",
+            "bpm": "212",
+            "alias": [],
+            "character": {
+                "id": "graffj",
+                "display_name": "Graff.J"
+            },
+            "charts": [
+                null,
+                {
+                    "type": "hard",
+                    "version": "3.8.0",
+                    "pack": "VOEZ Collection VI",
+                    "isFree": true,
+                    "difficulty": 9,
+                    "note_count": 770,
+                    "constant": 9.4
+                },
+                {
+                    "type": "chaos",
+                    "version": "3.8.0",
+                    "pack": "VOEZ Collection VI",
+                    "isFree": true,
+                    "difficulty": 15,
+                    "note_count": 1203,
+                    "constant": 15
+                },
+                null,
+                null,
+                null
+            ]
+        },
+        {
+            "title": "Like Asian Spirit",
+            "artist": "Valunava",
+            "bpm": "143",
+            "alias": [],
+            "character": {
+                "id": "graffj",
+                "display_name": "Graff.J"
+            },
+            "charts": [
+                null,
+                {
+                    "type": "hard",
+                    "version": "3.8.0",
+                    "pack": "VOEZ Collection VI",
+                    "isFree": true,
+                    "difficulty": 7,
+                    "note_count": 601,
+                    "constant": 7.3
+                },
+                {
+                    "type": "chaos",
+                    "version": "3.8.0",
+                    "pack": "VOEZ Collection VI",
+                    "isFree": true,
+                    "difficulty": 14,
+                    "note_count": 889,
+                    "constant": 14.4
+                },
+                null,
+                null,
+                null
+            ]
+        },
+        {
+            "title": "Tsukiyura",
+            "artist": "mitssi",
+            "bpm": "145",
+            "alias": [],
+            "character": {
+                "id": "graffj",
+                "display_name": "Graff.J"
+            },
+            "charts": [
+                null,
+                {
+                    "type": "hard",
+                    "version": "3.8.0",
+                    "pack": "VOEZ Collection VI",
+                    "isFree": true,
+                    "difficulty": 8,
+                    "note_count": 751,
+                    "constant": 8.6
+                },
+                {
+                    "type": "chaos",
+                    "version": "3.8.0",
+                    "pack": "VOEZ Collection VI",
+                    "isFree": true,
+                    "difficulty": 14,
+                    "note_count": 1003,
+                    "constant": 13.6
+                },
+                null,
+                null,
+                null
+            ]
+        },
+        {
+            "title": "Time Traveller",
+            "artist": "Iris",
+            "bpm": "140",
+            "alias": [],
+            "character": {
+                "id": "graffj",
+                "display_name": "Graff.J"
+            },
+            "charts": [
+                null,
+                {
+                    "type": "hard",
+                    "version": "4.6.0",
+                    "pack": "VOEZ Collection VII",
+                    "isFree": true,
+                    "difficulty": 7,
+                    "note_count": 766,
+                    "constant": 0
+                },
+                {
+                    "type": "chaos",
+                    "version": "4.6.0",
+                    "pack": "VOEZ Collection VII",
+                    "isFree": true,
+                    "difficulty": 13,
+                    "note_count": 1002,
+                    "constant": 0
+                },
+                null,
+                null,
+                null
+            ]
+        },
+        {
+            "title": "Flash Gun",
+            "artist": "Yosshie 4onthefloor",
+            "bpm": "174",
+            "alias": [],
+            "character": {
+                "id": "graffj",
+                "display_name": "Graff.J"
+            },
+            "charts": [
+                null,
+                {
+                    "type": "hard",
+                    "version": "4.6.0",
+                    "pack": "VOEZ Collection VII",
+                    "isFree": true,
+                    "difficulty": 7,
+                    "note_count": 400,
+                    "constant": 0
+                },
+                {
+                    "type": "chaos",
+                    "version": "4.6.0",
+                    "pack": "VOEZ Collection VII",
+                    "isFree": true,
+                    "difficulty": 12,
+                    "note_count": 744,
+                    "constant": 0
+                },
+                null,
+                null,
+                null
+            ]
+        },
+        {
+            "title": "Nyx -Fatal arousal of Madness-",
+            "artist": "FIG",
+            "bpm": "161",
+            "alias": [],
+            "character": {
+                "id": "graffj",
+                "display_name": "Graff.J"
+            },
+            "charts": [
+                null,
+                {
+                    "type": "hard",
+                    "version": "4.6.0",
+                    "pack": "VOEZ Collection VII",
+                    "isFree": true,
+                    "difficulty": 7,
+                    "note_count": 771,
+                    "constant": 0
+                },
+                {
+                    "type": "chaos",
+                    "version": "4.6.0",
+                    "pack": "VOEZ Collection VII",
+                    "isFree": true,
+                    "difficulty": 15,
+                    "note_count": 1311,
+                    "constant": 0
+                },
+                null,
+                null,
+                null
+            ]
+        },
+        {
             "title": "Lights of Muse",
             "artist": "Ayatsugu_Otowa",
             "bpm": "180",
@@ -9468,7 +10190,7 @@
                     "version": "3.2.0",
                     "pack": "DJMAX vol.1",
                     "isFree": false,
-                    "difficulty": 14,
+                    "difficulty": 13,
                     "note_count": 850,
                     "constant": 12.2
                 },
@@ -9502,7 +10224,7 @@
                     "version": "3.2.0",
                     "pack": "DJMAX vol.1",
                     "isFree": false,
-                    "difficulty": 13,
+                    "difficulty": 12,
                     "note_count": 746,
                     "constant": 11.6
                 },
@@ -9604,7 +10326,7 @@
                     "version": "3.2.0",
                     "pack": "DJMAX vol.1",
                     "isFree": false,
-                    "difficulty": 14,
+                    "difficulty": 15,
                     "note_count": 906,
                     "constant": 15.6
                 },
@@ -9638,7 +10360,7 @@
                     "version": "3.3.0",
                     "pack": "DJMAX vol.2",
                     "isFree": false,
-                    "difficulty": 12,
+                    "difficulty": 11,
                     "note_count": 456,
                     "constant": 10.4
                 },
@@ -9777,618 +10499,6 @@
                     "difficulty": 12,
                     "note_count": 714,
                     "constant": 12.2
-                },
-                null,
-                null,
-                null
-            ]
-        },
-        {
-            "title": "Hop Step Adventure☆",
-            "artist": "ああああ茶漬け",
-            "bpm": "180",
-            "alias": [],
-            "character": {
-                "id": "graffj",
-                "display_name": "Graff.J"
-            },
-            "charts": [
-                null,
-                {
-                    "type": "hard",
-                    "version": "3.5.0",
-                    "pack": "VOEZ Collection I",
-                    "isFree": true,
-                    "difficulty": 7,
-                    "note_count": 584,
-                    "constant": 7.3
-                },
-                {
-                    "type": "chaos",
-                    "version": "3.5.0",
-                    "pack": "VOEZ Collection I",
-                    "isFree": true,
-                    "difficulty": 14,
-                    "note_count": 1197,
-                    "constant": 13.4
-                },
-                null,
-                null,
-                null
-            ]
-        },
-        {
-            "title": "Silent Voice",
-            "artist": "Nardis",
-            "bpm": "125",
-            "alias": [],
-            "character": {
-                "id": "graffj",
-                "display_name": "Graff.J"
-            },
-            "charts": [
-                null,
-                {
-                    "type": "hard",
-                    "version": "3.5.0",
-                    "pack": "VOEZ Collection I",
-                    "isFree": true,
-                    "difficulty": 6,
-                    "note_count": 452,
-                    "constant": 6.3
-                },
-                {
-                    "type": "chaos",
-                    "version": "3.5.0",
-                    "pack": "VOEZ Collection I",
-                    "isFree": true,
-                    "difficulty": 13,
-                    "note_count": 860,
-                    "constant": 12.6
-                },
-                null,
-                null,
-                null
-            ]
-        },
-        {
-            "title": "Spring",
-            "artist": "Rave Cyanide, RiraN",
-            "bpm": "132",
-            "alias": [],
-            "character": {
-                "id": "graffj",
-                "display_name": "Graff.J"
-            },
-            "charts": [
-                null,
-                {
-                    "type": "hard",
-                    "version": "3.5.0",
-                    "pack": "VOEZ Collection I",
-                    "isFree": true,
-                    "difficulty": 8,
-                    "note_count": 757,
-                    "constant": 9
-                },
-                {
-                    "type": "chaos",
-                    "version": "3.5.0",
-                    "pack": "VOEZ Collection I",
-                    "isFree": true,
-                    "difficulty": 13,
-                    "note_count": 944,
-                    "constant": 13.4
-                },
-                null,
-                null,
-                null
-            ]
-        },
-        {
-            "title": "dynamo",
-            "artist": "Hidra-Xjeil",
-            "bpm": "160",
-            "alias": [],
-            "character": {
-                "id": "graffj",
-                "display_name": "Graff.J"
-            },
-            "charts": [
-                null,
-                {
-                    "type": "hard",
-                    "version": "3.5.0",
-                    "pack": "VOEZ Collection II",
-                    "isFree": true,
-                    "difficulty": 8,
-                    "note_count": 666,
-                    "constant": 8
-                },
-                {
-                    "type": "chaos",
-                    "version": "3.5.0",
-                    "pack": "VOEZ Collection II",
-                    "isFree": true,
-                    "difficulty": 14,
-                    "note_count": 1111,
-                    "constant": 15
-                },
-                null,
-                null,
-                null
-            ]
-        },
-        {
-            "title": "Hello Days",
-            "artist": "tomo & ino(cronoize)",
-            "bpm": "138",
-            "alias": [],
-            "character": {
-                "id": "graffj",
-                "display_name": "Graff.J"
-            },
-            "charts": [
-                null,
-                {
-                    "type": "hard",
-                    "version": "3.5.0",
-                    "pack": "VOEZ Collection II",
-                    "isFree": true,
-                    "difficulty": 7,
-                    "note_count": 376,
-                    "constant": 7
-                },
-                {
-                    "type": "chaos",
-                    "version": "3.5.0",
-                    "pack": "VOEZ Collection II",
-                    "isFree": true,
-                    "difficulty": 12,
-                    "note_count": 665,
-                    "constant": 12
-                },
-                null,
-                null,
-                null
-            ]
-        },
-        {
-            "title": "Interstellar Experience",
-            "artist": "polysha + daph",
-            "bpm": "180",
-            "alias": [],
-            "character": {
-                "id": "graffj",
-                "display_name": "Graff.J"
-            },
-            "charts": [
-                null,
-                {
-                    "type": "hard",
-                    "version": "3.5.0",
-                    "pack": "VOEZ Collection II",
-                    "isFree": true,
-                    "difficulty": 8,
-                    "note_count": 722,
-                    "constant": 8.2
-                },
-                {
-                    "type": "chaos",
-                    "version": "3.5.0",
-                    "pack": "VOEZ Collection II",
-                    "isFree": true,
-                    "difficulty": 14,
-                    "note_count": 998,
-                    "constant": 14.4
-                },
-                null,
-                null,
-                null
-            ]
-        },
-        {
-            "title": "FUSE",
-            "artist": "Titancube",
-            "bpm": "190",
-            "alias": [],
-            "character": {
-                "id": "graffj",
-                "display_name": "Graff.J"
-            },
-            "charts": [
-                null,
-                {
-                    "type": "hard",
-                    "version": "3.5.0",
-                    "pack": "VOEZ Collection III",
-                    "isFree": true,
-                    "difficulty": 8,
-                    "note_count": 516,
-                    "constant": 8.2
-                },
-                {
-                    "type": "chaos",
-                    "version": "3.5.0",
-                    "pack": "VOEZ Collection III",
-                    "isFree": true,
-                    "difficulty": 14,
-                    "note_count": 944,
-                    "constant": 13.8
-                },
-                null,
-                null,
-                null
-            ]
-        },
-        {
-            "title": "Gigantic Saga",
-            "artist": "Paul Bazooka",
-            "bpm": "128",
-            "alias": [],
-            "character": {
-                "id": "graffj",
-                "display_name": "Graff.J"
-            },
-            "charts": [
-                null,
-                {
-                    "type": "hard",
-                    "version": "3.5.0",
-                    "pack": "VOEZ Collection III",
-                    "isFree": true,
-                    "difficulty": 6,
-                    "note_count": 414,
-                    "constant": 6.7
-                },
-                {
-                    "type": "chaos",
-                    "version": "3.5.0",
-                    "pack": "VOEZ Collection III",
-                    "isFree": true,
-                    "difficulty": 12,
-                    "note_count": 632,
-                    "constant": 12.2
-                },
-                null,
-                null,
-                null
-            ]
-        },
-        {
-            "title": "popotnik ~ The Traveller of Ljubljana",
-            "artist": "Lhou",
-            "bpm": "130",
-            "alias": [],
-            "character": {
-                "id": "graffj",
-                "display_name": "Graff.J"
-            },
-            "charts": [
-                null,
-                {
-                    "type": "hard",
-                    "version": "3.5.0",
-                    "pack": "VOEZ Collection III",
-                    "isFree": true,
-                    "difficulty": 7,
-                    "note_count": 680,
-                    "constant": 7.7
-                },
-                {
-                    "type": "chaos",
-                    "version": "3.5.0",
-                    "pack": "VOEZ Collection III",
-                    "isFree": true,
-                    "difficulty": 12,
-                    "note_count": 858,
-                    "constant": 12
-                },
-                null,
-                null,
-                null
-            ]
-        },
-        {
-            "title": "Ascension to Heaven",
-            "artist": "xi",
-            "bpm": "190~200",
-            "alias": [],
-            "character": {
-                "id": "graffj",
-                "display_name": "Graff.J"
-            },
-            "charts": [
-                null,
-                {
-                    "type": "hard",
-                    "version": "3.5.0",
-                    "pack": "VOEZ Collection IV",
-                    "isFree": true,
-                    "difficulty": 8,
-                    "note_count": 595,
-                    "constant": 8.4
-                },
-                {
-                    "type": "chaos",
-                    "version": "3.5.0",
-                    "pack": "VOEZ Collection IV",
-                    "isFree": true,
-                    "difficulty": 15,
-                    "note_count": 1078,
-                    "constant": 14.2
-                },
-                null,
-                null,
-                null
-            ]
-        },
-        {
-            "title": "Lifill",
-            "artist": "Feryquitous Feat Sennzai",
-            "bpm": "185",
-            "alias": [],
-            "character": {
-                "id": "graffj",
-                "display_name": "Graff.J"
-            },
-            "charts": [
-                null,
-                {
-                    "type": "hard",
-                    "version": "3.5.0",
-                    "pack": "VOEZ Collection IV",
-                    "isFree": true,
-                    "difficulty": 7,
-                    "note_count": 369,
-                    "constant": 8
-                },
-                {
-                    "type": "chaos",
-                    "version": "3.5.0",
-                    "pack": "VOEZ Collection IV",
-                    "isFree": true,
-                    "difficulty": 12,
-                    "note_count": 600,
-                    "constant": 12.2
-                },
-                null,
-                null,
-                null
-            ]
-        },
-        {
-            "title": "そんなに私を期待きせないで",
-            "artist": "上村叶恵",
-            "bpm": "160",
-            "alias": [],
-            "character": {
-                "id": "graffj",
-                "display_name": "Graff.J"
-            },
-            "charts": [
-                null,
-                {
-                    "type": "hard",
-                    "version": "3.5.0",
-                    "pack": "VOEZ Collection IV",
-                    "isFree": true,
-                    "difficulty": 7,
-                    "note_count": 500,
-                    "constant": 7
-                },
-                {
-                    "type": "chaos",
-                    "version": "3.5.0",
-                    "pack": "VOEZ Collection IV",
-                    "isFree": true,
-                    "difficulty": 11,
-                    "note_count": 750,
-                    "constant": 10.4
-                },
-                null,
-                null,
-                null
-            ]
-        },
-        {
-            "title": "Fading Star",
-            "artist": "ginkiha",
-            "bpm": "140",
-            "alias": [],
-            "character": {
-                "id": "graffj",
-                "display_name": "Graff.J"
-            },
-            "charts": [
-                null,
-                {
-                    "type": "hard",
-                    "version": "3.5.0",
-                    "pack": "VOEZ Collection V",
-                    "isFree": true,
-                    "difficulty": 7,
-                    "note_count": 397,
-                    "constant": 7
-                },
-                {
-                    "type": "chaos",
-                    "version": "3.5.0",
-                    "pack": "VOEZ Collection V",
-                    "isFree": true,
-                    "difficulty": 11,
-                    "note_count": 597,
-                    "constant": 11.6
-                },
-                null,
-                null,
-                null
-            ]
-        },
-        {
-            "title": "Magical Toy Box",
-            "artist": "Shiron + xi",
-            "bpm": "184",
-            "alias": [],
-            "character": {
-                "id": "graffj",
-                "display_name": "Graff.J"
-            },
-            "charts": [
-                null,
-                {
-                    "type": "hard",
-                    "version": "3.5.0",
-                    "pack": "VOEZ Collection V",
-                    "isFree": true,
-                    "difficulty": 9,
-                    "note_count": 809,
-                    "constant": 9.4
-                },
-                {
-                    "type": "chaos",
-                    "version": "3.5.0",
-                    "pack": "VOEZ Collection V",
-                    "isFree": true,
-                    "difficulty": 15,
-                    "note_count": 1234,
-                    "constant": 15.4
-                },
-                null,
-                null,
-                null
-            ]
-        },
-        {
-            "title": "Until the Blue Moon Rises",
-            "artist": "Plutian",
-            "bpm": "138",
-            "alias": [],
-            "character": {
-                "id": "graffj",
-                "display_name": "Graff.J"
-            },
-            "charts": [
-                null,
-                {
-                    "type": "hard",
-                    "version": "3.5.0",
-                    "pack": "VOEZ Collection V",
-                    "isFree": true,
-                    "difficulty": 6,
-                    "note_count": 462,
-                    "constant": 6.3
-                },
-                {
-                    "type": "chaos",
-                    "version": "3.5.0",
-                    "pack": "VOEZ Collection V",
-                    "isFree": true,
-                    "difficulty": 12,
-                    "note_count": 777,
-                    "constant": 12.4
-                },
-                null,
-                null,
-                null
-            ]
-        },
-        {
-            "title": "双龍飛閃-Dual Dragoon-",
-            "artist": "Daisuke Ohnuma",
-            "bpm": "212",
-            "alias": [],
-            "character": {
-                "id": "graffj",
-                "display_name": "Graff.J"
-            },
-            "charts": [
-                null,
-                {
-                    "type": "hard",
-                    "version": "3.8.0",
-                    "pack": "VOEZ Collection VI",
-                    "isFree": true,
-                    "difficulty": 9,
-                    "note_count": 770,
-                    "constant": 9.4
-                },
-                {
-                    "type": "chaos",
-                    "version": "3.8.0",
-                    "pack": "VOEZ Collection VI",
-                    "isFree": true,
-                    "difficulty": 15,
-                    "note_count": 1203,
-                    "constant": 15
-                },
-                null,
-                null,
-                null
-            ]
-        },
-        {
-            "title": "Like Asian Spirit",
-            "artist": "Valunava",
-            "bpm": "143",
-            "alias": [],
-            "character": {
-                "id": "graffj",
-                "display_name": "Graff.J"
-            },
-            "charts": [
-                null,
-                {
-                    "type": "hard",
-                    "version": "3.8.0",
-                    "pack": "VOEZ Collection VI",
-                    "isFree": true,
-                    "difficulty": 7,
-                    "note_count": 601,
-                    "constant": 7.3
-                },
-                {
-                    "type": "chaos",
-                    "version": "3.8.0",
-                    "pack": "VOEZ Collection VI",
-                    "isFree": true,
-                    "difficulty": 14,
-                    "note_count": 889,
-                    "constant": 14.4
-                },
-                null,
-                null,
-                null
-            ]
-        },
-        {
-            "title": "Tsukiyura",
-            "artist": "mitssi",
-            "bpm": "145",
-            "alias": [],
-            "character": {
-                "id": "graffj",
-                "display_name": "Graff.J"
-            },
-            "charts": [
-                null,
-                {
-                    "type": "hard",
-                    "version": "3.8.0",
-                    "pack": "VOEZ Collection VI",
-                    "isFree": true,
-                    "difficulty": 8,
-                    "note_count": 751,
-                    "constant": 8.6
-                },
-                {
-                    "type": "chaos",
-                    "version": "3.8.0",
-                    "pack": "VOEZ Collection VI",
-                    "isFree": true,
-                    "difficulty": 14,
-                    "note_count": 1003,
-                    "constant": 13.6
                 },
                 null,
                 null,
@@ -10804,7 +10914,7 @@
             ]
         },
         {
-            "title": "ManiFesto",
+            "title": "ManiFesto:",
             "artist": "David Wesbom",
             "bpm": "155",
             "alias": [],
@@ -11066,7 +11176,7 @@
                     "version": "4.2.5",
                     "pack": "联动",
                     "isFree": false,
-                    "difficulty": 14,
+                    "difficulty": 13,
                     "note_count": 774,
                     "constant": 12
                 },
@@ -12500,7 +12610,7 @@
                     "version": "3.1.6",
                     "pack": "联动",
                     "isFree": false,
-                    "difficulty": 9,
+                    "difficulty": 10,
                     "note_count": 623,
                     "constant": 9.4
                 },
@@ -12908,7 +13018,7 @@
                     "version": "2.3.9",
                     "pack": "联动",
                     "isFree": false,
-                    "difficulty": 12,
+                    "difficulty": 13,
                     "note_count": 876,
                     "constant": 13.6
                 },
@@ -12986,108 +13096,6 @@
             ]
         },
         {
-            "title": "Silver Lotus",
-            "artist": "satella",
-            "bpm": "188",
-            "alias": [],
-            "character": {
-                "id": "ilka",
-                "display_name": "Ilka"
-            },
-            "charts": [
-                null,
-                {
-                    "type": "hard",
-                    "version": "4.0.0",
-                    "pack": "DLC",
-                    "isFree": false,
-                    "difficulty": 6,
-                    "note_count": 381,
-                    "constant": 6.7
-                },
-                {
-                    "type": "chaos",
-                    "version": "4.0.0",
-                    "pack": "DLC",
-                    "isFree": false,
-                    "difficulty": 11,
-                    "note_count": 658,
-                    "constant": 11.4
-                },
-                null,
-                null,
-                null
-            ]
-        },
-        {
-            "title": "3G0",
-            "artist": "Katali",
-            "bpm": "174",
-            "alias": [],
-            "character": {
-                "id": "ilka",
-                "display_name": "Ilka"
-            },
-            "charts": [
-                null,
-                {
-                    "type": "hard",
-                    "version": "4.0.0",
-                    "pack": "DLC",
-                    "isFree": false,
-                    "difficulty": 7,
-                    "note_count": 570,
-                    "constant": 7.7
-                },
-                {
-                    "type": "chaos",
-                    "version": "4.0.0",
-                    "pack": "DLC",
-                    "isFree": false,
-                    "difficulty": 12,
-                    "note_count": 792,
-                    "constant": 12
-                },
-                null,
-                null,
-                null
-            ]
-        },
-        {
-            "title": "Rebellion Trigger",
-            "artist": "xi",
-            "bpm": "212",
-            "alias": [],
-            "character": {
-                "id": "ilka",
-                "display_name": "Ilka"
-            },
-            "charts": [
-                null,
-                {
-                    "type": "hard",
-                    "version": "4.0.0",
-                    "pack": "DLC",
-                    "isFree": false,
-                    "difficulty": 9,
-                    "note_count": 1021,
-                    "constant": 10.4
-                },
-                {
-                    "type": "chaos",
-                    "version": "4.0.0",
-                    "pack": "DLC",
-                    "isFree": false,
-                    "difficulty": 15,
-                    "note_count": 1719,
-                    "constant": 14.8
-                },
-                null,
-                null,
-                null
-            ]
-        },
-        {
             "title": "Alb",
             "artist": "Avans",
             "bpm": "140",
@@ -13146,7 +13154,7 @@
                     "version": "4.0.0",
                     "pack": "DLC",
                     "isFree": false,
-                    "difficulty": 15,
+                    "difficulty": 14,
                     "note_count": 1210,
                     "constant": 14.2
                 },
@@ -13156,77 +13164,9 @@
             ]
         },
         {
-            "title": "Levolution",
-            "artist": "MIDInco",
-            "bpm": "175",
-            "alias": [],
-            "character": {
-                "id": "ilka",
-                "display_name": "Ilka"
-            },
-            "charts": [
-                null,
-                {
-                    "type": "hard",
-                    "version": "4.0.0",
-                    "pack": "DLC",
-                    "isFree": false,
-                    "difficulty": 7,
-                    "note_count": 476,
-                    "constant": 7
-                },
-                {
-                    "type": "chaos",
-                    "version": "4.0.0",
-                    "pack": "DLC",
-                    "isFree": false,
-                    "difficulty": 13,
-                    "note_count": 747,
-                    "constant": 11.8
-                },
-                null,
-                null,
-                null
-            ]
-        },
-        {
-            "title": "Elysian Volitation",
-            "artist": "Hundotte",
-            "bpm": "190",
-            "alias": [],
-            "character": {
-                "id": "ilka",
-                "display_name": "Ilka"
-            },
-            "charts": [
-                null,
-                {
-                    "type": "hard",
-                    "version": "4.0.0",
-                    "pack": "DLC",
-                    "isFree": false,
-                    "difficulty": 10,
-                    "note_count": 930,
-                    "constant": 9.8
-                },
-                {
-                    "type": "chaos",
-                    "version": "4.0.0",
-                    "pack": "DLC",
-                    "isFree": false,
-                    "difficulty": 14,
-                    "note_count": 1282,
-                    "constant": 14.8
-                },
-                null,
-                null,
-                null
-            ]
-        },
-        {
-            "title": "History DstrØyeR",
-            "artist": "溝口ゆうま feat. 大瀬良あい meets まるもこ",
-            "bpm": "170",
+            "title": "Rebellion Trigger",
+            "artist": "xi",
+            "bpm": "212",
             "alias": [],
             "character": {
                 "id": "ilka",
@@ -13240,8 +13180,8 @@
                     "pack": "DLC",
                     "isFree": false,
                     "difficulty": 9,
-                    "note_count": 1049,
-                    "constant": 10.6
+                    "note_count": 1021,
+                    "constant": 10.4
                 },
                 {
                     "type": "chaos",
@@ -13249,8 +13189,42 @@
                     "pack": "DLC",
                     "isFree": false,
                     "difficulty": 15,
-                    "note_count": 1505,
-                    "constant": 15.2
+                    "note_count": 1719,
+                    "constant": 14.8
+                },
+                null,
+                null,
+                null
+            ]
+        },
+        {
+            "title": "Silver Lotus",
+            "artist": "satella",
+            "bpm": "188",
+            "alias": [],
+            "character": {
+                "id": "ilka",
+                "display_name": "Ilka"
+            },
+            "charts": [
+                null,
+                {
+                    "type": "hard",
+                    "version": "4.0.0",
+                    "pack": "DLC",
+                    "isFree": false,
+                    "difficulty": 6,
+                    "note_count": 381,
+                    "constant": 6.7
+                },
+                {
+                    "type": "chaos",
+                    "version": "4.0.0",
+                    "pack": "DLC",
+                    "isFree": false,
+                    "difficulty": 11,
+                    "note_count": 658,
+                    "constant": 11.4
                 },
                 null,
                 null,
@@ -13292,6 +13266,74 @@
             ]
         },
         {
+            "title": "History DstrØyeR",
+            "artist": "溝口ゆうま feat. 大瀬良あい meets まるもこ",
+            "bpm": "170",
+            "alias": [],
+            "character": {
+                "id": "ilka",
+                "display_name": "Ilka"
+            },
+            "charts": [
+                null,
+                {
+                    "type": "hard",
+                    "version": "4.0.0",
+                    "pack": "DLC",
+                    "isFree": false,
+                    "difficulty": 9,
+                    "note_count": 1049,
+                    "constant": 10.6
+                },
+                {
+                    "type": "chaos",
+                    "version": "4.0.0",
+                    "pack": "DLC",
+                    "isFree": false,
+                    "difficulty": 15,
+                    "note_count": 1505,
+                    "constant": 15.2
+                },
+                null,
+                null,
+                null
+            ]
+        },
+        {
+            "title": "Elysian Volitation",
+            "artist": "Hundotte",
+            "bpm": "190",
+            "alias": [],
+            "character": {
+                "id": "ilka",
+                "display_name": "Ilka"
+            },
+            "charts": [
+                null,
+                {
+                    "type": "hard",
+                    "version": "4.0.0",
+                    "pack": "DLC",
+                    "isFree": false,
+                    "difficulty": 10,
+                    "note_count": 930,
+                    "constant": 9.8
+                },
+                {
+                    "type": "chaos",
+                    "version": "4.0.0",
+                    "pack": "DLC",
+                    "isFree": false,
+                    "difficulty": 14,
+                    "note_count": 1282,
+                    "constant": 14.8
+                },
+                null,
+                null,
+                null
+            ]
+        },
+        {
             "title": "Re:The END -再-",
             "artist": "Apo11o\"Æther\"program ft.じまんぐ×大瀬良あい",
             "bpm": "110~150",
@@ -13319,6 +13361,110 @@
                     "difficulty": 15,
                     "note_count": 1288,
                     "constant": 15.8
+                },
+                null,
+                null,
+                null
+            ]
+        },
+        {
+            "title": "3G0",
+            "artist": "Katali",
+            "bpm": "174",
+            "alias": [],
+            "character": {
+                "id": "ilka",
+                "display_name": "Ilka"
+            },
+            "charts": [
+                null,
+                {
+                    "type": "hard",
+                    "version": "4.0.0",
+                    "pack": "DLC",
+                    "isFree": false,
+                    "difficulty": 7,
+                    "note_count": 570,
+                    "constant": 7.7
+                },
+                {
+                    "type": "chaos",
+                    "version": "4.0.0",
+                    "pack": "DLC",
+                    "isFree": false,
+                    "difficulty": 12,
+                    "note_count": 792,
+                    "constant": 12
+                },
+                null,
+                null,
+                null
+            ]
+        },
+        {
+            "title": "Levolution",
+            "artist": "MIDInco",
+            "bpm": "175",
+            "alias": [],
+            "character": {
+                "id": "ilka",
+                "display_name": "Ilka"
+            },
+            "charts": [
+                null,
+                {
+                    "type": "hard",
+                    "version": "4.0.0",
+                    "pack": "DLC",
+                    "isFree": false,
+                    "difficulty": 7,
+                    "note_count": 476,
+                    "constant": 7
+                },
+                {
+                    "type": "chaos",
+                    "version": "4.0.0",
+                    "pack": "DLC",
+                    "isFree": false,
+                    "difficulty": 13,
+                    "note_count": 747,
+                    "constant": 11.8
+                },
+                null,
+                null,
+                null
+            ]
+        },
+        {
+            "title": "IΛVΛVI",
+            "artist": "Blacklolita",
+            "bpm": "180",
+            "alias": [
+                "iavavi"
+            ],
+            "character": {
+                "id": "ilka",
+                "display_name": "Ilka"
+            },
+            "charts": [
+                null,
+                {
+                    "type": "hard",
+                    "version": "4.6.0",
+                    "pack": "DLC",
+                    "isFree": false,
+                    "difficulty": 6,
+                    "note_count": 532,
+                    "constant": 0
+                },
+                {
+                    "type": "chaos",
+                    "version": "4.6.0",
+                    "pack": "DLC",
+                    "isFree": false,
+                    "difficulty": 15,
+                    "note_count": 1028,
+                    "constant": 0
                 },
                 null,
                 null,
@@ -14080,9 +14226,9 @@
                     "version": "1.0.0",
                     "pack": "DLC",
                     "isFree": false,
-                    "difficulty": 13,
+                    "difficulty": 12,
                     "note_count": 771,
-                    "constant": 13.2
+                    "constant": 12.8
                 },
                 null,
                 null,
@@ -14182,7 +14328,7 @@
                     "version": "1.0.0",
                     "pack": "DLC",
                     "isFree": false,
-                    "difficulty": 11,
+                    "difficulty": 10,
                     "note_count": 749,
                     "constant": 10.4
                 },
@@ -14556,7 +14702,7 @@
                     "version": "1.1.0",
                     "pack": "DLC",
                     "isFree": false,
-                    "difficulty": 12,
+                    "difficulty": 11,
                     "note_count": 723,
                     "constant": 11.2
                 },
@@ -15150,7 +15296,7 @@
                     "version": "1.4.0",
                     "pack": "DLC",
                     "isFree": false,
-                    "difficulty": 13,
+                    "difficulty": 14,
                     "note_count": 618,
                     "constant": 13.6
                 },
@@ -15388,7 +15534,7 @@
                     "version": "2.8.0",
                     "pack": "DLC",
                     "isFree": false,
-                    "difficulty": 13,
+                    "difficulty": 14,
                     "note_count": 813,
                     "constant": 13.8
                 },
@@ -15460,7 +15606,15 @@
                     "note_count": 1075,
                     "constant": 14.2
                 },
-                null,
+                {
+                    "type": "glitch",
+                    "version": "4.6.0",
+                    "pack": "CAPSO",
+                    "isFree": false,
+                    "difficulty": 15,
+                    "note_count": 1223,
+                    "constant": 0
+                },
                 null,
                 null
             ]
@@ -15732,7 +15886,15 @@
                     "note_count": 1049,
                     "constant": 14.2
                 },
-                null,
+                {
+                    "type": "glitch",
+                    "version": "4.6.0",
+                    "pack": "CAPSO",
+                    "isFree": false,
+                    "difficulty": 15,
+                    "note_count": 1097,
+                    "constant": 0
+                },
                 null,
                 null
             ]
@@ -15762,7 +15924,7 @@
                     "version": "2.8.0",
                     "pack": "DLC",
                     "isFree": false,
-                    "difficulty": 10,
+                    "difficulty": 11,
                     "note_count": 652,
                     "constant": 10.6
                 },
@@ -15898,7 +16060,7 @@
                     "version": "2.8.0",
                     "pack": "DLC",
                     "isFree": false,
-                    "difficulty": 11,
+                    "difficulty": 12,
                     "note_count": 587,
                     "constant": 12.4
                 },
@@ -15932,7 +16094,7 @@
                     "version": "2.8.0",
                     "pack": "DLC",
                     "isFree": false,
-                    "difficulty": 11,
+                    "difficulty": 10,
                     "note_count": 672,
                     "constant": 10.4
                 },
@@ -16068,7 +16230,7 @@
                     "version": "1.7.0",
                     "pack": "DLC",
                     "isFree": false,
-                    "difficulty": 8,
+                    "difficulty": 9,
                     "note_count": 368,
                     "constant": 9
                 },
@@ -16246,7 +16408,7 @@
                     "version": "1.7.0",
                     "pack": "DLC",
                     "isFree": false,
-                    "difficulty": 10,
+                    "difficulty": 9,
                     "note_count": 503,
                     "constant": 10
                 },
@@ -16772,7 +16934,7 @@
                     "version": "1.9.0",
                     "pack": "DLC",
                     "isFree": false,
-                    "difficulty": 12,
+                    "difficulty": 13,
                     "note_count": 828,
                     "constant": 13.2
                 },
@@ -16840,7 +17002,7 @@
                     "version": "1.9.0",
                     "pack": "DLC",
                     "isFree": false,
-                    "difficulty": 11,
+                    "difficulty": 12,
                     "note_count": 706,
                     "constant": 11.8
                 },
@@ -16978,7 +17140,7 @@
                     "isFree": false,
                     "difficulty": 13,
                     "note_count": 708,
-                    "constant": 12.6
+                    "constant": 12.4
                 },
                 null,
                 null,
