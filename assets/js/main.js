@@ -208,7 +208,7 @@ window.bindEvent('DOMContentLoaded', async function() {
         const level = $('#level_template').content.cloneNode(true);
         level.$('.difficulty').addClass(type).setHtml(`${type.toUpperCase()} <span>${getDifficulty(difficulty)}</span>`);
         level.$('.version').addClass(type).$('small').setText(`v${version}`);
-        level.$('.note_count').addClass(type).$('span').setText(note_count);
+        level.$('.note_count').addClass(type).$('span').setText(note_count === 0 ? '暂无' : note_count);
         level.$('.constant').addClass(type).$('span').setText(getConstant(constant));
         return level;
     }
