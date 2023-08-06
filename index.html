@@ -2,296 +2,86 @@
 <html>
 
 <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
-    <meta name="renderer" content="webkit" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=0" />
-    <link rel="icon" href="assets/images/logo.ico" type="image/x-icon" />
-    <link rel="shortcut icon" href="assets/images/logo.ico" type="image/x-icon" />
-    <link rel="stylesheet" href="assets/css/style.css" type="text/css" />
-    <style type="text/css">
-        #search {
-            cursor: pointer;
-        }
-
-        #search_box {
-            display: flex;
-            flex-direction: column;
-            position: fixed;
-            top: 50px;
-            right: -100%;
-            width: 100%;
-            height: 50px;
-            margin: auto;
-            background: var(--background-color);
-            border: 1px solid var(--border-color);
-            border-top: none;
-            transition: right 0.35s ease;
-        }
-
-        #navcb2:checked~#search_box {
-            right: 0;
-        }
-
-        #search_box>* {
-            padding: 0 var(--horizontal-padding);
-        }
-
-        #input {
-            position: relative;
-            margin: auto 0;
-        }
-
-        #keyword {
-            margin: 0;
-            padding-right: 32px;
-        }
-
-        #clear {
-            display: none;
-            position: absolute;
-            top: 0;
-            right: var(--horizontal-padding);
-            width: 32px;
-            height: 32px;
-            padding: 8px;
-            cursor: pointer;
-        }
-
-        #keyword:not(:placeholder-shown)~#clear {
-            display: block;
-        }
-
-        #filters {
-            display: flex;
-            flex-direction: column;
-            position: absolute;
-            top: 100%;
-            right: -1px;
-            width: calc(100% + 2px);
-            background: var(--background-color);
-            border: 1px solid var(--border-color);
-            transform: scaleY(0);
-            transform-origin: 50% 0 0;
-            transition: transform 0.25s ease;
-        }
-
-        #filters.show {
-            transform: scaleY(1);
-        }
-
-        #filters .row {
-            display: flex;
-            justify-content: space-between;
-            margin: 0.65rem 0;
-        }
-
-        #filters .row>label:not(:last-of-type) {
-            flex-basis: 4.5em;
-        }
-
-        #filters .row>label:last-of-type {
-            flex-basis: 6.5em;
-        }
-
-        #info,
-        #divide_1,
-        #divide_2,
-        #result,
-        #egg_1,
-        #egg_2 {
-            display: none;
-        }
-
-        #songs {
-            overflow: hidden;
-        }
-
-        #songs .list {
-            display: flex;
-            align-items: center;
-            flex-wrap: wrap;
-        }
-
-        #songs .list>* {
-            width: 100%;
-        }
-
-        #songs .list .song {
-            overflow: hidden;
-            width: 100%;
-            margin: 0.65rem 0;
-            padding: 8px 16px;
-            background: #F8F8F8;
-            border: 1px solid var(--border-color);
-            border-radius: var(--border-radius);
-        }
-
-        #songs .level {
-            display: flex;
-            justify-content: space-between;
-        }
-
-        #songs .level .difficulty {
-            display: inline-block;
-            text-align: left;
-        }
-
-        #songs .level .version {
-            display: inline-block;
-            text-align: right;
-        }
-    </style>
-    <title>Cytus II谱面定数表 | C2info</title>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+  <meta name="renderer" content="webkit" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=0" />
+  <link rel="icon" href="logo.ico" type="image/x-icon" />
+  <link rel="shortcut icon" href="logo.ico" type="image/x-icon" />
+  <link rel="stylesheet" href="/style/themify-icons.css">
+  <link rel="stylesheet" href="main.css" type="text/css" />
+  <title>Cytus II谱面定数表 | C2info</title>
 </head>
 
 <body>
-    <noscript>
-        <p id="warning">您的浏览器未启用或不支持JavaScript，无法使用本网站。</p>
-    </noscript>
-    <nav>
-        <input type="checkbox" id="navcb1">
-        <label for="navcb1" id="menu">
-            <i class="fa fa-bars"></i>
-        </label>
-        <div id="items">
-            <div class="item">
-                <label><a href="/overview" class="title">定数总览</a></label>
-            </div>
-            <div class="item">
-                <label><a href="/calculator" class="title">计算器</a></label>
-            </div>
-            <div class="item">
-                <label><a href="/updates" class="title">更新日志</a></label>
-            </div>
-            <div class="item">
-                <label><a href="/about" class="title">关于本站</a></label>
-            </div>
+  <noscript class="warning">
+    <p>您的浏览器未启用或不支持JavaScript，无法使用本网站。</p>
+    <p>Your browser isn't enabled or doesn't support JavaScript. Please check and try again.</p>
+  </noscript>
+  <div class="warning hidden">
+    <p>您的浏览器内核版本过低，无法支持网站功能的正常运行。请升级/更换浏览器或是等待本站的兼容性更新。</p>
+  </div>
+  <main id="container">
+    <div id="main" class="component">
+      <h2>Cytus II谱面定数表</h2>
+      <p>https://c2info.starsky919.xyz/</p>
+      <p><span id="message">--</span><br />详见<a href="#/updates">更新日志</a>。</p>
+      <p id="stats">--</p>
+      <hr />
+      <div id="search-container">
+        <div id="sentinel"></div>
+        <div id="search-box">
+          <input type="text" id="search" placeholder="搜索……" required />
+          <div id="result-box"></div>
         </div>
-        <label id="title">C2info</label>
-        <input type="checkbox" id="navcb2">
-        <label for="navcb2" id="search"><i class="fa fa-search"></i></label>
-        <div id="search_box">
-            <div id="input">
-                <input type="text" class="input" id="keyword" placeholder="搜索" />
-                <div id="clear" class="fa fa-times"></div>
-            </div>
-            <div id="filters">
-                <div class="row">
-                    <label class="radio">
-                        <input type="radio" name="search_filters" id="name" />
-                        <label for="name">
-                            <span>搜曲名</span>
-                            <span class="pattern"></span>
-                        </label>
-                    </label>
-                    <label class="radio">
-                        <input type="radio" name="search_filters" id="artist" />
-                        <label for="artist">
-                            <span>搜曲师</span>
-                            <span class="pattern"></span>
-                        </label>
-                    </label>
-                    <label class="radio">
-                        <input type="radio" name="search_filters" id="bpm" />
-                        <label for="bpm">
-                            <span>搜BPM</span>
-                            <span class="pattern"></span>
-                        </label>
-                    </label>
-                    <label class="checkbox">
-                        <input type="checkbox" id="case_sensitive" />
-                        <label for="case_sensitive">
-                            <span>区分大小写</span>
-                            <span class="pattern"></span>
-                        </label>
-                    </label>
-                </div>
-                <div class="row">
-                    <label class="radio">
-                        <input type="radio" name="search_filters" id="difficulty">
-                        <label for="difficulty">
-                            <span>搜难度</span>
-                            <span class="pattern"></span>
-                        </label>
-                    </label>
-                    <label class="radio">
-                        <input type="radio" name="search_filters" id="note_count">
-                        <label for="note_count">
-                            <span>搜物量</span>
-                            <span class="pattern"></span>
-                        </label>
-                    </label>
-                    <label class="radio">
-                        <input type="radio" name="search_filters" id="constant" />
-                        <label for="constant">
-                            <span>搜定数</span>
-                            <span class="pattern"></span>
-                        </label>
-                    </label>
-                    <label class="checkbox">
-                        <input type="checkbox" id="exact_match" />
-                        <label for="exact_match">
-                            <span>精确搜索</span>
-                            <span class="pattern"></span>
-                        </label>
-                    </label>
-                </div>
-            </div>
-        </div>
-    </nav>
-    <main>
-        <h2>Cytus II谱面定数表</h2>
-        <p id="url">https://c2info.starsky919.xyz/</p>
-        <p>4.7.0版本新曲信息与定数已更新。详见<a href="/updates">更新日志</a>。</p>
-        <p>点击左上角的按钮“<i class="fa fa-bars"></i>”可以打开侧边栏，点击右上角的按钮“<i class="fa fa-search"></i>”可以使用搜索功能。</p>
-        <p id="info"></p>
-        <hr id="divide_1" />
-        <div id="container">
-            <div id="loading">
-                <span class="loading md"></span>
-                <p>加载中……</p>
-            </div>
-            <p id="result"></p>
-            <div id="songs"></div>
-            <div id="egg_1">
-                <p>恭喜你发现了彩蛋</p>
-                <p>Homo会在任何地方搜索114514（确信）</p>
-                <img src="assets/images/114514.jpg" alt="野兽先辈">
-            </div>
-            <div id="egg_2">
-                <p>恭喜你发现了彩蛋</p>
-                <p>好舒服~</p>
-                <img src="assets/images/graffj.jpg" alt="好舒服">
-            </div>
-        </div>
-        <hr id="divide_2" />
-    </main>
-    <footer>
-        <p>
-            Cytus II © 2018 Rayark Inc.
-            <br />
-            Difficulty (HARD) © 2021 Team CCDC
-            <br />
-            Difficulty (CHAOS & GLITCH) © 2021 Team CN:DC
-            <br />
-            C2info © 2021 StarSky919
-        </p>
-    </footer>
-    <template id="song_template">
-        <div class="song">
-            <h3 class="name"><span></span></h3>
-            <p class="artist">曲师：<span></span></p>
-            <p class="bpm">BPM：<span></span></p>
-        </div>
-    </template>
-    <template id="level_template">
-        <p class="level"><span class="difficulty"></span><span class="version"><small></small></span></p>
-        <p class="note_count">物量：<span></span></p>
-        <p class="constant">定数：<span></span></p>
-    </template>
-    <script src="assets/js/index.js" type="text/javascript"></script>
-    <script src="assets/js/main.js" type="text/javascript"></script>
+        <div id="search-mask"></div>
+      </div>
+      <div class="row"><span><span class="button small" id="sorted-by"><i class="ti-list"></i> <span>--</span></span><span class="button small" id="ordering"><i class="ti-exchange-vertical"></i> <span>--</span></span></span><span class="button small" id="constant-filter">定数筛选</span></div>
+      <div id="charts"></div>
+    </div>
+    <div id="updates" class="component">
+      <h2>更新日志</h2>
+      <p>这里会记录本站所有较为重要的更新和修改内容。</p>
+    </div>
+    <div id="not-found" class="component">
+      <h2>404 - Not Found</h2>
+      <p>您所访问的页面不存在！</p>
+      <p><a href="#/charts">返回首页</a></p>
+    </div>
+    <div id="loading" class="component active">
+      <p>加载中...</p>
+      <div><span class="loading md"></span></div>
+    </div>
+  </main>
+  <template id="chart-template">
+    <div class="chart">
+      <p><strong class="title">{{ title }}</strong> / <small class="artist">{{ artist }}</small></p>
+      <p class="row"><span class="bpm">BPM：{{ bpm }}</span><span class="character">角色：{{ character }}</span></p>
+    </div>
+  </template>
+  <template id="result-item-template">
+    <div class="result-item"><span class="title"></span><br /><span class="info"><span>{{ dn }} {{ difficulty }}</span><span>{{ data }}</span></span></div>
+  </template>
+  <template id="dialog-template">
+    <div class="dialog-container hidden">
+      <div class="dialog-mask"></div>
+      <div class="dialog-box">
+        <div class="title"></div>
+        <div class="content"></div>
+        <div class="buttons"></div>
+      </div>
+    </div>
+  </template>
+  <script>
+    try {
+      fetch;
+      eval('async function test() {}');
+      IntersectionObserver;
+    } catch (err) {
+      document.querySelector('.warning.hidden').classList.remove('hidden');
+    }
+  </script>
+  <script src="app.js" type="module"></script>
 </body>
 
 </html>
