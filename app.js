@@ -117,8 +117,7 @@ async function main() {
     }
   }
 
-  const { results: [{ version: ios_tw_version }] } = await loadJSON('https://itunes.apple.com/tw/lookup?id=1290687550');
-  $('stats').innerText = `网站数据版本：v${version}\n游戏最新版本：v${ios_tw_version}（iOS国际）\n当前共有${songs.length}首曲目，${songs.filter(song => !!song.difficulties.glitch).length}张GLITCH谱面。`;
+  $('stats').innerText = `网站数据版本：v${version}\n当前共有${songs.length}首曲目，${songs.filter(song => !!song.difficulties.glitch).length}张GLITCH谱面。`;
 
   const { message, updates } = await loadJSON('/assets/changelog.json');
   $('message').innerText = message;
