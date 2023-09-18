@@ -82,8 +82,8 @@ function getSortMethod(sortedby, reverse) {
     },
     (a, b) => {
       if (reverse)[a, b] = [b, a];
-      const avs = a.version.split('.').map(n => Number(n));
-      const bvs = b.version.split('.').map(n => Number(n));
+      const avs = a.version.split(/.(?=\d)/g).map(n => parseInt(n));
+      const bvs = b.version.split(/.(?=\d)/g).map(n => parseInt(n));
       for (const i of range(Math.max(avs.length, bvs.length))) {
         if (avs[i] === bvs[i]) continue;
         return (avs[i] || 0) - (bvs[i] || 0);
@@ -138,10 +138,29 @@ async function main() {
 
   bindOnClick(chartList, event => {
     const chartBox = event.target;
-    if (!chartBox.classList.contains('song')) return;
-    const { songid, difficulty } = chartBox.dataset;
+    if (!chartBox.classList.contains('chart')) return;
+    const { songid } = chartBox.dataset;
     if (!songid) return;
-    const song = songs.find(song => song.id === songid);
+    const { id, title, artist, bpm, character, version, difficulties } = songs.find(song => song.id === songid);
+    const content = [];
+    content.push(`ID：${id}`);
+    content.push(`曲名：${title}`);
+    content.push(`曲师：${artist}`);
+    content.push(`BPM：${bpm}`);
+    content.push(`角色：${characters.find(c => c.id === character).name}`);
+    content.push(`版本：${version}`);
+    for (const dn of Object.keys(difficulties)) {
+      const { title, artist, bpm, difficulty, constant, note_count, version } = difficulties[dn];
+      content.push('');
+      content.push(`${dn.toUpperCase()} ${difficulty}`);
+      if (title) content.push(title);
+      if (artist) content.push(`曲师：${artist}`);
+      if (bpm) content.push(`BPM：${bpm}`);
+      if (version) content.push(`版本：${version}`);
+      content.push(`定数：${constant}`);
+      content.push(`物量：${note_count}`);
+    }
+    Dialog.show(content.join('\n'), '歌曲详情');
   });
 
   const searchFn = throttle(event => {
