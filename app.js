@@ -153,10 +153,10 @@ async function main() {
       const { bpm, difficulty, constant, note_count, version } = difficulties[dn];
       content.push('');
       content.push(`${dn.toUpperCase()} ${difficulty}`);
-      if (bpm) content.push(`BPM：${bpm}`);
-      if (version) content.push(`版本：${version}`);
       content.push(`定数：${constant}`);
       content.push(`物量：${note_count}`);
+      if (bpm) content.push(`BPM：${bpm}`);
+      if (version) content.push(`版本：${version}`);
     }
     Dialog.show(content.join('\n'), '歌曲详情');
   });
