@@ -150,11 +150,9 @@ async function main() {
     content.push(`角色：${characters.find(c => c.id === character).name}`);
     content.push(`版本：${version}`);
     for (const dn of Object.keys(difficulties)) {
-      const { title, artist, bpm, difficulty, constant, note_count, version } = difficulties[dn];
+      const { bpm, difficulty, constant, note_count, version } = difficulties[dn];
       content.push('');
       content.push(`${dn.toUpperCase()} ${difficulty}`);
-      if (title) content.push(title);
-      if (artist) content.push(`曲师：${artist}`);
       if (bpm) content.push(`BPM：${bpm}`);
       if (version) content.push(`版本：${version}`);
       content.push(`定数：${constant}`);
