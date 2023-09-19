@@ -214,7 +214,7 @@ async function main() {
     const texts = ['角色：', '定数：', '物量：', 'BPM：', '版本：'];
     for (const { node, matchedIndexes, song, dn, chart: { bpm, difficulty, constant, note_count, version } } of results) {
       const [resultItem] = resultItemTemplate.content.cloneNode(true).children;
-      const data = [characters.find(c => c.id === song.character).name, constant.toFixed(1), bpm || song.bpm, note_count, version || song.version];
+      const data = [characters.find(c => c.id === song.character).name, constant.toFixed(1), note_count, bpm || song.bpm, version || song.version];
       const item = compile(resultItem, { dn, difficulty, data: `${texts[sortedby]}${data[sortedby]}` });
       if (matchedIndexes) {
         const { title, result, inputLength, titleLength } = matchedIndexes;
