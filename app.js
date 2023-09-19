@@ -141,7 +141,7 @@ async function main() {
     if (!chartBox.classList.contains('chart')) return;
     const { songid } = chartBox.dataset;
     if (!songid) return;
-    const { id, title, artist, bpm, character, version, difficulties } = songs.find(song => song.id === songid);
+    const { id, title, artist, bpm, character, version, images, difficulties } = songs.find(song => song.id === songid);
     const content = [];
     content.push(`ID：${id}`);
     content.push(`曲名：${title}`);
@@ -158,7 +158,29 @@ async function main() {
       if (bpm) content.push(`BPM：${bpm}`);
       if (version) content.push(`版本：${version}`);
     }
-    Dialog.show(content.join('\n'), '歌曲详情');
+    const dialog = new Dialog().title('歌曲详情').content(content.join('\n'));
+    dialog.button('查看曲绘', close => {
+      const path = `https://website-assets.starsky919.xyz/cytus2/${character}`;
+      const imgList = createElement('div');
+      imgList.appendChild(createElement('div', {
+        style: { 'margin-bottom': '0.65rem' },
+        innerText: '长按图片可保存'
+      }));
+      if (!isNullish(images)) {
+        for (const img of images) {
+          imgList.appendChild(frag.appendChild(createElement('img', { src: `${path}/${img}.png` })));
+        }
+      } else imgList.appendChild(createElement('img', {
+        src: `${path}/${id}.png`,
+        onerror() {
+          clearChildNodes(imgList);
+          imgList.innerText = '加载失败，\n可能是网络原因或暂无该曲目的曲绘文件。';
+        }
+      }));
+      Dialog.show(imgList, id);
+      return false;
+    });
+    dialog.show();
   });
 
   const searchFn = throttle(event => {

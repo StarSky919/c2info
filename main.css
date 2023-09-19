@@ -68,6 +68,11 @@ input {
   font-family: "CeraPro";
 }
 
+img {
+  width: 100%;
+  height: auto;
+}
+
 h1.ul,
 h2.ul,
 h3.ul,
