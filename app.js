@@ -168,7 +168,7 @@ async function main() {
       }));
       if (!isNullish(images)) {
         for (const img of images) {
-          imgList.appendChild(frag.appendChild(createElement('img', { src: `${path}/${img}.png` })));
+          imgList.appendChild(createElement('img', { src: `${path}/${img}.png` }));
         }
       } else imgList.appendChild(createElement('img', {
         src: `${path}/${id}.png`,
