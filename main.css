@@ -1,11 +1,24 @@
-@import "/style/fontface.css";
-@import "/style/dialog.css";
+@font-face {
+  font-family: "Electrolize";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/assets/fonts/Electrolize.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "HarmonyOS Sans SC";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/assets/fonts/HarmonyOS_Sans_SC-Regular.ttf") format("truetype");
+}
 
 :root {
-  --white: #FFF;
+  --white: #FFFFFF;
   --white2: #FAFAFA;
-  --black: #111;
-  --black2: #333;
+  --black: #000000;
+  --black2: #101010;
   --light-gray: #EFEFEF;
   --gray: #BFBFBF;
   --dark-gray: #9F9F9F;
@@ -19,7 +32,6 @@
   --border-color: var(--gray);
   --border-radius: 1rem;
 
-  font-family: "CeraPro";
   font-size: 16px;
 }
 
@@ -64,8 +76,9 @@ body {
   }
 }
 
+:root,
 input {
-  font-family: "CeraPro";
+  font-family: "Electrolize", "HarmonyOS Sans SC";
 }
 
 img {
@@ -427,7 +440,7 @@ hr {
   border-bottom: 1px solid var(--border-color);
 }
 
-.result-item .title .matched {
+.result-item .name .matched {
   color: var(--theme-color);
 }
 
@@ -452,6 +465,10 @@ hr {
   pointer-events: none;
 }
 
+#filter-info-box.hidden {
+  display: none;
+}
+
 #charts {
   display: flex;
   flex-direction: column;
@@ -473,12 +490,26 @@ hr {
 }
 
 #charts .chart {
+  position: relative;
   overflow: hidden;
   width: 100%;
   margin: 0.65rem 0;
-  padding: 8px 16px;
-  background: var(--white2);
   border: 1px solid var(--border-color);
+  transition: filter 0.2s, transform 0.2s;
+  cursor: pointer;
+}
+
+#charts .chart .inner {
+  width: 100%;
+  height: 100%;
+  padding: 8px 16px;
+  border-left: 3px solid var(--character-theme);
+  background: var(--background-color-second);
+}
+
+#charts .chart:active {
+  filter: brightness(90%);
+  transform: scale(95%);
 }
 
 @media (prefers-color-scheme:dark) {
@@ -498,12 +529,39 @@ hr {
 }
 
 #updates .details {
-  padding-left: 1em;
+  padding-left: 0.5em;
 }
 
 #loading {
   justify-content: center;
   align-items: center;
+}
+
+#bt {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  width: 3em;
+  height: 3em;
+  right: -3em;
+  bottom: 3em;
+  color: var(--text-color);
+  background: var(--background-color);
+  border: 1px solid var(--border-color);
+  border-radius: 50%;
+  transition: right 0.2s, filter 0.2s, transform 0.2s;
+  text-align: center;
+  font-size: 1.25rem;
+}
+
+#bt.display {
+  right: 1.5em;
+}
+
+#bt:active {
+  filter: brightness(90%);
+  transform: scale(95%);
 }
 
 @media screen and (min-width: 576px) {

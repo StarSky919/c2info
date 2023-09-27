@@ -6,17 +6,16 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
   <meta name="renderer" content="webkit" />
   <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=0" />
-  <link rel="icon" href="logo.ico" type="image/x-icon" />
   <link rel="shortcut icon" href="logo.ico" type="image/x-icon" />
   <link rel="stylesheet" href="/style/themify-icons.css">
-  <link rel="stylesheet" href="main.css" type="text/css" />
+  <link rel="stylesheet" href="/style/dialog.css">
+  <link rel="stylesheet" href="/main.css" type="text/css" />
   <title>Cytus II谱面定数表 | C2info</title>
 </head>
 
 <body>
   <noscript class="warning">
     <p>您的浏览器未启用或不支持JavaScript，无法使用本网站。</p>
-    <p>Your browser isn't enabled or doesn't support JavaScript. Please check and try again.</p>
   </noscript>
   <div class="warning hidden">
     <p>您的浏览器内核版本过低，无法支持网站功能的正常运行。请升级/更换浏览器或是等待本站的兼容性更新。</p>
@@ -37,11 +36,13 @@
         <div id="search-mask"></div>
       </div>
       <div class="row"><span><span class="button small" id="sorted-by"><i class="ti-list"></i> <span>--</span></span><span class="button small" id="ordering"><i class="ti-exchange-vertical"></i> <span>--</span></span></span><span class="button small" id="constant-filter">定数筛选</span></div>
+      <p id="filter-info-box"><span id="filter-info"></span><span id="filtered-count"></span>张谱面：</p>
       <div id="charts"></div>
     </div>
     <div id="updates" class="component">
       <h2>更新日志</h2>
       <p>这里会记录本站所有较为重要的更新和修改内容。</p>
+      <p><a href="#/charts">返回首页</a></p>
     </div>
     <div id="not-found" class="component">
       <h2>404 - Not Found</h2>
@@ -53,14 +54,17 @@
       <div><span class="loading md"></span></div>
     </div>
   </main>
+  <i id="bt" class="ti-arrow-up"></i>
   <template id="chart-template">
     <div class="chart">
-      <p><strong class="title">{{ title }}</strong> / <small class="artist">{{ artist }}</small></p>
-      <p class="row"><span class="bpm">BPM：{{ bpm }}</span><span class="character">角色：{{ character }}</span></p>
+      <div class="inner">
+        <p><strong class="name">{{ name }}</strong> / <small class="artist">{{ artist }}</small></p>
+        <p class="row"><span class="bpm">BPM：{{ bpm }}</span><span class="character">角色：{{ character }}</span></p>
+      </div>
     </div>
   </template>
   <template id="result-item-template">
-    <div class="result-item"><span class="title"></span><br /><span class="info"><span>{{ dn }} {{ difficulty }}</span><span>{{ data }}</span></span></div>
+    <div class="result-item"><span class="name"></span><br /><span class="info"><span>{{ dn }} {{ level }}</span><span>{{ data }}</span></span></div>
   </template>
   <template id="dialog-template">
     <div class="dialog-container hidden">
@@ -74,14 +78,14 @@
   </template>
   <script>
     try {
-      fetch;
-      eval('async function test() {}');
-      IntersectionObserver;
+      async (a = 0) => await a;
+      const { a: [a] } = { a: [0] };
+      Reflect && IntersectionObserver;
     } catch (err) {
       document.querySelector('.warning.hidden').classList.remove('hidden');
     }
   </script>
-  <script src="app.js" type="module"></script>
+  <script src="/app.js" type="module"></script>
 </body>
 
 </html>

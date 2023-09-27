@@ -12,10 +12,10 @@ function replaceHash(path) {
   location.replace(location.href.slice(0, i >= 0 ? i : 0) + '#' + path);
 }
 
-function getCurrentPath() {
+export function getCurrentPath(prefix = true) {
   const href = location.href;
   const index = href.indexOf('#');
-  return index === -1 ? '' : href.slice(index + 1);
+  return index === -1 ? '' : href.slice(index + 1).replace(new RegExp('^/'), prefix ? '/' : '');
 }
 
 class Route {
@@ -39,8 +39,7 @@ export class Router {
     window.addEventListener('load', this._process.bind(this));
     window.addEventListener('hashchange', this._process.bind(this));
     const path = getCurrentPath();
-    if (isEmpty(path)) replaceHash('/');
-    if (!path.startsWith('/')) replaceHash('/' + path);
+    replaceHash(isEmpty(path) ? '/': path);
   }
 
   _process(event) {
@@ -92,6 +91,7 @@ export class Router {
   }
 
   push(path) {
+    if (!path.startsWith('/')) path = '/' + path;
     replaceHash(path);
   }
 }

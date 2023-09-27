@@ -3,6 +3,7 @@ import {
   $,
   $$,
   Time,
+  isString,
   isNullish,
   isEmpty,
   inRange,
@@ -15,11 +16,12 @@ import {
   compile,
   createElement,
   clearChildNodes,
+  getScrollTop,
   loadJSON
 } from '/src/utils.js';
 import Datastore from '/src/datastore.js';
 import { Dialog, ItemSelectorDialog } from '/src/dialog.js';
-import Router from '/src/router.js';
+import { getCurrentPath, Router } from '/src/router.js';
 
 try {
   localStorage.setItem('test', true);
@@ -33,16 +35,20 @@ const searchBox = $('search-box');
 const searchInput = $('search');
 const resultBox = $('result-box');
 const resultItemTemplate = $('result-item-template');
+const filterInfoBox = $('filter-info-box')
+const filterInfo = $('filter-info')
+const filteredCount = $('filtered-count')
 const chartList = $('charts');
 const chartTemplate = $('chart-template');
 const updatesContainer = $('updates');
+const backToTop = $('bt');
 
+const firstPath = getCurrentPath(false);
 const router = new Router();
 router.route('/', 'loading');
 router.route('/charts', 'main');
 router.route('/updates', updatesContainer);
 router.route('/404', 'not-found');
-router.push('/');
 
 const storage = new Datastore('c2i:');
 
@@ -50,38 +56,36 @@ function formatText(source) {
   return source.toHankakuCase().toZenkanaCase().toHiraganaCase().toLowerCase();
 }
 
-function isTitleMatched(input, title) {
+function isNameMatched(input, name) {
   const result = [];
   const { length } = input;
   input = formatText(input);
-  const _title = formatText(title);
+  const _name = formatText(name);
   let i = 0,
     j = 0;
   while (true) {
-    i = _title.indexOf(input, j);
+    i = _name.indexOf(input, j);
     if (i > -1) {
       result.push(i);
       j += i + length;
     } else break;
   }
-  return isEmpty(result) ? null : { title, result, inputLength: length, titleLength: title.length };
+  return isEmpty(result) ? null : { name, result, inputLength: length, nameLength: name.length };
 }
 
-function getSortMethod(sortedby, reverse) {
-  return [
-    () => reverse ? -1 : 1,
-    (a, b) => reverse ? b.constant - a.constant : a.constant - b.constant,
-    (a, b) => reverse ? b.note_count - a.note_count : a.note_count - b.note_count,
+function getSortMethod(sortedBy, reverse) {
+  const sortFn = [
+    () => 0,
+    (a, b) => a.constant - b.constant,
+    (a, b) => a.note_count - b.note_count,
     (a, b) => {
-      if (reverse)[a, b] = [b, a];
       let { bpm: ab } = a;
       let { bpm: bb } = b;
-      if (typeof ab === 'string')[, ab] = ab.split(new RegExp('[~\-]'));
-      if (typeof bb === 'string')[, bb] = bb.split(new RegExp('[~\-]'));
+      if (isString(ab))[, ab] = ab.split(new RegExp('[~\-]'));
+      if (isString(bb))[, bb] = bb.split(new RegExp('[~\-]'));
       return ab - bb;
     },
     (a, b) => {
-      if (reverse)[a, b] = [b, a];
       const avs = a.version.split(/.(?=\d)/g).map(n => parseInt(n));
       const bvs = b.version.split(/.(?=\d)/g).map(n => parseInt(n));
       for (const i of range(Math.max(avs.length, bvs.length))) {
@@ -90,7 +94,8 @@ function getSortMethod(sortedby, reverse) {
       }
       return 0;
     }
-  ][sortedby];
+  ][sortedBy];
+  return reverse ? (a, b) => sortFn(b, a) : sortFn;
 }
 
 loadJSON('/assets/c2data.json').then(async c2data_new => {
@@ -99,61 +104,64 @@ loadJSON('/assets/c2data.json').then(async c2data_new => {
     storage.set('c2data', c2data_new);
     const dialog = new Dialog({ cancellable: false })
       .title('提示')
-      .content('检测到数据更新，请点击下方按钮刷新页面。');
+      .content('检测到数据更新，请点击下方按钮刷新页面。\n如果没有响应请手动刷新。');
     dialog.getButton(0).onClick(close => sleep(Time.second * 0.25).then(() => window.location.reload(true)));
     dialog.show();
   }
 });
 
 async function main() {
-  const { version, characters, songs } = storage.get('c2data');
-  const charts = [];
+  const { version, characters, packs, songs } = storage.get('c2data');
+  const allCharts = [];
   for (const song of songs) {
-    const { difficulties } = song;
-    for (const dn of Object.keys(difficulties)) {
-      const chart = Object.assign({}, song, difficulties[dn], { dn });
-      Reflect.deleteProperty(chart, 'difficulties');
-      charts.push(chart);
+    const { charts } = song;
+    for (const dn of Object.keys(charts)) {
+      const chart = Object.assign({}, song, charts[dn], { dn });
+      Reflect.deleteProperty(chart, 'charts');
+      allCharts.push(chart);
     }
   }
 
-  $('stats').innerText = `网站数据版本：v${version}\n当前共有${songs.length}首曲目，${songs.filter(song => !!song.difficulties.glitch).length}张GLITCH谱面。`;
+  $('stats').innerText = `网站数据版本：v${version}\n当前共有${songs.length}首曲目，${songs.filter(song => !!song.charts.glitch).length}张GLITCH谱面。`;
 
-  const { message, updates } = await loadJSON('/assets/changelog.json');
-  $('message').innerText = message;
-  for (const { year, month, day, lines, additional } of updates) {
-    updatesContainer.appendChild(createElement('h4', {
-      classList: ['ul'],
-      innerText: `${year}年${month}月${day}日` + (additional ? '（附加更新）' : '')
-    }));
-    for (const { text, details, notes } of lines) {
-      updatesContainer.appendChild(createElement(notes ? 'small' : 'p', {
-        innerText: text || notes
-      }, details ? [createElement('div', {
-        classList: ['details'],
-        innerText: details
-      })] : null));
+  loadJSON('/assets/changelog.json').then(async ({ message, updates }) => {
+    $('message').innerText = message;
+    for (const { year, month, day, lines, additional } of updates) {
+      updatesContainer.appendChild(createElement('h4', {
+        classList: ['ul'],
+        innerText: `${year}年${month}月${day}日` + (additional ? '（附加更新）' : '')
+      }));
+      for (const i of range(lines.length)) {
+        const { text, details, notes } = lines[i];
+        updatesContainer.appendChild(createElement(notes ? 'small' : 'p', {
+          innerText: notes || `${i + 1}.${text}`
+        }, details ? [createElement('div', {
+          classList: ['details'],
+          innerText: `• ${details.replace(/\n/g, '\n• ')}`
+        })] : null));
+      }
     }
-  }
+  });
 
   bindOnClick(chartList, event => {
     const chartBox = event.target;
     if (!chartBox.classList.contains('chart')) return;
     const { songid } = chartBox.dataset;
     if (!songid) return;
-    const { id, title, artist, bpm, character, version, images, difficulties } = songs.find(song => song.id === songid);
+    const { id, name, artist, bpm, character, pack, version, images, charts } = songs.find(song => song.id === songid);
     const content = [];
     content.push(`ID：${id}`);
-    content.push(`曲名：${title}`);
+    content.push(`曲名：${name}`);
     content.push(`曲师：${artist}`);
     content.push(`BPM：${bpm}`);
     content.push(`角色：${characters.find(c => c.id === character).name}`);
+    if (pack) content.push(`曲包：${packs.find(p => p.id === pack).name}`);
     content.push(`版本：${version}`);
-    for (const dn of Object.keys(difficulties)) {
-      const { bpm, difficulty, constant, note_count, version } = difficulties[dn];
+    for (const dn of Object.keys(charts)) {
+      const { bpm, level, constant, note_count, version } = charts[dn];
       content.push('');
-      content.push(`${dn.toUpperCase()} ${difficulty}`);
-      content.push(`定数：${constant}`);
+      content.push(`${dn.toUpperCase()} ${level}`);
+      content.push(`定数：${constant.toFixed(1)}`);
       content.push(`物量：${note_count}`);
       if (bpm) content.push(`BPM：${bpm}`);
       if (version) content.push(`版本：${version}`);
@@ -164,7 +172,7 @@ async function main() {
       const imgList = createElement('div');
       imgList.appendChild(createElement('div', {
         style: { 'margin-bottom': '0.65rem' },
-        innerText: '长按图片可保存'
+        innerText: '图片可保存'
       }));
       if (!isNullish(images)) {
         for (const img of images) {
@@ -193,52 +201,52 @@ async function main() {
       const { songid, difficulty } = chartBox.dataset;
       if (isNullish(songid) || isNullish(difficulty)) continue;
       const song = songs.find(({ id }) => id === songid);
-      const { title, difficulties } = song;
+      const { name, charts } = song;
       const data = { node: chartBox };
       if (input === songid) {
         data.priority = 999;
-      } else if (data.matchedIndexes = isTitleMatched(input, title)) {
+      } else if (data.matchedIndexes = isNameMatched(input, name)) {
         data.priority = 99;
       }
       if (data.priority) {
         data.song = song;
         data.dn = difficulty.toUpperCase();
-        data.chart = difficulties[difficulty];
+        data.chart = charts[difficulty];
         results.push(data);
       }
     }
     results.sort((a, b) => b.priority - a.priority);
     resultBox.appendChild(createElement('div', { classList: ['result-item'], innerText: isEmpty(results) ? '搜索无结果。' : `搜索到 ${results.length} 条记录（点击可跳转）：` }));
     const resultFrag = document.createDocumentFragment();
-    const sortedby = storage.get('sorted-by', 0);
+    const sortedBy = storage.get('sorted-by', 0);
     const texts = ['角色：', '定数：', '物量：', 'BPM：', '版本：'];
-    for (const { node, matchedIndexes, song, dn, chart: { bpm, difficulty, constant, note_count, version } } of results) {
+    for (const { node, matchedIndexes, song, dn, chart: { bpm, level, constant, note_count, version } } of results) {
       const [resultItem] = resultItemTemplate.content.cloneNode(true).children;
       const data = [characters.find(c => c.id === song.character).name, constant.toFixed(1), note_count, bpm || song.bpm, version || song.version];
-      const item = compile(resultItem, { dn, difficulty, data: `${texts[sortedby]}${data[sortedby]}` });
+      const item = compile(resultItem, { dn, level, data: `${texts[sortedBy]}${data[sortedBy]}` });
       if (matchedIndexes) {
-        const { title, result, inputLength, titleLength } = matchedIndexes;
+        const { name, result, inputLength, nameLength } = matchedIndexes;
         const indexes = [];
         for (const index of result) indexes.push(index + inputLength);
         const finalIndexes = staggeredMerge(result, 0, indexes);
         if (finalIndexes[0] > 0) finalIndexes.unshift(0);
-        if (finalIndexes[finalIndexes.length - 1] < titleLength) finalIndexes.push(titleLength);
+        if (finalIndexes[finalIndexes.length - 1] < nameLength) finalIndexes.push(nameLength);
 
         const splitChars = [];
         for (const i of range(finalIndexes.length)) {
           const idx = finalIndexes[i];
           const idxNext = finalIndexes[i + 1];
           if (isNullish(idxNext)) break;
-          const split = title.slice(idx, idxNext);
+          const split = name.slice(idx, idxNext);
           splitChars.push({ split, matched: result.includes(idx) });
         }
 
-        const titleFrag = document.createDocumentFragment();
+        const nameFrag = document.createDocumentFragment();
         for (const { split, matched } of splitChars) {
-          titleFrag.appendChild(createElement('span', { classList: [matched ? 'matched' : 'not_matched'], innerText: split }));
+          nameFrag.appendChild(createElement('span', { classList: [matched ? 'matched' : 'not_matched'], innerText: split }));
         }
-        item.$$('.title').appendChild(titleFrag);
-      } else item.$$('.title').innerText = node.$$('.title').innerText;
+        item.$$('.name').appendChild(nameFrag);
+      } else item.$$('.name').innerText = node.$$('.name').innerText;
       item.onclick = event => {
         window.scrollTo({
           top: node.offsetTop + node.offsetHeight * 0.5 - window.innerHeight / 2,
@@ -252,70 +260,95 @@ async function main() {
 
   searchInput.addEventListener('input', searchFn);
 
-  function renderCharts() {
-    clearChildNodes(chartList);
-    const sortedby = storage.get('sorted-by', 0);
-    const reverse = storage.get('reverse', false);
-    const constantFilter = storage.get('constant-filter', []);
-    const filter = ({ constant }) => {
-      if (isEmpty(constantFilter)) return true;
-      return inRange(constant, ...constantFilter);
-    }
-    for (const chart of charts.filter(filter).sort(getSortMethod(sortedby, reverse))) {
-      const { id, title, artist, bpm, character, version, dn, difficulty, constant, note_count } = chart;
-      const chartBox = compile(chartTemplate.content.cloneNode(true).children[0], {
-        title,
-        artist,
-        bpm,
-        character: characters.find(c => c.id === character).name
-      });
-      chartBox.dataset.songid = chart.id;
-      chartBox.dataset.difficulty = dn;
-      chartBox.appendChild(createElement('p', { classList: ['row'] }, [
-          createElement('span', {
-          classList: ['difficulty', dn],
-          innerText: `${dn.toUpperCase()} ${difficulty}`
-        }),
-          createElement('span', { innerText: `v${version}` })
-        ]));
-      chartBox.appendChild(createElement('p', { classList: ['row'] }, [
-          createElement('span', { innerText: `定数：${constant.toFixed(1)}` }),
-          createElement('span', { innerText: `物量：${note_count}` })
-        ]));
-      chartList.appendChild(chartBox);
-    }
-    searchFn();
-  }
+  const loadCharts = (function() {
+    let previous;
+    return () => previous = (function() {
+      if (previous) previous.stop();
+      clearChildNodes(chartList);
+      const sortedBy = storage.get('sorted-by', 0);
+      const reverse = storage.get('reverse', false);
+      const constantFilter = storage.get('constant-filter', []);
+      const filter = (function() {
+        if (isEmpty(constantFilter)) {
+          filterInfoBox.classList.add('hidden');
+          return () => true;
+        }
+        const [min, max] = constantFilter;
+        let text;
+        if (max > 99) text = `定数${min.toFixed(1)}以上共有`;
+        else if (min < 1) text = `定数${max.toFixed(1)}以下共有`;
+        else text = `定数${min.toFixed(1)}~${max.toFixed(1)}之间共有`
+        filterInfo.innerText = text;
+        filterInfoBox.classList.remove('hidden');
+        return ({ constant }) => inRange(constant, min, max);
+      })();
+      const sorted = allCharts.filter(filter).sort(getSortMethod(sortedBy, reverse));
+      if (sortedBy === 0 && reverse) sorted.reverse();
+      let stop, i = 0;
+      (async function() {
+        for (const chart of sorted) {
+          if (stop) break;
+          const { id, name, artist, bpm, character, version, dn, level, constant, note_count } = chart;
+          const { name: cname, theme_color } = characters.find(c => c.id === character);
+          const chartBox = compile(chartTemplate.content.cloneNode(true).children[0], {
+            name,
+            artist,
+            bpm,
+            character: cname
+          });
+          const chartBoxInner = chartBox.$$('.inner');
+          chartBox.style.setProperty('--character-theme', theme_color);
+          chartBox.dataset.songid = chart.id;
+          chartBox.dataset.difficulty = dn;
+          chartBoxInner.appendChild(createElement('p', { classList: ['row'] }, [
+            createElement('span', {
+              classList: ['difficulty', dn],
+              innerText: `${dn.toUpperCase()} ${level}`
+            }),
+            createElement('span', { innerText: `v${version}` })
+          ]));
+          chartBoxInner.appendChild(createElement('p', { classList: ['row'] }, [
+            createElement('span', { innerText: `定数：${constant.toFixed(1)}` }),
+            createElement('span', { innerText: `物量：${note_count}` })
+          ]));
+          chartList.appendChild(chartBox);
+          if (i++ % 9 === 0) await sleep(0);
+          filteredCount.innerText = i;
+        }
+        searchFn();
+      })();
+      if (!i) filterInfoBox.classList.add('hidden');
+      return {
+        stop() { stop = true; }
+      };
+    })();
+  })();
 
-  const delayedRendering = debounce(() => sleep(Time.second * 0.1).then(() => renderCharts()), Time.second * 0.5);
-
-  bindOnClick('sorted-by', (() => {
-    const texts = ['角色', '定数', '物量', 'BPM', '版本'];
-    const sortedbyDisplay = $$('#sorted-by span');
+  bindOnClick('sorted-by', (texts => {
+    const sortedByDisplay = $$('#sorted-by span');
     let i = storage.get('sorted-by', 0);
-    sortedbyDisplay.innerText = texts[i];
+    sortedByDisplay.innerText = texts[i];
 
     return event => {
-      i++;
-      if (i > texts.length - 1) i = 0;
+      i = ++i % texts.length;
       storage.set('sorted-by', i);
-      sortedbyDisplay.innerText = texts[i];
-      delayedRendering();
+      sortedByDisplay.innerText = texts[i];
+      loadCharts();
     };
-  })());
+  })(['默认', '定数', '物量', 'BPM', '版本']));
 
-  bindOnClick('ordering', (() => {
+  bindOnClick('ordering', (getText => {
     const orderingDisplay = $$('#ordering span');
     let i = storage.get('reverse', false);
-    orderingDisplay.innerText = i ? '降序' : '升序';
+    orderingDisplay.innerText = getText(i);
 
     return event => {
       i = !i;
       storage.set('reverse', i);
-      orderingDisplay.innerText = i ? '降序' : '升序';
-      delayedRendering();
+      orderingDisplay.innerText = getText(i);
+      loadCharts();
     };
-  })());
+  })(reverse => reverse ? '降序' : '升序'));
 
   bindOnClick('constant-filter', event => {
     const dialog = new Dialog()
@@ -368,21 +401,31 @@ async function main() {
         }
         if (!isEmpty(source) && min + max === 0) return Dialog.error('请输入正确的范围！', { cancellable: true }), false;
         storage.set('constant-filter', isEmpty(source) ? [] : [min, max]);
-        sleep(Time.second * 0.1).then(() => renderCharts());
+        loadCharts();
       }).show();
   });
+
+  bindOnClick(backToTop, event => window.scrollTo({
+    top: 0,
+    behavior: 'smooth'
+  }));
 
   let initialized = false;
   const observer = new IntersectionObserver(entries => {
     if (!initialized) return initialized = true;
-    if (!entries[0].isIntersecting) searchBox.classList.add('floating');
-    else searchBox.classList.remove('floating');
+    if (!entries[0].isIntersecting) {
+      searchBox.classList.add('floating');
+      backToTop.classList.add('display');
+    } else {
+      searchBox.classList.remove('floating');
+      backToTop.classList.remove('display');
+    }
   });
   observer.observe($('sentinel'));
 
-  renderCharts();
+  loadCharts();
   await sleep(Time.second * 0.1);
-  router.push('/charts');
+  router.push(firstPath || '/charts');
 }
 
 main().catch(err => console.error(err));

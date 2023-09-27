@@ -227,6 +227,10 @@ export function throttle(callback, delay) {
   }
 }
 
+export function createTaskQueue() {
+  const tasks = [];
+}
+
 export function cached(fn) {
   const cache = Object.create(null);
   return function(str) {
@@ -286,6 +290,10 @@ export function compile(node, data) {
   }
   node.childNodes.forEach(node => compile(node, data));
   return node;
+}
+
+export function getScrollTop() {
+  return document.body.scrollTop || document.documentElement.scrollTop || window.pageYOffset;
 }
 
 export function bindOnClick(el, func) {
