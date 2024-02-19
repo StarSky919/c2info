@@ -49,6 +49,7 @@ router.route('/', 'loading');
 router.route('/charts', 'main');
 router.route('/updates', updatesContainer);
 router.route('/404', 'not-found');
+router.route('/charts/:song_id');
 
 const storage = new Datastore('c2i:');
 

@@ -56,9 +56,6 @@ export class Router {
     this.elements.forEach(el => {
       if (el === parent.element) return;
       el.classList.remove('active');
-      sleep(Time.second * 0.4).then(() => {
-        if (el.classList.contains('active')) return;
-      });
     });
     sleep(40).then(() => parent.element.classList.add('active'));
     for (const callback of this.listeners) callback.call(this, event);
