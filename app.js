@@ -87,8 +87,8 @@ function getSortMethod(sortedBy, reverse) {
       return ab - bb;
     },
     (a, b) => {
-      const avs = a.version.split(/.(?=\d)/g).map(n => parseInt(n));
-      const bvs = b.version.split(/.(?=\d)/g).map(n => parseInt(n));
+      const avs = a.version.split(/\.(?=\d)/g).map(n => parseInt(n));
+      const bvs = b.version.split(/\.(?=\d)/g).map(n => parseInt(n));
       for (const i of range(Math.max(avs.length, bvs.length))) {
         if (avs[i] === bvs[i]) continue;
         return (avs[i] || 0) - (bvs[i] || 0);
