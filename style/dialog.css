@@ -97,6 +97,6 @@
 @media all and (orientation: landscape) {
   .dialog-box {
     margin: 0 auto;
-    max-width: 576px;
+    max-width: 384px;
   }
 }

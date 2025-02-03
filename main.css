@@ -6,14 +6,6 @@
   src: url("/assets/fonts/Electrolize.ttf") format("truetype");
 }
 
-@font-face {
-  font-family: "HarmonyOS Sans SC";
-  font-style: normal;
-  font-weight: 400;
-  font-display: swap;
-  src: url("/assets/fonts/HarmonyOS_Sans_SC-Regular.ttf") format("truetype");
-}
-
 :root {
   --white: #FFFFFF;
   --white2: #FAFAFA;
@@ -78,7 +70,7 @@ body {
 
 :root,
 input {
-  font-family: "Electrolize", "HarmonyOS Sans SC";
+  font-family: "Electrolize";
 }
 
 img {

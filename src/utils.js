@@ -1,4 +1,4 @@
-Promise.stop = value => new Promise(() => { Promise.resolve(value) });
+Promise.stop = () => new Promise(() => {});
 
 export const $ = id => document.getElementById(id);
 export function $$(selector) {
@@ -171,11 +171,8 @@ export function* enumerate(iterable) {
 export function staggeredMerge(target, offset, ...sources) {
   const result = [];
   result.push(...target.splice(0, offset));
-  const maxCount = Math.max(target.length, ...sources.reduce((p, c) => {
-    p.push(c.length);
-    return p;
-  }, []));
-  for (const i of range(maxCount)) {
+  const maxLength = Math.max(target.length, ...sources.map(source => source.length));
+  for (const i of range(maxLength)) {
     for (const arr of [target, ...sources]) {
       result.push(isNullish(arr[i]) ? null : arr[i]);
     }
@@ -203,11 +200,10 @@ export function sleep(delay) {
 
 export function debounce(callback, delay) {
   let timeout;
-  return function() {
+  return function(...args) {
     clearTimeout(timeout);
-    const [that, args] = [this, arguments];
-    timeout = setTimeout(function() {
-      callback.apply(that, args);
+    timeout = setTimeout(() => {
+      callback.apply(this, args);
       clearTimeout(timeout);
       timeout = null;
     }, delay);
@@ -216,13 +212,12 @@ export function debounce(callback, delay) {
 
 export function throttle(callback, delay) {
   let timer;
-  return function() {
-    if (timer) { return; }
-    const [that, args] = [this, arguments];
-    timer = setTimeout(function() {
+  return function(...args) {
+    if (timer) return;
+    timer = setTimeout(() => {
       clearTimeout(timer);
       timer = null;
-      callback.apply(that, args);
+      callback.apply(this, args);
     }, delay);
   }
 }
@@ -301,14 +296,24 @@ export function bindOnClick(el, func) {
   el.addEventListener('click', func);
 }
 
-export async function loadJSON(url) {
-  return await fetch(url).then(res => res.json());
+export function loadJSON(url) {
+  return fetch(url).then(res => res.json());
 }
 
-export async function loadImage(url) {
+export function loadImage(url) {
   const img = createElement('img');
   return new Promise((resolve, reject) => {
     img.onload = () => resolve(img);
     img.src = url;
   });
+}
+
+export function createTaskRunner(executeTask) {
+  let stopPrevious;
+  return () => {
+    if (stopPrevious) stopPrevious();
+    let stop = false;
+    executeTask(() => stop);
+    stopPrevious = () => stop = true;
+  };
 }

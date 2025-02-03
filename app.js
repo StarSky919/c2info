@@ -17,7 +17,8 @@ import {
   createElement,
   clearChildNodes,
   getScrollTop,
-  loadJSON
+  loadJSON,
+  createTaskRunner,
 } from '/src/utils.js';
 import Datastore from '/src/datastore.js';
 import { Dialog, ItemSelectorDialog } from '/src/dialog.js';
@@ -28,7 +29,7 @@ try {
   localStorage.removeItem('test');
   localStorage.removeItem('songData');
 } catch (err) {
-  Dialog.show('localStorage API发生错误！\n如果您打开了浏览器的无痕（隐私）模式，\n请将它关闭并刷新页面。', '错误');
+  Dialog.show('localStorage API 发生错误！\n如果您打开了浏览器的无痕（隐私）模式，\n请将它关闭并刷新页面。', '错误');
 }
 
 const searchBox = $('search-box');
@@ -123,22 +124,22 @@ async function main() {
     }
   }
 
-  $('stats').innerText = `网站数据版本：v${version}\n当前共有${songs.length}首曲目，${songs.filter(song => !!song.charts.glitch).length}张GLITCH谱面。`;
+  $('stats').innerText = `网站数据版本：${version}\n当前共有 ${songs.length} 首曲目，${songs.filter(song => !!song.charts.glitch).length} 张 GLITCH 谱面。`;
 
   loadJSON('/assets/changelog.json').then(async ({ message, updates }) => {
     $('message').innerText = message;
     for (const { year, month, day, lines, additional } of updates) {
       updatesContainer.appendChild(createElement('h4', {
         classList: ['ul'],
-        innerText: `${year}年${month}月${day}日` + (additional ? '（附加更新）' : '')
+        innerText: `${year} 年 ${month} 月 ${day} 日` + (additional ? '（附加更新）' : ''),
       }));
       for (const i of range(lines.length)) {
         const { text, details, notes } = lines[i];
         updatesContainer.appendChild(createElement(notes ? 'small' : 'p', {
-          innerText: notes || `${i + 1}.${text}`
+          innerText: notes || `${i + 1}. ${text}`,
         }, details ? [createElement('div', {
           classList: ['details'],
-          innerText: `• ${details.replace(/\n/g, '\n• ')}`
+          innerText: `• ${details.replace(/\n/g, '\n• ')}`,
         })] : null));
       }
     }
@@ -159,9 +160,9 @@ async function main() {
     if (pack) content.push(`曲包：${packs.find(p => p.id === pack).name}`);
     content.push(`版本：${version}`);
     for (const dn of Object.keys(charts)) {
-      const { bpm, level, constant, note_count, version } = charts[dn];
+      const { bpm, level, level_plus, constant, note_count, version } = charts[dn];
       content.push('');
-      content.push(`${dn.toUpperCase()} ${level}`);
+      content.push(`${dn.toUpperCase()} ${level}${level_plus ? '+' : ''}`);
       content.push(`定数：${constant.toFixed(1)}`);
       content.push(`物量：${note_count}`);
       if (bpm) content.push(`BPM：${bpm}`);
@@ -173,7 +174,7 @@ async function main() {
       const imgList = createElement('div');
       imgList.appendChild(createElement('div', {
         style: { 'margin-bottom': '0.65rem' },
-        innerText: '图片可保存'
+        innerText: '图片可保存',
       }));
       if (!isNullish(images)) {
         for (const img of images) {
@@ -184,7 +185,7 @@ async function main() {
         onerror() {
           clearChildNodes(imgList);
           imgList.innerText = '加载失败，\n可能是网络原因或暂无该曲目的曲绘文件。';
-        }
+        },
       }));
       Dialog.show(imgList, id);
       return false;
@@ -217,14 +218,14 @@ async function main() {
       }
     }
     results.sort((a, b) => b.priority - a.priority);
-    resultBox.appendChild(createElement('div', { classList: ['result-item'], innerText: isEmpty(results) ? '搜索无结果。' : `搜索到 ${results.length} 条记录（点击可跳转）：` }));
+    resultBox.appendChild(createElement('div', { classList: ['result-item'], innerText: isEmpty(results) ? '搜索无结果。' : `搜索到 ${results.length} 张谱面（点击可跳转）：` }));
     const resultFrag = document.createDocumentFragment();
     const sortedBy = storage.get('sorted-by', 0);
     const texts = ['角色：', '定数：', '物量：', 'BPM：', '版本：'];
-    for (const { node, matchedIndexes, song, dn, chart: { bpm, level, constant, note_count, version } } of results) {
+    for (const { node, matchedIndexes, song, dn, chart: { bpm, level, level_plus, constant, note_count, version } } of results) {
       const [resultItem] = resultItemTemplate.content.cloneNode(true).children;
       const data = [characters.find(c => c.id === song.character).name, constant.toFixed(1), note_count, bpm || song.bpm, version || song.version];
-      const item = compile(resultItem, { dn, level, data: `${texts[sortedBy]}${data[sortedBy]}` });
+      const item = compile(resultItem, { dn, level: `${level}${level_plus ? '+' : ''}`, data: `${texts[sortedBy]}${data[sortedBy]}` });
       if (matchedIndexes) {
         const { name, result, inputLength, nameLength } = matchedIndexes;
         const indexes = [];
@@ -251,7 +252,7 @@ async function main() {
       item.onclick = event => {
         window.scrollTo({
           top: node.offsetTop + node.offsetHeight * 0.5 - window.innerHeight / 2,
-          behavior: 'smooth'
+          behavior: 'smooth',
         });
       }
       resultFrag.appendChild(item);
@@ -261,69 +262,60 @@ async function main() {
 
   searchInput.addEventListener('input', searchFn);
 
-  const loadCharts = (function() {
-    let previous;
-    return () => previous = (function() {
-      if (previous) previous.stop();
-      clearChildNodes(chartList);
-      const sortedBy = storage.get('sorted-by', 0);
-      const reverse = storage.get('reverse', false);
-      const constantFilter = storage.get('constant-filter', []);
-      const filter = (function() {
-        if (isEmpty(constantFilter)) {
-          filterInfoBox.classList.add('hidden');
-          return () => true;
-        }
-        const [min, max] = constantFilter;
-        let text;
-        if (max > 99) text = `定数${min.toFixed(1)}以上共有`;
-        else if (min < 1) text = `定数${max.toFixed(1)}以下共有`;
-        else text = `定数${min.toFixed(1)}~${max.toFixed(1)}之间共有`
-        filterInfo.innerText = text;
-        filterInfoBox.classList.remove('hidden');
-        return ({ constant }) => inRange(constant, min, max);
-      })();
-      const sorted = allCharts.filter(filter).sort(getSortMethod(sortedBy, reverse));
-      if (sortedBy === 0 && reverse) sorted.reverse();
-      let stop, i = 0;
-      (async function() {
-        for (const chart of sorted) {
-          if (stop) break;
-          const { id, name, artist, bpm, character, version, dn, level, constant, note_count } = chart;
-          const { name: cname, theme_color } = characters.find(c => c.id === character);
-          const chartBox = compile(chartTemplate.content.cloneNode(true).children[0], {
-            name,
-            artist,
-            bpm,
-            character: cname
-          });
-          const chartBoxInner = chartBox.$$('.inner');
-          chartBox.style.setProperty('--character-theme', theme_color);
-          chartBox.dataset.songid = chart.id;
-          chartBox.dataset.difficulty = dn;
-          chartBoxInner.appendChild(createElement('p', { classList: ['row'] }, [
-            createElement('span', {
-              classList: ['difficulty', dn],
-              innerText: `${dn.toUpperCase()} ${level}`
-            }),
-            createElement('span', { innerText: `v${version}` })
-          ]));
-          chartBoxInner.appendChild(createElement('p', { classList: ['row'] }, [
-            createElement('span', { innerText: `定数：${constant.toFixed(1)}` }),
-            createElement('span', { innerText: `物量：${note_count}` })
-          ]));
-          chartList.appendChild(chartBox);
-          if (i++ % 9 === 0) await sleep(0);
-          filteredCount.innerText = i;
-        }
-        searchFn();
-      })();
-      if (!i) filterInfoBox.classList.add('hidden');
-      return {
-        stop() { stop = true; }
-      };
+  const loadCharts = createTaskRunner(async shouldStop => {
+    clearChildNodes(chartList);
+    const sortedBy = storage.get('sorted-by', 0);
+    const reverse = storage.get('reverse', false);
+    const constantFilter = storage.get('constant-filter', []);
+    const filter = (function() {
+      if (isEmpty(constantFilter)) {
+        filterInfoBox.classList.add('hidden');
+        return () => true;
+      }
+      const [min, max] = constantFilter;
+      let text;
+      if (max > 99) text = `定数 ${min.toFixed(1)} 以上共有`;
+      else if (min < 1) text = `定数 ${max.toFixed(1)} 以下共有`;
+      else text = `定数 ${min.toFixed(1)} 与 ${max.toFixed(1)} 之间共有`
+      filterInfo.innerText = text;
+      filterInfoBox.classList.remove('hidden');
+      return ({ constant }) => inRange(constant, min, max);
     })();
-  })();
+    const sorted = allCharts.filter(filter).sort(getSortMethod(sortedBy, reverse));
+    if (sortedBy === 0 && reverse) sorted.reverse();
+    let i = 0;
+    for (const chart of sorted) {
+      if (shouldStop()) break;
+      const { id, name, artist, bpm, character, version, dn, level, level_plus, constant, note_count } = chart;
+      const { name: cname, theme_color } = characters.find(c => c.id === character);
+      const chartBox = compile(chartTemplate.content.cloneNode(true).children[0], {
+        name,
+        artist,
+        bpm,
+        character: cname,
+      });
+      const chartBoxInner = chartBox.$$('.inner');
+      chartBox.style.setProperty('--character-theme', theme_color);
+      chartBox.dataset.songid = chart.id;
+      chartBox.dataset.difficulty = dn;
+      chartBoxInner.appendChild(createElement('p', { classList: ['row'] }, [
+        createElement('span', {
+          classList: ['difficulty', dn],
+          innerText: `${dn.toUpperCase()} ${level}${level_plus ? '+' : ''}`,
+        }),
+        createElement('span', { innerText: `v${version}` }),
+      ]));
+      chartBoxInner.appendChild(createElement('p', { classList: ['row'] }, [
+        createElement('span', { innerText: `定数：${constant.toFixed(1)}` }),
+        createElement('span', { innerText: `物量：${note_count}` }),
+      ]));
+      chartList.appendChild(chartBox);
+      if (i++ % 9 === 0) await sleep(100);
+      filteredCount.innerText = i;
+    }
+    searchFn();
+    if (!i) filterInfoBox.classList.add('hidden');
+  });
 
   bindOnClick('sorted-by', (texts => {
     const sortedByDisplay = $$('#sorted-by span');
@@ -366,7 +358,7 @@ async function main() {
         background: 'var(--background-color-third)',
         'border-radius': 'var(--border-radius)',
         'font-size': '1em',
-        'text-align': 'center'
+        'text-align': 'center',
       }
     });
     const constantFilter = storage.get('constant-filter') || [];
@@ -378,7 +370,7 @@ async function main() {
       else input.value = `${min}~${max}`;
     }
     container.appendChild(createElement('div', {
-      innerText: '示例：\n只显示定数14.6：14.6\n定数大于等于15.8：15.8+\n定数小于等于15.0：15.0-\n定数在12.4与13.4之间：12.4~13.4\n所有符号均为英文符号'
+      innerText: '示例：\n只显示定数 14.6：14.6\n定数大于等于 15.8：15.8+\n定数小于等于 15.0：15.0-\n定数在 12.4 与 13.4 之间：12.4~13.4\n所有符号均为英文符号'
     }));
     container.appendChild(input);
     dialog.content(container)
@@ -408,7 +400,7 @@ async function main() {
 
   bindOnClick(backToTop, event => window.scrollTo({
     top: 0,
-    behavior: 'smooth'
+    behavior: 'smooth',
   }));
 
   let initialized = false;
