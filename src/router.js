@@ -4,12 +4,17 @@ import {
   isNullish,
   isEmpty,
   sleep,
-  noop
+  noop,
+  getScrollTop,
 } from '/src/utils.js';
 
-function replaceHash(path) {
-  const i = location.href.indexOf('#');
-  location.replace(location.href.slice(0, i >= 0 ? i : 0) + '#' + path);
+function replaceHash(path, replace = true) {
+  if (replace) {
+    const i = location.href.indexOf('#');
+    location.replace(location.href.slice(0, i >= 0 ? i : 0) + '#' + path);
+    return;
+  }
+  window.location.hash = path;
 }
 
 export function getCurrentPath(prefix = true) {
@@ -24,6 +29,7 @@ class Route {
   parent;
   routes = new Map();
   callback = noop;
+  scrollTop = 0;
 
   constructor(name) {
     this.name = name;
@@ -34,12 +40,18 @@ export class Router {
   routes = new Map();
   elements = [];
   listeners = [];
+  currentRoute;
 
   constructor() {
     window.addEventListener('load', this._process.bind(this));
     window.addEventListener('hashchange', this._process.bind(this));
+    window.addEventListener('scroll', event => {
+      const route = this.currentRoute;
+      route.scrollTop = getScrollTop();
+      route.style.setProperty('--scroll-top', -route.scrollTop);
+    });
     const path = getCurrentPath();
-    replaceHash(isEmpty(path) ? '/': path);
+    replaceHash(isEmpty(path) ? '/' : path);
   }
 
   _process(event) {
@@ -57,7 +69,12 @@ export class Router {
       if (el === parent.element) return;
       el.classList.remove('active');
     });
-    sleep(40).then(() => parent.element.classList.add('active'));
+    sleep(0)
+      .then(() => parent.element.classList.add('active'))
+      .then(() => window.scrollTo({
+        top: parent.scrollTop,
+      }))
+    this.currentRoute = parent;
     for (const callback of this.listeners) callback.call(this, event);
     parent.callback.call(this, parent);
   }
@@ -80,16 +97,16 @@ export class Router {
       }
       parent = route;
     }
-    if (!!el) {
+    if (el) {
       if (typeof el === 'string') el = $(el);
       this.elements.push(parent.element = el);
     }
     return parent;
   }
 
-  push(path) {
+  push(path, history = false) {
     if (!path.startsWith('/')) path = '/' + path;
-    replaceHash(path);
+    replaceHash(path, !history);
   }
 }
 

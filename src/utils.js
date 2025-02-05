@@ -1,17 +1,13 @@
 Promise.stop = () => new Promise(() => {});
 
 export const $ = id => document.getElementById(id);
-export function $$(selector) {
-  try {
-    const nodes = document.querySelectorAll(selector);
-    return nodes.length > 1 ? nodes : nodes[0];
-  } catch (e) {
-    return null;
+export function $$(node, selector) {
+  if (typeof node === 'string') {
+    selector = node;
+    node = document;
   }
-}
-Node.prototype.$$ = function(selector) {
   try {
-    const nodes = this.querySelectorAll(selector);
+    const nodes = node.querySelectorAll(selector);
     return nodes.length > 1 ? nodes : nodes[0];
   } catch (e) {
     return null;

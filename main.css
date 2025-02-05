@@ -520,6 +520,10 @@ hr {
   font-size: 0.95em;
 }
 
+#song-info-container {
+  margin: 0;
+}
+
 #updates .details {
   padding-left: 0.5em;
 }

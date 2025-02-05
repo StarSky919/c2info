@@ -41,6 +41,7 @@ const filterInfo = $('filter-info')
 const filteredCount = $('filtered-count')
 const chartList = $('charts');
 const chartTemplate = $('chart-template');
+const songInfoContainer = $('song-info-container');
 const updatesContainer = $('updates');
 const backToTop = $('bt');
 
@@ -50,7 +51,7 @@ router.route('/', 'loading');
 router.route('/charts', 'main');
 router.route('/updates', updatesContainer);
 router.route('/404', 'not-found');
-router.route('/charts/:song_id');
+router.route('/song', 'song-info');
 
 const storage = new Datastore('c2i:');
 
@@ -113,7 +114,7 @@ loadJSON('/assets/c2data.json').then(async c2data_new => {
 });
 
 async function main() {
-  const { version, characters, packs, songs } = storage.get('c2data');
+  const { version, characters, stories, packs, songs, charters } = storage.get('c2data');
   const allCharts = [];
   for (const song of songs) {
     const { charts } = song;
@@ -121,6 +122,54 @@ async function main() {
       const chart = Object.assign({}, song, charts[dn], { dn });
       Reflect.deleteProperty(chart, 'charts');
       allCharts.push(chart);
+    }
+  }
+
+  function buildSourceText(cid, { type, ...props }) {
+    switch (type) {
+      case 'im': {
+        const { titles, locks, story } = stories.im.find(p => p.id === props.id);
+        const [title] = titles.slice(-1);
+        const locksText = locks.map(({ character, level }) => {
+          const { name } = characters.find(c => c.id === character);
+          return `${name}达到${level + 1}级`;
+        }).join('、') || (story.startsWith('story_ending03') ? '主线剧情3.0结局' : '主线剧情推进');
+        return `${locksText}后，阅读iM贴文“${title}”解锁`;
+      }
+      case 'os': {
+        const { name, locks } = stories.os[cid].find(l => l.id === props.id);
+        const locksText = locks.map(({ character, level }) => {
+          const { name } = characters.find(c => c.id === character);
+          return `${name}达到${level + 1}级`;
+        }).join('、');
+        return `${locksText}后，阅读OS记录“${name}”解锁`;
+      }
+      case 'oa': {
+        const { names, locks } = stories.oa.find(p => p.id === props.id);
+        const [name] = names.slice(-1);
+        const locksText = locks.map(({ type, ...props }) => {
+          if (type === 'level') {
+            const { name } = characters.find(c => c.id === cid);
+            return `${name}达到${props.level + 1}级`;
+          }
+          if (type === 'os') {
+            const { name } = stories.os[cid].find(l => l.id === props.id);
+            return `阅读OS记录“${name}”`;
+          }
+          if (type === 'story') {
+            return '完成特定剧情';
+          }
+        }).join('、');
+        return `${locksText}后，分析OA对象“${name}”解锁`;
+      }
+      case 'story':
+        return '主线剧情解锁';
+      case 'capso':
+        return 'CAPSO抽奖';
+      case 'capsoshop':
+        return `CAPSO商店“${packs.find(p => p.id === props.pack).name}”`;
+      case 'blackmarket':
+        return `黑市曲包“${packs.find(p => p.id === props.pack).name}”`;
     }
   }
 
@@ -150,8 +199,42 @@ async function main() {
     if (!chartBox.classList.contains('chart')) return;
     const { songid } = chartBox.dataset;
     if (!songid) return;
-    const { id, name, artist, bpm, character, pack, version, images, charts } = songs.find(song => song.id === songid);
-    const content = [];
+    clearChildNodes(songInfoContainer);
+    const { id, name, artist, bpm, character, version, source, images, charts } = songs.find(song => song.id === songid);
+    const result = [];
+    result.push(`ID：${id}`);
+    result.push(`曲名：${name}`);
+    result.push(`曲师：${artist}`);
+    result.push(`BPM：${bpm}`);
+    result.push(`角色：${characters.find(c => c.id === character).name}`);
+    result.push(`版本：${version}`);
+    if (source) result.push(`来源：${buildSourceText(character, source)}`);
+    for (const key of Object.keys(charts)) {
+      const { level, level_plus, constant, note_count, version, source, charter } = charts[key];
+      result.push(`${key.toUpperCase()} ${level}${level_plus ? '+' : ''}：定数 ${constant?.toFixed(1) ?? '暂无'} / 物量 ${note_count}`);
+      if (charter?.length) result.push(`谱师：${charter.map(id => charters.find(c => c.id === id).name).join(' & ')}`);
+      if (version) result.push(`版本：${version}`);
+      if (source) result.push(`来源：${buildSourceText(character, source)}`);
+    }
+    result.push('*谱面定数来自CN:DC（非官方）');
+    result.map(innerText => createElement('p', { innerText }))
+      .forEach(el => songInfoContainer.appendChild(el));
+    const path = `https://website-assets.starsky919.xyz/cytus2/${character}`;
+    const imgList = createElement('div');
+    if (!isNullish(images)) {
+      for (const img of images) {
+        imgList.appendChild(createElement('img', { src: `${path}/${img}.png` }));
+      }
+    } else imgList.appendChild(createElement('img', {
+      src: `${path}/${id}.png`,
+      onerror() {
+        clearChildNodes(imgList);
+        imgList.innerText = '曲绘加载失败，\n可能是网络原因或是暂无该曲目的曲绘文件。';
+      },
+    }));
+    songInfoContainer.appendChild(imgList)
+    router.push('song', true);
+    /* const content = [];
     content.push(`ID：${id}`);
     content.push(`曲名：${name}`);
     content.push(`曲师：${artist}`);
@@ -184,13 +267,13 @@ async function main() {
         src: `${path}/${id}.png`,
         onerror() {
           clearChildNodes(imgList);
-          imgList.innerText = '加载失败，\n可能是网络原因或暂无该曲目的曲绘文件。';
+          imgList.innerText = '加载失败，\n可能是网络原因或是暂无该曲目的曲绘文件。';
         },
       }));
       Dialog.show(imgList, id);
       return false;
     });
-    dialog.show();
+    dialog.show(); */
   });
 
   const searchFn = throttle(event => {
@@ -247,8 +330,8 @@ async function main() {
         for (const { split, matched } of splitChars) {
           nameFrag.appendChild(createElement('span', { classList: [matched ? 'matched' : 'not_matched'], innerText: split }));
         }
-        item.$$('.name').appendChild(nameFrag);
-      } else item.$$('.name').innerText = node.$$('.name').innerText;
+        $$(item, '.name').appendChild(nameFrag);
+      } else $$(item, '.name').innerText = $$(node, '.name').innerText;
       item.onclick = event => {
         window.scrollTo({
           top: node.offsetTop + node.offsetHeight * 0.5 - window.innerHeight / 2,
@@ -294,7 +377,7 @@ async function main() {
         bpm,
         character: cname,
       });
-      const chartBoxInner = chartBox.$$('.inner');
+      const chartBoxInner = $$(chartBox, '.inner');
       chartBox.style.setProperty('--character-theme', theme_color);
       chartBox.dataset.songid = chart.id;
       chartBox.dataset.difficulty = dn;
