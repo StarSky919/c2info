@@ -55,6 +55,19 @@ router.route('/song', 'song-info');
 
 const storage = new Datastore('c2i:');
 
+function formatTime(seconds) {
+  const minutes = Math.floor(seconds / 60);
+  const remaining = seconds % 60;
+  return `${minutes}:${remaining.toString().padStart(2, '0')}`;
+}
+
+function parseDate(date) {
+  const year = Math.floor(date / 1e4);
+  const month = Math.floor(date % 1e4 / 1e2);
+  const day = date % 1e2;
+  return Time.template('yyyy/MM/dd', new Date(year, month - 1, day));
+}
+
 function formatText(source) {
   return source.toHankakuCase().toZenkanaCase().toHiraganaCase().toLowerCase();
 }
@@ -114,7 +127,7 @@ loadJSON('/assets/c2data.json').then(async c2data_new => {
 });
 
 async function main() {
-  const { version, characters, stories, packs, songs, charters } = storage.get('c2data');
+  const { version, versions, characters, stories, packs, songs, charters } = storage.get('c2data');
   const allCharts = [];
   for (const song of songs) {
     const { charts } = song;
@@ -124,7 +137,13 @@ async function main() {
       allCharts.push(chart);
     }
   }
-
+  
+  function levelInfoText(type, level, level_plus, constant) {
+    let output = `${type.toUpperCase()} ${level}${level_plus ? '+' : ''}`;
+    if (constant) output += ` (${constant > 0 ? constant.toFixed(1) : '暂无定数'})`;
+    return output;
+  }
+  
   function buildSourceText(cid, { type, ...props }) {
     switch (type) {
       case 'im': {
@@ -172,9 +191,9 @@ async function main() {
         return `黑市曲包“${packs.find(p => p.id === props.pack).name}”`;
     }
   }
-
+  
   $('stats').innerText = `网站数据版本：${version}\n当前共有 ${songs.length} 首曲目，${songs.filter(song => !!song.charts.glitch).length} 张 GLITCH 谱面。`;
-
+  
   loadJSON('/assets/changelog.json').then(async ({ message, updates }) => {
     $('message').innerText = message;
     for (const { year, month, day, lines, additional } of updates) {
@@ -193,7 +212,7 @@ async function main() {
       }
     }
   });
-
+  
   bindOnClick(chartList, event => {
     const chartBox = event.target;
     if (!chartBox.classList.contains('chart')) return;
@@ -207,14 +226,16 @@ async function main() {
     result.push(`曲师：${artist}`);
     result.push(`BPM：${bpm}`);
     result.push(`角色：${characters.find(c => c.id === character).name}`);
-    result.push(`版本：${version}`);
+    result.push(`版本：${version} (${parseDate(versions.find(v => v.version === version).date)})`);
     if (source) result.push(`来源：${buildSourceText(character, source)}`);
     for (const key of Object.keys(charts)) {
-      const { level, level_plus, constant, note_count, version, source, charter } = charts[key];
-      result.push(`${key.toUpperCase()} ${level}${level_plus ? '+' : ''}：定数 ${constant?.toFixed(1) ?? '暂无'} / 物量 ${note_count}`);
-      if (charter?.length) result.push(`谱师：${charter.map(id => charters.find(c => c.id === id).name).join(' & ')}`);
-      if (version) result.push(`版本：${version}`);
-      if (source) result.push(`来源：${buildSourceText(character, source)}`);
+      const { level, level_plus, constant, note_count, page_count, length, version, source, charter } = charts[key];
+      result.push(levelInfoText(key, level, level_plus, constant));
+      result.push(`- 物量：${note_count}`);
+      result.push(`- 时长：${formatTime(length)} (${page_count}页)`);
+      if (charter?.length) result.push(`- 谱师：${charter.map(id => charters.find(c => c.id === id).name).join(' & ')}`);
+      if (version) result.push(`- 版本：${version} (${parseDate(versions.find(v => v.version === version).date)})`);
+      if (source) result.push(`- 来源：${buildSourceText(character, source)}`);
     }
     result.push('*谱面定数来自CN:DC（非官方）');
     result.map(innerText => createElement('p', { innerText }))
@@ -275,7 +296,7 @@ async function main() {
     });
     dialog.show(); */
   });
-
+  
   const searchFn = throttle(event => {
     const input = searchInput.value;
     clearChildNodes(resultBox);
@@ -316,7 +337,7 @@ async function main() {
         const finalIndexes = staggeredMerge(result, 0, indexes);
         if (finalIndexes[0] > 0) finalIndexes.unshift(0);
         if (finalIndexes[finalIndexes.length - 1] < nameLength) finalIndexes.push(nameLength);
-
+        
         const splitChars = [];
         for (const i of range(finalIndexes.length)) {
           const idx = finalIndexes[i];
@@ -325,7 +346,7 @@ async function main() {
           const split = name.slice(idx, idxNext);
           splitChars.push({ split, matched: result.includes(idx) });
         }
-
+        
         const nameFrag = document.createDocumentFragment();
         for (const { split, matched } of splitChars) {
           nameFrag.appendChild(createElement('span', { classList: [matched ? 'matched' : 'not_matched'], innerText: split }));
@@ -342,9 +363,9 @@ async function main() {
     };
     resultBox.appendChild(resultFrag);
   }, Time.second * 0.2);
-
+  
   searchInput.addEventListener('input', searchFn);
-
+  
   const loadCharts = createTaskRunner(async shouldStop => {
     clearChildNodes(chartList);
     const sortedBy = storage.get('sorted-by', 0);
@@ -389,7 +410,7 @@ async function main() {
         createElement('span', { innerText: `v${version}` }),
       ]));
       chartBoxInner.appendChild(createElement('p', { classList: ['row'] }, [
-        createElement('span', { innerText: `定数：${constant.toFixed(1)}` }),
+        createElement('span', { innerText: `定数：${constant ? constant > 0 ? constant.toFixed(1) : '暂无' : 'N/A'}` }),
         createElement('span', { innerText: `物量：${note_count}` }),
       ]));
       chartList.appendChild(chartBox);
@@ -399,12 +420,12 @@ async function main() {
     searchFn();
     if (!i) filterInfoBox.classList.add('hidden');
   });
-
+  
   bindOnClick('sorted-by', (texts => {
     const sortedByDisplay = $$('#sorted-by span');
     let i = storage.get('sorted-by', 0);
     sortedByDisplay.innerText = texts[i];
-
+    
     return event => {
       i = ++i % texts.length;
       storage.set('sorted-by', i);
@@ -412,12 +433,12 @@ async function main() {
       loadCharts();
     };
   })(['默认', '定数', '物量', 'BPM', '版本']));
-
+  
   bindOnClick('ordering', (getText => {
     const orderingDisplay = $$('#ordering span');
     let i = storage.get('reverse', false);
     orderingDisplay.innerText = getText(i);
-
+    
     return event => {
       i = !i;
       storage.set('reverse', i);
@@ -425,7 +446,7 @@ async function main() {
       loadCharts();
     };
   })(reverse => reverse ? '降序' : '升序'));
-
+  
   bindOnClick('constant-filter', event => {
     const dialog = new Dialog()
       .title('筛选定数');
@@ -480,12 +501,12 @@ async function main() {
         loadCharts();
       }).show();
   });
-
+  
   bindOnClick(backToTop, event => window.scrollTo({
     top: 0,
     behavior: 'smooth',
   }));
-
+  
   let initialized = false;
   const observer = new IntersectionObserver(entries => {
     if (!initialized) return initialized = true;
@@ -498,7 +519,7 @@ async function main() {
     }
   });
   observer.observe($('sentinel'));
-
+  
   loadCharts();
   await sleep(Time.second * 0.1);
   router.push(firstPath || '/charts');

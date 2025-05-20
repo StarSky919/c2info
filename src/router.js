@@ -48,7 +48,6 @@ export class Router {
     window.addEventListener('scroll', event => {
       const route = this.currentRoute;
       route.scrollTop = getScrollTop();
-      route.style.setProperty('--scroll-top', -route.scrollTop);
     });
     const path = getCurrentPath();
     replaceHash(isEmpty(path) ? '/' : path);
