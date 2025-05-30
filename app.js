@@ -328,7 +328,7 @@ async function main() {
     const texts = ['角色：', '定数：', '物量：', 'BPM：', '版本：'];
     for (const { node, matchedIndexes, song, dn, chart: { bpm, level, level_plus, constant, note_count, version } } of results) {
       const [resultItem] = resultItemTemplate.content.cloneNode(true).children;
-      const data = [characters.find(c => c.id === song.character).name, constant.toFixed(1), note_count, bpm || song.bpm, version || song.version];
+      const data = [characters.find(c => c.id === song.character).name, constant ? constant > 0 ? constant.toFixed(1) : '暂无' : 'N/A', note_count, bpm || song.bpm, version || song.version];
       const item = compile(resultItem, { dn, level: `${level}${level_plus ? '+' : ''}`, data: `${texts[sortedBy]}${data[sortedBy]}` });
       if (matchedIndexes) {
         const { name, result, inputLength, nameLength } = matchedIndexes;
