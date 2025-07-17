@@ -89,31 +89,6 @@ function isNameMatched(input, name) {
   return isEmpty(result) ? null : { name, result, inputLength: length, nameLength: name.length };
 }
 
-function getSortMethod(sortedBy, reverse) {
-  const sortFn = [
-    () => 0,
-    (a, b) => a.constant - b.constant,
-    (a, b) => a.note_count - b.note_count,
-    (a, b) => {
-      let { bpm: ab } = a;
-      let { bpm: bb } = b;
-      if (isString(ab))[, ab] = ab.split(new RegExp('[~\-]'));
-      if (isString(bb))[, bb] = bb.split(new RegExp('[~\-]'));
-      return ab - bb;
-    },
-    (a, b) => {
-      const avs = a.version.split(/\.(?=\d)/g).map(n => parseInt(n));
-      const bvs = b.version.split(/\.(?=\d)/g).map(n => parseInt(n));
-      for (const i of range(Math.max(avs.length, bvs.length))) {
-        if (avs[i] === bvs[i]) continue;
-        return (avs[i] || 0) - (bvs[i] || 0);
-      }
-      return 0;
-    }
-  ][sortedBy];
-  return reverse ? (a, b) => sortFn(b, a) : sortFn;
-}
-
 loadJSON('/assets/c2data.json').then(async c2data_new => {
   const c2data = storage.get('c2data');
   if (!c2data || JSON.stringify(c2data) !== JSON.stringify(c2data_new)) {
@@ -136,6 +111,27 @@ async function main() {
       Reflect.deleteProperty(chart, 'charts');
       allCharts.push(chart);
     }
+  }
+  
+  function getSortMethod(sortedBy, reverse) {
+    const sortFn = [
+      () => 0,
+      (a, b) => a.constant - b.constant,
+      (a, b) => a.note_count - b.note_count,
+      (a, b) => {
+        let { bpm: ab } = a;
+        let { bpm: bb } = b;
+        if (/[^\.\d]/.test(ab))[, ab] = ab.split(new RegExp('[~-]'));
+        if (/[^\.\d]/.test(bb))[, bb] = bb.split(new RegExp('[~-]'));
+        return Number(ab) - Number(bb);
+      },
+      (a, b) => {
+        const ad = versions.find(v => v.version === a.version).date;
+        const bd = versions.find(v => v.version === b.version).date;
+        return ad - bd;
+      }
+    ][sortedBy];
+    return reverse ? (a, b) => sortFn(b, a) : sortFn;
   }
   
   function levelInfoText(type, level, level_plus, constant) {
