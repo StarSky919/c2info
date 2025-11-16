@@ -1,4 +1,3 @@
-import '/lib/kana-1.0.7.js';
 import {
   $,
   $$,
@@ -19,6 +18,7 @@ import {
   getScrollTop,
   loadJSON,
   createTaskRunner,
+  normalizeText,
 } from '/src/utils.js';
 import Datastore from '/src/datastore.js';
 import { Dialog, ItemSelectorDialog } from '/src/dialog.js';
@@ -41,7 +41,6 @@ const filterInfo = $('filter-info')
 const filteredCount = $('filtered-count')
 const chartList = $('charts');
 const chartTemplate = $('chart-template');
-const songInfoContainer = $('song-info-container');
 const updatesContainer = $('updates');
 const backToTop = $('bt');
 
@@ -51,7 +50,6 @@ router.route('/', 'loading');
 router.route('/charts', 'main');
 router.route('/updates', updatesContainer);
 router.route('/404', 'not-found');
-router.route('/song', 'song-info');
 
 const storage = new Datastore('c2i:');
 
@@ -68,15 +66,11 @@ function parseDate(date) {
   return Time.template('yyyy/MM/dd', new Date(year, month - 1, day));
 }
 
-function formatText(source) {
-  return source.toHankakuCase().toZenkanaCase().toHiraganaCase().toLowerCase();
-}
-
 function isNameMatched(input, name) {
   const result = [];
   const { length } = input;
-  input = formatText(input);
-  const _name = formatText(name);
+  input = normalizeText(input);
+  const _name = normalizeText(name);
   let i = 0,
     j = 0;
   while (true) {
@@ -102,11 +96,12 @@ loadJSON('/assets/c2data.json').then(async c2data_new => {
 });
 
 async function main() {
-  const { version, versions, characters, stories, packs, songs, charters } = storage.get('c2data');
+  const { version, versions, characters, packs, songs, charters } = storage.get('c2data');
   const allCharts = [];
   for (const song of songs) {
     const { charts } = song;
     for (const dn of Object.keys(charts)) {
+      if (dn !== 'chaos' && dn !== 'glitch') continue;
       const chart = Object.assign({}, song, charts[dn], { dn });
       Reflect.deleteProperty(chart, 'charts');
       allCharts.push(chart);
@@ -140,54 +135,6 @@ async function main() {
     return output;
   }
   
-  function buildSourceText(cid, { type, ...props }) {
-    switch (type) {
-      case 'im': {
-        const { titles, locks, story } = stories.im.find(p => p.id === props.id);
-        const [title] = titles.slice(-1);
-        const locksText = locks.map(({ character, level }) => {
-          const { name } = characters.find(c => c.id === character);
-          return `${name}达到${level + 1}级`;
-        }).join('、') || (story.startsWith('story_ending03') ? '主线剧情3.0结局' : '主线剧情推进');
-        return `${locksText}后，阅读iM贴文“${title}”解锁`;
-      }
-      case 'os': {
-        const { name, locks } = stories.os[cid].find(l => l.id === props.id);
-        const locksText = locks.map(({ character, level }) => {
-          const { name } = characters.find(c => c.id === character);
-          return `${name}达到${level + 1}级`;
-        }).join('、');
-        return `${locksText}后，阅读OS记录“${name}”解锁`;
-      }
-      case 'oa': {
-        const { names, locks } = stories.oa.find(p => p.id === props.id);
-        const [name] = names.slice(-1);
-        const locksText = locks.map(({ type, ...props }) => {
-          if (type === 'level') {
-            const { name } = characters.find(c => c.id === cid);
-            return `${name}达到${props.level + 1}级`;
-          }
-          if (type === 'os') {
-            const { name } = stories.os[cid].find(l => l.id === props.id);
-            return `阅读OS记录“${name}”`;
-          }
-          if (type === 'story') {
-            return '完成特定剧情';
-          }
-        }).join('、');
-        return `${locksText}后，分析OA对象“${name}”解锁`;
-      }
-      case 'story':
-        return '主线剧情解锁';
-      case 'capso':
-        return 'CAPSO抽奖';
-      case 'capsoshop':
-        return `CAPSO商店“${packs.find(p => p.id === props.pack).name}”`;
-      case 'blackmarket':
-        return `黑市曲包“${packs.find(p => p.id === props.pack).name}”`;
-    }
-  }
-  
   $('stats').innerText = `网站数据版本：${version}\n当前共有 ${songs.length} 首曲目，${songs.filter(song => !!song.charts.glitch).length} 张 GLITCH 谱面。`;
   
   loadJSON('/assets/changelog.json').then(async ({ message, updates }) => {
@@ -214,83 +161,15 @@ async function main() {
     if (!chartBox.classList.contains('chart')) return;
     const { songid } = chartBox.dataset;
     if (!songid) return;
-    clearChildNodes(songInfoContainer);
-    const { id, name, artist, bpm, character, version, source, images, charts } = songs.find(song => song.id === songid);
-    const result = [];
-    result.push(`ID：${id}`);
-    result.push(`曲名：${name}`);
-    result.push(`曲师：${artist}`);
-    result.push(`BPM：${bpm}`);
-    result.push(`角色：${characters.find(c => c.id === character).name}`);
-    result.push(`版本：${version} (${parseDate(versions.find(v => v.version === version).date)})`);
-    if (source) result.push(`来源：${buildSourceText(character, source)}`);
-    for (const key of Object.keys(charts)) {
-      const { level, level_plus, constant, note_count, page_count, length, version, source, charter } = charts[key];
-      result.push(levelInfoText(key, level, level_plus, constant));
-      result.push(`- 物量：${note_count}`);
-      result.push(`- 时长：${formatTime(length)} (${page_count}页)`);
-      if (charter?.length) result.push(`- 谱师：${charter.map(id => charters.find(c => c.id === id).name).join(' & ')}`);
-      if (version) result.push(`- 版本：${version} (${parseDate(versions.find(v => v.version === version).date)})`);
-      if (source) result.push(`- 来源：${buildSourceText(character, source)}`);
-    }
-    result.push('*谱面定数来自CN:DC（非官方）');
-    result.map(innerText => createElement('p', { innerText }))
-      .forEach(el => songInfoContainer.appendChild(el));
-    const path = `https://website-assets.starsky919.xyz/cytus2/${character}`;
-    const imgList = createElement('div');
-    if (!isNullish(images)) {
-      for (const img of images) {
-        imgList.appendChild(createElement('img', { src: `${path}/${img}.png` }));
-      }
-    } else imgList.appendChild(createElement('img', {
-      src: `${path}/${id}.png`,
-      onerror() {
-        clearChildNodes(imgList);
-        imgList.innerText = '曲绘加载失败，\n可能是网络原因或是暂无该曲目的曲绘文件。';
-      },
-    }));
-    songInfoContainer.appendChild(imgList)
-    router.push('song', true);
-    /* const content = [];
-    content.push(`ID：${id}`);
-    content.push(`曲名：${name}`);
-    content.push(`曲师：${artist}`);
-    content.push(`BPM：${bpm}`);
-    content.push(`角色：${characters.find(c => c.id === character).name}`);
-    if (pack) content.push(`曲包：${packs.find(p => p.id === pack).name}`);
-    content.push(`版本：${version}`);
-    for (const dn of Object.keys(charts)) {
-      const { bpm, level, level_plus, constant, note_count, version } = charts[dn];
-      content.push('');
-      content.push(`${dn.toUpperCase()} ${level}${level_plus ? '+' : ''}`);
-      content.push(`定数：${constant.toFixed(1)}`);
-      content.push(`物量：${note_count}`);
-      if (bpm) content.push(`BPM：${bpm}`);
-      if (version) content.push(`版本：${version}`);
-    }
-    const dialog = new Dialog().title('歌曲详情').content(content.join('\n'));
-    dialog.button('查看曲绘', close => {
-      const path = `https://website-assets.starsky919.xyz/cytus2/${character}`;
-      const imgList = createElement('div');
-      imgList.appendChild(createElement('div', {
-        style: { 'margin-bottom': '0.65rem' },
-        innerText: '图片可保存',
-      }));
-      if (!isNullish(images)) {
-        for (const img of images) {
-          imgList.appendChild(createElement('img', { src: `${path}/${img}.png` }));
-        }
-      } else imgList.appendChild(createElement('img', {
-        src: `${path}/${id}.png`,
-        onerror() {
-          clearChildNodes(imgList);
-          imgList.innerText = '加载失败，\n可能是网络原因或是暂无该曲目的曲绘文件。';
-        },
-      }));
-      Dialog.show(imgList, id);
-      return false;
+    const { name } = songs.find(s => s.id === songid);
+    const a = createElement('a', {
+      innerText: '点击前往 Cytus II Wiki 查看详情。',
+      href: `https://c2wiki.starsky919.xyz/wiki/${songid}`,
+      target: '_blank',
     });
-    dialog.show(); */
+    new Dialog()
+      .title('曲目详情')
+      .content(a).show();
   });
   
   const searchFn = throttle(event => {
@@ -451,11 +330,11 @@ async function main() {
       type: 'text',
       placeholder: '输入定数范围',
       style: {
-        width: '100%',
+        'width': '100%',
         'margin-top': '1rem',
-        padding: '0.65rem 1rem',
-        color: 'var(--text-color)',
-        background: 'var(--background-color-third)',
+        'padding': '0.65rem 1rem',
+        'color': 'var(--text-color)',
+        'background': 'var(--background-color-third)',
         'border-radius': 'var(--border-radius)',
         'font-size': '1em',
         'text-align': 'center',
@@ -470,7 +349,7 @@ async function main() {
       else input.value = `${min}~${max}`;
     }
     container.appendChild(createElement('div', {
-      innerText: '示例：\n只显示定数 14.6：14.6\n定数大于等于 15.8：15.8+\n定数小于等于 15.0：15.0-\n定数在 12.4 与 13.4 之间：12.4~13.4\n所有符号均为英文符号'
+      innerText: '示例：\n只显示定数 14.6：14.6\n定数大于等于 15.8：15.8+\n定数小于等于 15.0：15.0-\n定数在 12.4 与 13.4 之间：12.4~13.4'
     }));
     container.appendChild(input);
     dialog.content(container)
@@ -486,8 +365,8 @@ async function main() {
         } else if (/^([0-9]{1,2}|[0-9]{1,2}\.[0-9])\-$/.test(source)) {
           min = -9999;
           max = Number(source.slice(0, -1));
-        } else if (/^([0-9]{1,2}|[0-9]{1,2}\.[0-9])\~([0-9]{1,2}|[0-9]{1,2}\.[0-9])$/.test(source)) {
-          let [a, b] = source.split('~');
+        } else if (/^([0-9]{1,2}|[0-9]{1,2}\.[0-9])[～~-]([0-9]{1,2}|[0-9]{1,2}\.[0-9])$/.test(source)) {
+          let [a, b] = source.split(/[～~-]/);
           a = Number(a), b = Number(b);
           min = Math.min(a, b);
           max = Math.max(a, b);
@@ -503,9 +382,7 @@ async function main() {
     behavior: 'smooth',
   }));
   
-  let initialized = false;
   const observer = new IntersectionObserver(entries => {
-    if (!initialized) return initialized = true;
     if (!entries[0].isIntersecting) {
       searchBox.classList.add('floating');
       backToTop.classList.add('display');

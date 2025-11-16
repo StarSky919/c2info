@@ -1,3 +1,5 @@
+import KanaUtils from './kana.js';
+
 Promise.stop = () => new Promise(() => {});
 
 export const $ = id => document.getElementById(id);
@@ -312,4 +314,70 @@ export function createTaskRunner(executeTask) {
     executeTask(() => stop);
     stopPrevious = () => stop = true;
   };
+}
+
+const fullWidthMap = {
+  '　': ' ',
+  '【': '[',
+  '】': ']',
+  '［': '[',
+  '］': ']',
+  '（': '(',
+  '）': ')',
+  '｛': '{',
+  '｝': '}',
+  '‘': '\'',
+  '’': '\'',
+  '“': '"',
+  '”': '"',
+  '。': '.',
+  '，': ',',
+  '、': ',',
+  '・': '·',
+  '〜': '~',
+  '！': '!',
+  '？': '?',
+  '＠': '@',
+  '＃': '#',
+  '＄': '$',
+  '％': '%',
+  '＾': '^',
+  '＆': '&',
+  '＊': '*',
+  '＝': '=',
+  '＿': '_',
+  '｀': '`',
+  '：': ':',
+  '；': ';',
+  '＋': '+',
+  '―': '-',
+  '＼': '\\',
+  '／': '/',
+  '．': '.',
+  '＜': '<',
+  '＞': '>',
+  '￥': '¥',
+};
+
+for (let i = 0; i < 10; i++) {
+  fullWidthMap[String.fromCharCode(0xFF10 + i)] = String.fromCharCode(0x30 + i);
+}
+
+for (let i = 0; i < 26; i++) {
+  fullWidthMap[String.fromCharCode(0xFF21 + i)] = String.fromCharCode(0x41 + i);
+}
+
+for (let i = 0; i < 26; i++) {
+  fullWidthMap[String.fromCharCode(0xFF41 + i)] = String.fromCharCode(0x61 + i);
+}
+
+const fullWidthRegExp = new RegExp(`[${Object.keys(fullWidthMap).join('')}]`, 'g');
+
+export function normalizeText(source) {
+  const result = KanaUtils.toHiraganaCase(KanaUtils.toZenkanaCase(source))
+    .toLowerCase()
+    .replace(fullWidthRegExp, match =>
+      fullWidthMap[match] || match,
+    );
+  return result.trim();
 }
